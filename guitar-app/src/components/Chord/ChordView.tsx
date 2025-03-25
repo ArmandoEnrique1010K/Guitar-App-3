@@ -1,9 +1,13 @@
+import { Neck } from "../../types";
 import { playSound } from "../../utils/audioPlayer";
 
 type ChordViewProps = {
   chord: number;
   rope: number;
   keyFromKeyboard: string;
+  instrument: string;
+  neck: Neck;
+  gain: number;
 };
 
 export default function ChordView({
@@ -12,6 +16,7 @@ export default function ChordView({
   keyFromKeyboard,
   instrument,
   neck,
+  gain: volume,
 }: ChordViewProps) {
   const handlePlaySound = () => {
     // handleNotePlayed(note);
@@ -21,13 +26,12 @@ export default function ChordView({
       rope,
       chord,
       false, //mutePreviousChord,
-      // volume,
       keyFromKeyboard,
       true,
       {
         gain: {
           enabled: true,
-          gain: 1,
+          gain: volume,
         },
       }
     );

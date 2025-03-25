@@ -1,18 +1,20 @@
 // En una versión anterior, el algoritmo era bastante largo, simplifique el algoritmo usando una doble iteración con un bucle for. Esto simplifica el algoritmo de 510 lineas de codigo a 150 lineas de codigo.
 
+// TODO: ELIMINAR ESTA NUEVA FUNCIÓN
+
 // Utilice la extensión de Quokka para realizar pruebas hasta llegar a este algoritmo dinamico
 
 // Importa la data en keyboard (el arreglo que contiene las filas del teclado)
 import { keyboardKeys } from "../data/keyboardKeys";
-import { Notes } from "../types";
+import { Neck } from "../types";
 
 // Número de teclas asignadas por cada fila del teclado (restamos 1 para manejar índices correctamente)
-const keysByRow = 11 - 1;
+const keysByRow = 11;
 
 // Función principal para asignar teclas a los trastes de las cuerdas de la guitarra
-export const assignKeysToFrets = (
+export const assignKeys = (
   // Parámetros para personalizar las asignaciones de teclas y opciones de configuración
-  file: Notes,
+  file: Neck,
   // Fila de teclas asociada a cada cuerda
   firstRowKeys: number,
   secondRowKeys: number,
@@ -28,7 +30,7 @@ export const assignKeysToFrets = (
   invertKeyboard: boolean
 ) => {
   // Almacena el resultado final
-  let result: Notes = [];
+  let result: Neck = [];
 
   // Las filas de teclas que se pasan se almacenan en un arreglo
   const arrayRowKeys = [
@@ -97,7 +99,7 @@ export const assignKeysToFrets = (
       if (index !== 0 && lockTheZeroChord === true) {
         if (index >= startFromTheChord) {
           // Asigna teclas de la fila si están disponibles, de lo contrario asigna "OCULTAR"
-          if (index < assignRowKeys?.length + keysByRow + 2) {
+          if (index < assignRowKeys?.length + keysByRow + 1) {
             element.key =
               assignRowKeys[index - startFromTheChord + 1] === undefined
                 ? "OCULTAR"
@@ -112,7 +114,7 @@ export const assignKeysToFrets = (
 
       // Bloqueo adicional de trastes fuera del rango permitido para `lockTheZeroChord`
       if (
-        index === keysByRow + startFromTheChord &&
+        index === keysByRow - 1 + startFromTheChord &&
         lockTheZeroChord === true
       ) {
         element.key = "OCULTAR";
@@ -120,7 +122,7 @@ export const assignKeysToFrets = (
 
       // Si `lockTheZeroChord` está en false, asigna teclas hasta que se alcance el final de la fila de teclas
       if (lockTheZeroChord === false) {
-        if (index <= assignRowKeys?.length + keysByRow + 1) {
+        if (index <= assignRowKeys?.length + keysByRow) {
           element.key = assignRowKeys[index - startFromTheChord];
         } else {
           element.key = undefined;
@@ -132,7 +134,7 @@ export const assignKeysToFrets = (
         element.key = "OCULTAR";
       }
 
-      if (index > keysByRow + startFromTheChord) {
+      if (index > keysByRow - 1 + startFromTheChord) {
         element.key = "OCULTAR";
       }
 
@@ -149,3 +151,5 @@ export const assignKeysToFrets = (
   // Retorna el resultado final
   return result;
 };
+
+

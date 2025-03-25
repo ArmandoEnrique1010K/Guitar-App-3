@@ -1,4 +1,4 @@
-export type Notes = {
+export type Neck = {
   rope: number
   frets: Frets
 }[]

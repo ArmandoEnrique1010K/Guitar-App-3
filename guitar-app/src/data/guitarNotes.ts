@@ -1,6 +1,6 @@
-import { Notes } from "../types";
+import { Neck } from "../types";
 
-export const guitarNotes: Notes = [
+export const guitarNotes: Neck = [
   {
     rope: 1,
     frets: [

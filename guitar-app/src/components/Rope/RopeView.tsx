@@ -1,9 +1,12 @@
-import { Frets } from "../../types";
+import { Frets, Neck } from "../../types";
 import ChordView from "../Chord/ChordView";
 
 type RopeViewProps = {
   rope: number;
   frets: Frets;
+  instrument: string;
+  neck: Neck;
+  gain: number;
 };
 
 export default function RopeView({
@@ -11,6 +14,7 @@ export default function RopeView({
   frets,
   instrument,
   neck,
+  gain,
 }: RopeViewProps) {
   return (
     <div>
@@ -23,6 +27,7 @@ export default function RopeView({
           keyFromKeyboard={keyFromKeyboard || ""}
           instrument={instrument}
           neck={neck}
+          gain={gain}
         />
       ))}
     </div>

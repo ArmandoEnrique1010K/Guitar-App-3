@@ -1,11 +1,13 @@
-import { Notes } from "../../types";
+import { Neck } from "../../types";
 import RopeView from "../Rope/RopeView";
 
 type NeckViewProps = {
-  neck: Notes;
+  neck: Neck;
+  instrument: string;
+  gain: number;
 };
 
-export default function NeckView({ neck, instrument }: NeckViewProps) {
+export default function NeckView({ neck, instrument, gain }: NeckViewProps) {
   return (
     <div>
       {neck.map(({ rope, frets }) => (
@@ -15,6 +17,7 @@ export default function NeckView({ neck, instrument }: NeckViewProps) {
           frets={frets}
           instrument={instrument}
           neck={neck}
+          gain={gain}
         />
       ))}
     </div>
