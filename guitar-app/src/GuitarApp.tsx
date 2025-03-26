@@ -5,8 +5,9 @@ import NeckView from "./components/Neck/NeckView";
 import { preloadSounds } from "./utils/audioPlayer";
 import { FIRST, LOADING_TIME } from "./constants";
 import { guitarNotes } from "./data/guitarNotes";
-import { Neck } from "./types";
+import { DistortionEffect, Neck, ReverbEffect, VibratoEffect } from "./types";
 import { assignKeysToFrets } from "./utils/assignKeysToFrets";
+import EffectsView from "./components/Effects/EffectsView";
 
 export default function GuitarApp() {
   // Nombre del instrumento
@@ -27,6 +28,31 @@ export default function GuitarApp() {
   // Acorde inicial
   const [initialChord, setInitialChord] = useState<number>(0);
 
+  // EFECTO DE SONIDO DE DISTORSIÓN
+  const [distortion, setDistortion] = useState<DistortionEffect>({
+    enabled: false,
+    distortion: 0.4,
+    oversample: "none",
+    wet: 1,
+  });
+
+  // REBERBERACIÓN
+  const [reverb, setReverb] = useState<ReverbEffect>({
+    enabled: false,
+    decay: 1.5,
+    preDelay: 0.01,
+    wet: 1,
+  });
+
+  // VIBRATO
+  const [vibrato, setVibrato] = useState<VibratoEffect>({
+    enabled: false,
+    depth: 0.1,
+    frequency: 5,
+    maxDelay: 0.005,
+    type: "sine",
+    wet: 1,
+  });
   const loadData = () => {
     // Si initialNeck esta definido, cambia el estado de loading a false
     if (neck) {
@@ -69,7 +95,14 @@ export default function GuitarApp() {
   ) : (
     <div>
       <TitleView instrument={instrument} />
-      <NeckView neck={neck} instrument={instrument} gain={gain} />
+      <NeckView
+        neck={neck}
+        instrument={instrument}
+        gain={gain}
+        distortion={distortion}
+        reverb={reverb}
+        vibrato={vibrato}
+      />
       <ControlsView
         setInstrument={setInstrument}
         setKeysRowType={setKeysRowType}
@@ -77,6 +110,14 @@ export default function GuitarApp() {
         gain={gain}
         initialChord={initialChord}
         setInitialChord={setInitialChord}
+      />
+      <EffectsView
+        distortion={distortion}
+        setDistortion={setDistortion}
+        reverb={reverb}
+        setReverb={setReverb}
+        vibrato={vibrato}
+        setVibrato={setVibrato}
       />
     </div>
   );

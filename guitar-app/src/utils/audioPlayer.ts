@@ -1,5 +1,6 @@
 // Importa la librería Tone.js
 import * as Tone from "tone";
+import { Effects } from "../types";
 
 // Objeto para rastrear el estado de las teclas en reproducción activa
 const activeKeys: { [key: string]: boolean } = {};
@@ -136,12 +137,7 @@ export function playSound(
   // Indicador de si la reproducción es mediante un clic
   clickMode: boolean,
   // Efectos de sonido
-  effects: {
-    gain?: {
-      enabled: boolean;
-      gain: number;
-    };
-  }
+  effects: Effects
 ) {
   // Si la tecla ya está activa y no se está usando clickMode, evita reproducir la nota nuevamente
   if (keyfromkeyboard && !clickMode && activeKeys[keyfromkeyboard]) {
@@ -251,10 +247,40 @@ export function playSound(
       }
 
 
-      const gainNode =
-        effects.gain && effects.gain.enabled
-          ? new Tone.Gain(effects.gain.gain)
+      const gainNode = new Tone.Gain(effects.gain!.gain || 0)
+      // console.log("Nodo de ganancia " + gainNode)
+
+
+      const distortionNode =
+        effects.distortion && effects.distortion.enabled
+          ? new Tone.Distortion({
+            distortion: effects.distortion.distortion,
+            oversample: effects.distortion.oversample,
+            wet: effects.distortion.wet,
+          })
           : null;
+
+
+      const reverbNode =
+        effects.reverb && effects.reverb.enabled ?
+          new Tone.Reverb({
+            decay: effects.reverb.decay,
+            preDelay: effects.reverb.preDelay,
+            wet: effects.reverb.wet
+          })
+          : null
+
+      const vibratoNode =
+        effects.vibrato && effects.vibrato.enabled ?
+          new Tone.Vibrato({
+            frequency: effects.vibrato.frequency,
+            depth: effects.vibrato.depth,
+            type: effects.vibrato.type,
+            maxDelay: effects.vibrato.maxDelay,
+            wet: effects.vibrato.wet
+          }) : null
+
+
 
       const bufferSource = new Tone.ToneBufferSource(player.buffer);
 
@@ -266,7 +292,9 @@ export function playSound(
       );
 
       // Forma para conectar solamente el nodo de volumen.
-      // bufferSource.connect(gainNode);
+      bufferSource.connect(gainNode);
+
+      // const effect = Tone.Effect.AudioNode. 
 
       let chainNodes: Tone.ToneAudioNode[] = [];
 
@@ -274,15 +302,30 @@ export function playSound(
         chainNodes = [...chainNodes, gainNode];
       }
 
+      if (distortionNode) {
+        chainNodes = [...chainNodes, distortionNode]
+      }
+
+      if (reverbNode) {
+        chainNodes = [...chainNodes, reverbNode]
+      }
+
+      if (vibratoNode) {
+        chainNodes = [...chainNodes, vibratoNode]
+      }
+
       chainNodes.push(Tone.getDestination());
       bufferSource.chain(...chainNodes);
       console.log(chainNodes);
 
 
-      // Nota: En versiones anteriores de Tone.Js se utilizaba la clase Destination en lugar del método getDestination.
+      // // Nota: En versiones anteriores de Tone.Js se utilizaba la clase Destination en lugar del método getDestination.
 
-      // Reproduce el buffer
+      // // Reproduce el buffer
       bufferSource.start();
+
+
+      // si un nodo es null, no lo agregas
 
       // Alamacena la nota anterior
       previousNotePlayed = { rope, chord };

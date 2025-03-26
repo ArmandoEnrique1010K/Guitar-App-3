@@ -1,4 +1,9 @@
-import { Neck } from "../../types";
+import {
+  DistortionEffect,
+  Neck,
+  ReverbEffect,
+  VibratoEffect,
+} from "../../types";
 import { playSound } from "../../utils/audioPlayer";
 
 type ChordViewProps = {
@@ -8,6 +13,9 @@ type ChordViewProps = {
   instrument: string;
   neck: Neck;
   gain: number;
+  distortion: DistortionEffect;
+  reverb: ReverbEffect;
+  vibrato: VibratoEffect;
 };
 
 export default function ChordView({
@@ -17,6 +25,9 @@ export default function ChordView({
   instrument,
   neck,
   gain: volume,
+  distortion: distortionProps,
+  reverb: reverbProps,
+  vibrato: vibratoProps,
 }: ChordViewProps) {
   const handlePlaySound = () => {
     // handleNotePlayed(note);
@@ -30,9 +41,11 @@ export default function ChordView({
       true,
       {
         gain: {
-          enabled: true,
           gain: volume,
         },
+        distortion: distortionProps,
+        reverb: reverbProps,
+        vibrato: vibratoProps,
       }
     );
   };

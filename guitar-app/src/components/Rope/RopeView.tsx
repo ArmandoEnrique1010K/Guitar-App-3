@@ -1,4 +1,10 @@
-import { Frets, Neck } from "../../types";
+import {
+  DistortionEffect,
+  Frets,
+  Neck,
+  ReverbEffect,
+  VibratoEffect,
+} from "../../types";
 import ChordView from "../Chord/ChordView";
 
 type RopeViewProps = {
@@ -7,6 +13,9 @@ type RopeViewProps = {
   instrument: string;
   neck: Neck;
   gain: number;
+  distortion: DistortionEffect;
+  reverb: ReverbEffect;
+  vibrato: VibratoEffect;
 };
 
 export default function RopeView({
@@ -15,6 +24,9 @@ export default function RopeView({
   instrument,
   neck,
   gain,
+  distortion,
+  reverb,
+  vibrato,
 }: RopeViewProps) {
   return (
     <div>
@@ -28,6 +40,9 @@ export default function RopeView({
           instrument={instrument}
           neck={neck}
           gain={gain}
+          distortion={distortion}
+          reverb={reverb}
+          vibrato={vibrato}
         />
       ))}
     </div>
