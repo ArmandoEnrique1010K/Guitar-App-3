@@ -1,7 +1,11 @@
 import {
+  ChorusEffect,
+  DelayEffect,
   DistortionEffect,
   Neck,
+  PhaserEffect,
   ReverbEffect,
+  TremoloEffect,
   VibratoEffect,
 } from "../../types";
 import { playSound } from "../../utils/audioPlayer";
@@ -16,6 +20,10 @@ type ChordViewProps = {
   distortion: DistortionEffect;
   reverb: ReverbEffect;
   vibrato: VibratoEffect;
+  chorus: ChorusEffect;
+  tremolo: TremoloEffect;
+  delay: DelayEffect;
+  phaser: PhaserEffect;
 };
 
 export default function ChordView({
@@ -28,6 +36,10 @@ export default function ChordView({
   distortion: distortionProps,
   reverb: reverbProps,
   vibrato: vibratoProps,
+  chorus: chorusProps,
+  tremolo: tremoloProps,
+  delay: delayProps,
+  phaser: phaserProps,
 }: ChordViewProps) {
   const handlePlaySound = () => {
     // handleNotePlayed(note);
@@ -46,6 +58,10 @@ export default function ChordView({
         distortion: distortionProps,
         reverb: reverbProps,
         vibrato: vibratoProps,
+        chorus: chorusProps,
+        tremolo: tremoloProps,
+        delay: delayProps,
+        phaser: phaserProps,
       }
     );
   };

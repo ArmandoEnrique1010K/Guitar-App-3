@@ -38,9 +38,54 @@ export type VibratoEffect = {
   wet: number
 }
 
+export type ChorusEffect = {
+  enabled: boolean;
+  delayTime: number;        // tiempo de retardo en segundos
+  depth: number;            // intensidad del efecto (0 a 1)
+  feedback: number;         // retroalimentación del efecto (0 a 1)
+  frequency: number;        // frecuencia del LFO en Hz
+  spread: number;           // separación estéreo en grados
+  type: "sine" | "square" | "triangle" | "sawtooth"; // forma de onda del LFO
+  wet: number;              // mezcla del efecto (0 a 1)
+}
+
+
+
+export interface TremoloEffect {
+  enabled: boolean;
+  frequency: number;
+  depth: number;
+  spread: number;
+  type: "sine" | "square" | "triangle" | "sawtooth";
+  wet: number;
+}
+
+export type DelayEffect = {
+  enabled: boolean;
+  delayTime: number; // en segundos
+  feedback: number; // 0 a 1
+  maxDelay: number // segundos
+  wet: number; // 0 a 1
+};
+
+export type PhaserEffect = {
+  enabled: boolean;
+  frequency: number; // Frecuencia de modulación en Hz
+  octaves: number; // Cantidad de octavas para el barrido
+  stages: number; // Cantidad de filtros internos (debe ser par)
+  Q: number; // Factor de calidad de los filtros
+  baseFrequency: number; // Frecuencia base del efecto
+  wet: number; // Mezcla del efecto
+};
+
 export type Effects = {
   gain?: GainEffect,
   distortion?: DistortionEffect,
   reverb?: ReverbEffect,
   vibrato?: VibratoEffect
+  chorus?: ChorusEffect
+  tremolo?: TremoloEffect
+  delay?: DelayEffect
+  phaser?: PhaserEffect
 }
+

@@ -2,6 +2,10 @@
 import * as Tone from "tone";
 import { Effects } from "../types";
 
+
+// Configurar prioridad de programación en Tone.js para mejorar la estabilidad
+
+
 // Objeto para rastrear el estado de las teclas en reproducción activa
 const activeKeys: { [key: string]: boolean } = {};
 // Objeto para almacenar los reproductores
@@ -280,6 +284,52 @@ export function playSound(
             wet: effects.vibrato.wet
           }) : null
 
+      const chorusNode =
+        effects.chorus && effects.chorus.enabled ?
+          new Tone.Chorus({
+            delayTime: effects.chorus.delayTime,
+            depth: effects.chorus.depth,
+            feedback: effects.chorus.feedback,
+            frequency: effects.chorus.frequency,
+            spread: effects.chorus.spread,
+            type: effects.chorus.type,
+            wet: effects.chorus.wet
+          }) : null
+
+      const tremoloNode =
+        effects.tremolo && effects.tremolo.enabled
+          ? new Tone.Tremolo({
+            frequency: effects.tremolo.frequency,
+            depth: effects.tremolo.depth,
+            spread: effects.tremolo.spread,
+            type: effects.tremolo.type,
+            wet: effects.tremolo.wet,
+          }).start()
+          : null;
+
+
+      const delayNode =
+        effects.delay && effects.delay.enabled
+          ? new Tone.FeedbackDelay({
+            delayTime: effects.delay.delayTime,
+            feedback: effects.delay.feedback,
+            maxDelay: effects.delay.maxDelay,
+            wet: effects.delay.wet,
+          })
+          : null;
+
+      const phaserNode =
+        effects.phaser && effects.phaser.enabled
+          ? new Tone.Phaser({
+            frequency: effects.phaser.frequency,
+            octaves: effects.phaser.octaves,
+            stages: effects.phaser.stages,
+            Q: effects.phaser.Q,
+            baseFrequency: effects.phaser.baseFrequency,
+            wet: effects.phaser.wet,
+          })
+          : null;
+
 
 
       const bufferSource = new Tone.ToneBufferSource(player.buffer);
@@ -314,16 +364,40 @@ export function playSound(
         chainNodes = [...chainNodes, vibratoNode]
       }
 
+      if (chorusNode) {
+        chainNodes = [...chainNodes, chorusNode]
+      }
+
+      if (tremoloNode) {
+        chainNodes = [...chainNodes, tremoloNode]
+      }
+
+      if (delayNode) {
+        chainNodes = [...chainNodes, delayNode]
+      }
+
+      if (phaserNode) {
+        chainNodes = [...chainNodes, phaserNode]
+      }
       chainNodes.push(Tone.getDestination());
       bufferSource.chain(...chainNodes);
+
+      // const startTime = Tone.now() + Tone.getContext().lookAhead
+
+      // TODO: INVESTIGAR ESTO, SOLUCIONA EL PROBLEMA DEL RENDIMIENTO
+      if (activeNotes[rope]) {
+        activeNotes[rope].source.stop("+0.001")
+      }
+
       console.log(chainNodes);
 
 
       // // Nota: En versiones anteriores de Tone.Js se utilizaba la clase Destination en lugar del método getDestination.
 
       // // Reproduce el buffer
-      bufferSource.start();
+      // bufferSource.start(startTime);
 
+      bufferSource.start();
 
       // si un nodo es null, no lo agregas
 

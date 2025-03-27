@@ -1,8 +1,12 @@
 import {
+  ChorusEffect,
+  DelayEffect,
   DistortionEffect,
   Frets,
   Neck,
+  PhaserEffect,
   ReverbEffect,
+  TremoloEffect,
   VibratoEffect,
 } from "../../types";
 import ChordView from "../Chord/ChordView";
@@ -16,6 +20,10 @@ type RopeViewProps = {
   distortion: DistortionEffect;
   reverb: ReverbEffect;
   vibrato: VibratoEffect;
+  chorus: ChorusEffect;
+  tremolo: TremoloEffect;
+  delay: DelayEffect;
+  phaser: PhaserEffect;
 };
 
 export default function RopeView({
@@ -27,6 +35,10 @@ export default function RopeView({
   distortion,
   reverb,
   vibrato,
+  chorus,
+  tremolo,
+  delay,
+  phaser,
 }: RopeViewProps) {
   return (
     <div>
@@ -43,6 +55,10 @@ export default function RopeView({
           distortion={distortion}
           reverb={reverb}
           vibrato={vibrato}
+          chorus={chorus}
+          tremolo={tremolo}
+          delay={delay}
+          phaser={phaser}
         />
       ))}
     </div>

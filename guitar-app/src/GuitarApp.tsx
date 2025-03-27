@@ -3,9 +3,28 @@ import TitleView from "./components/Title/TitleView";
 import ControlsView from "./components/Controls/ControlsView";
 import NeckView from "./components/Neck/NeckView";
 import { preloadSounds } from "./utils/audioPlayer";
-import { FIRST, LOADING_TIME } from "./constants";
+import {
+  FIRST,
+  INITIAL_CHORUS,
+  INITIAL_DELAY,
+  INITIAL_DISTORTION,
+  INITIAL_PHASER,
+  INITIAL_REVERB,
+  INITIAL_TREMOLO,
+  INITIAL_VIBRATO,
+  LOADING_TIME,
+} from "./constants";
 import { guitarNotes } from "./data/guitarNotes";
-import { DistortionEffect, Neck, ReverbEffect, VibratoEffect } from "./types";
+import {
+  ChorusEffect,
+  DelayEffect,
+  DistortionEffect,
+  Neck,
+  PhaserEffect,
+  ReverbEffect,
+  TremoloEffect,
+  VibratoEffect,
+} from "./types";
 import { assignKeysToFrets } from "./utils/assignKeysToFrets";
 import EffectsView from "./components/Effects/EffectsView";
 
@@ -29,30 +48,27 @@ export default function GuitarApp() {
   const [initialChord, setInitialChord] = useState<number>(0);
 
   // EFECTO DE SONIDO DE DISTORSIÓN
-  const [distortion, setDistortion] = useState<DistortionEffect>({
-    enabled: false,
-    distortion: 0.4,
-    oversample: "none",
-    wet: 1,
-  });
+  const [distortion, setDistortion] =
+    useState<DistortionEffect>(INITIAL_DISTORTION);
 
   // REBERBERACIÓN
-  const [reverb, setReverb] = useState<ReverbEffect>({
-    enabled: false,
-    decay: 1.5,
-    preDelay: 0.01,
-    wet: 1,
-  });
+  const [reverb, setReverb] = useState<ReverbEffect>(INITIAL_REVERB);
 
   // VIBRATO
-  const [vibrato, setVibrato] = useState<VibratoEffect>({
-    enabled: false,
-    depth: 0.1,
-    frequency: 5,
-    maxDelay: 0.005,
-    type: "sine",
-    wet: 1,
-  });
+  const [vibrato, setVibrato] = useState<VibratoEffect>(INITIAL_VIBRATO);
+
+  // CORO
+  const [chorus, setChorus] = useState<ChorusEffect>(INITIAL_CHORUS);
+
+  // TREMOLO
+  const [tremolo, setTremolo] = useState<TremoloEffect>(INITIAL_TREMOLO);
+
+  // RETRAZO
+  const [delay, setDelay] = useState<DelayEffect>(INITIAL_DELAY);
+
+  // PHASER
+  const [phaser, setPhaser] = useState<PhaserEffect>(INITIAL_PHASER);
+
   const loadData = () => {
     // Si initialNeck esta definido, cambia el estado de loading a false
     if (neck) {
@@ -102,6 +118,10 @@ export default function GuitarApp() {
         distortion={distortion}
         reverb={reverb}
         vibrato={vibrato}
+        chorus={chorus}
+        tremolo={tremolo}
+        delay={delay}
+        phaser={phaser}
       />
       <ControlsView
         setInstrument={setInstrument}
@@ -118,6 +138,14 @@ export default function GuitarApp() {
         setReverb={setReverb}
         vibrato={vibrato}
         setVibrato={setVibrato}
+        chorus={chorus}
+        setChorus={setChorus}
+        tremolo={tremolo}
+        setTremolo={setTremolo}
+        delay={delay}
+        setDelay={setDelay}
+        phaser={phaser}
+        setPhaser={setPhaser}
       />
     </div>
   );
