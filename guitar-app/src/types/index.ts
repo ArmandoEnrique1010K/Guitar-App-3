@@ -78,6 +78,24 @@ export type PhaserEffect = {
   wet: number; // Mezcla del efecto
 };
 
+export type EQ3Effect = {
+  enabled: boolean;
+  low: number;
+  mid: number;
+  high: number;
+  lowFrequency: number;
+  highFrequency: number;
+};
+
+export type CompressorEffect = {
+  enabled: boolean;
+  threshold: number;
+  ratio: number;
+  attack: number;
+  release: number;
+  knee: number;
+};
+
 export type Effects = {
   gain?: GainEffect,
   distortion?: DistortionEffect,
@@ -87,5 +105,7 @@ export type Effects = {
   tremolo?: TremoloEffect
   delay?: DelayEffect
   phaser?: PhaserEffect
+  eq3?: EQ3Effect
+  compressor?: CompressorEffect
 }
 

@@ -331,6 +331,16 @@ export function playSound(
           : null;
 
 
+      const eq3Node =
+        effects.eq3 && effects.eq3.enabled
+          ? new Tone.EQ3({
+            low: effects.eq3.low,
+            mid: effects.eq3.mid,
+            high: effects.eq3.high,
+            lowFrequency: effects.eq3.lowFrequency,
+            highFrequency: effects.eq3.highFrequency,
+          })
+          : null;
 
       const bufferSource = new Tone.ToneBufferSource(player.buffer);
 
@@ -379,6 +389,11 @@ export function playSound(
       if (phaserNode) {
         chainNodes = [...chainNodes, phaserNode]
       }
+
+      if (eq3Node) {
+        chainNodes = [...chainNodes, eq3Node];
+      }
+
       chainNodes.push(Tone.getDestination());
       bufferSource.chain(...chainNodes);
 

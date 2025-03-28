@@ -1,46 +1,32 @@
-import {
-  ChorusEffect,
-  DelayEffect,
-  DistortionEffect,
-  Neck,
-  PhaserEffect,
-  ReverbEffect,
-  TremoloEffect,
-  VibratoEffect,
-} from "../../types";
-import { playSound } from "../../utils/audioPlayer";
+import { useEffect } from "react";
+import { useGuitar } from "../../hooks/useGuitar";
+import { muteCurrentNote, playSound } from "../../utils/audioPlayer";
 
 type ChordViewProps = {
   chord: number;
   rope: number;
   keyFromKeyboard: string;
-  instrument: string;
-  neck: Neck;
-  gain: number;
-  distortion: DistortionEffect;
-  reverb: ReverbEffect;
-  vibrato: VibratoEffect;
-  chorus: ChorusEffect;
-  tremolo: TremoloEffect;
-  delay: DelayEffect;
-  phaser: PhaserEffect;
 };
 
 export default function ChordView({
   chord,
   rope,
   keyFromKeyboard,
-  instrument,
-  neck,
-  gain: volume,
-  distortion: distortionProps,
-  reverb: reverbProps,
-  vibrato: vibratoProps,
-  chorus: chorusProps,
-  tremolo: tremoloProps,
-  delay: delayProps,
-  phaser: phaserProps,
 }: ChordViewProps) {
+  const {
+    instrument,
+    neck,
+    gain,
+    distortion,
+    reverb,
+    vibrato,
+    chorus,
+    tremolo,
+    delay,
+    phaser,
+    eq3,
+  } = useGuitar();
+
   const handlePlaySound = () => {
     // handleNotePlayed(note);
     playSound(
@@ -48,23 +34,56 @@ export default function ChordView({
       neck,
       rope,
       chord,
-      false, //mutePreviousChord,
+      true, //mutePreviousChord,
       keyFromKeyboard,
       true,
       {
         gain: {
-          gain: volume,
+          gain,
         },
-        distortion: distortionProps,
-        reverb: reverbProps,
-        vibrato: vibratoProps,
-        chorus: chorusProps,
-        tremolo: tremoloProps,
-        delay: delayProps,
-        phaser: phaserProps,
+        distortion,
+        reverb,
+        vibrato,
+        chorus,
+        tremolo,
+        delay,
+        phaser,
+        eq3,
       }
     );
   };
+
+  useEffect(() => {
+    const handleKeyDownPlaySound = (event) => {
+      // ESTO ES MEJOR EN LUGAR DE UTILIZAR UN && en event.key
+      // if (typeMode === true) return;
+      if (event.key === keyFromKeyboard) {
+        // handlePlaySound(false);
+        handlePlaySound();
+      }
+    };
+
+    const handleKeyUpStopSound = (event) => {
+      // Si se suelta la tecla asignada y pulseMode es falso, se silencia la nota actual
+      if (event.key === keyFromKeyboard) {
+        //setIsPlayed(false)
+        handleStopSound();
+      }
+    };
+
+    const handleStopSound = () => {
+      muteCurrentNote();
+      // setIsPlayed(false); // Marca la nota como detenida
+    };
+
+    window.addEventListener("keydown", handleKeyDownPlaySound);
+    window.addEventListener("keyup", handleKeyUpStopSound);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDownPlaySound);
+      window.removeEventListener("keyup", handleKeyUpStopSound);
+    };
+  }, [keyFromKeyboard]);
 
   return (
     <button onClick={handlePlaySound}>

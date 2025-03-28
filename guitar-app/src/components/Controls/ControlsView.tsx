@@ -3,24 +3,22 @@ import { instrumentsNames } from "../../data/instrumentsNames";
 import { formatCamelCase } from "../../utils/formatCamelCase";
 import { ALTERNATE, FIRST, MIDDLE } from "../../constants";
 import { LAST } from "../../constants/index";
+import { useGuitar } from "../../hooks/useGuitar";
 
-type ControlsViewProps = {
-  setInstrument: React.Dispatch<React.SetStateAction<string>>;
-  setKeysRowType: React.Dispatch<React.SetStateAction<number[]>>;
-  setGain: React.Dispatch<React.SetStateAction<number>>;
-  gain: number;
-  initialChord: number;
-  setInitialChord: React.Dispatch<React.SetStateAction<number>>;
-};
+export default function ControlsView() {
+  const {
+    setInstrument,
+    gain,
+    setGain,
+    setKeysRowType,
+    initialChord,
+    setInitialChord,
+    lockZeroChord,
+    setLockZeroChord,
+    invertKeyboard,
+    setInvertKeyboard,
+  } = useGuitar();
 
-export default function ControlsView({
-  setInstrument,
-  setKeysRowType,
-  setGain,
-  gain,
-  initialChord,
-  setInitialChord,
-}: ControlsViewProps) {
   return (
     <div>
       <h3>Tipo de instrumento</h3>
@@ -70,6 +68,20 @@ export default function ControlsView({
         }}
       />
       {initialChord}
+      <h3>Bloquear acorde 0</h3>
+      <input
+        type="checkbox"
+        checked={lockZeroChord}
+        onChange={(e) => setLockZeroChord(e.target.checked)}
+      />{" "}
+      Bloquear
+      <h3>Invertir el teclado</h3>
+      <input
+        type="checkbox"
+        checked={invertKeyboard}
+        onChange={(e) => setInvertKeyboard(e.target.checked)}
+      />{" "}
+      Invertir
     </div>
   );
 }

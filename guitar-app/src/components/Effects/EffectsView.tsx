@@ -1,46 +1,25 @@
-import {
-  ChorusEffect,
-  DelayEffect,
-  DistortionEffect,
-  PhaserEffect,
-  ReverbEffect,
-  TremoloEffect,
-  VibratoEffect,
-} from "../../types";
+import { useGuitar } from "../../hooks/useGuitar";
 
-type EffectsViewProps = {
-  distortion: DistortionEffect;
-  setDistortion: React.Dispatch<React.SetStateAction<DistortionEffect>>;
-  reverb: ReverbEffect;
-  setReverb: React.Dispatch<React.SetStateAction<ReverbEffect>>;
-  vibrato: VibratoEffect;
-  setVibrato: React.Dispatch<React.SetStateAction<VibratoEffect>>;
-  chorus: ChorusEffect;
-  setChorus: React.Dispatch<React.SetStateAction<ChorusEffect>>;
-  tremolo: TremoloEffect;
-  setTremolo: React.Dispatch<React.SetStateAction<TremoloEffect>>;
-  delay: DelayEffect;
-  setDelay: React.Dispatch<React.SetStateAction<DelayEffect>>;
-  phaser: PhaserEffect;
-  setPhaser: React.Dispatch<React.SetStateAction<PhaserEffect>>;
-};
+export default function EffectsView() {
+  const {
+    distortion,
+    setDistortion,
+    reverb,
+    setReverb,
+    vibrato,
+    setVibrato,
+    chorus,
+    setChorus,
+    tremolo,
+    setTremolo,
+    delay,
+    setDelay,
+    phaser,
+    setPhaser,
+    eq3,
+    setEq3,
+  } = useGuitar();
 
-export default function EffectsView({
-  distortion,
-  setDistortion,
-  reverb,
-  setReverb,
-  vibrato,
-  setVibrato,
-  chorus,
-  setChorus,
-  tremolo,
-  setTremolo,
-  delay,
-  setDelay,
-  phaser,
-  setPhaser,
-}: EffectsViewProps) {
   return (
     <>
       <h1>Efectos de sonido (activa como maximo 3)</h1>
@@ -607,6 +586,67 @@ Wet: Ajusta el nivel de mezcla entre la señal procesada y la original.
         value={phaser.wet}
         onChange={(e) =>
           setPhaser({ ...phaser, wet: parseFloat(e.target.value) })
+        }
+      />
+      <h3>Ecualizador</h3>
+      <input
+        type="checkbox"
+        checked={eq3.enabled}
+        onChange={(e) => setEq3({ ...eq3, enabled: e.target.checked })}
+      />{" "}
+      Habilitar
+      <br />
+      <label>Bajos</label>
+      <input
+        type="range"
+        min={-30}
+        max={30}
+        step={1}
+        value={eq3.low}
+        onChange={(e) => setEq3({ ...eq3, low: parseFloat(e.target.value) })}
+      />
+      <br />
+      <label>Medios</label>
+      <input
+        type="range"
+        min={-30}
+        max={30}
+        step={1}
+        value={eq3.mid}
+        onChange={(e) => setEq3({ ...eq3, mid: parseFloat(e.target.value) })}
+      />
+      <br />
+      <label>Agudos</label>
+      <input
+        type="range"
+        min={-30}
+        max={30}
+        step={1}
+        value={eq3.high}
+        onChange={(e) => setEq3({ ...eq3, high: parseFloat(e.target.value) })}
+      />
+      <br />
+      <label>Frecuencia Baja (Hz)</label>
+      <input
+        type="range"
+        min={100}
+        max={1000}
+        step={10}
+        value={eq3.lowFrequency}
+        onChange={(e) =>
+          setEq3({ ...eq3, lowFrequency: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Frecuencia Alta (Hz)</label>
+      <input
+        type="range"
+        min={1000}
+        max={8000}
+        step={100}
+        value={eq3.highFrequency}
+        onChange={(e) =>
+          setEq3({ ...eq3, highFrequency: parseFloat(e.target.value) })
         }
       />
     </>

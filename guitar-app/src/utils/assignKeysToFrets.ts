@@ -17,6 +17,7 @@ export const assignKeysToFrets = (
 ): Neck => {
   let result: Neck = [];
 
+  // Almacena las teclas asignadas por fila
   const arrayRowKeys = [
     firstRowKeys,
     secondRowKeys,
@@ -26,17 +27,23 @@ export const assignKeysToFrets = (
     sixthRowKeys,
   ];
 
+  // Iterar sobre las 6 cuerdas de la guitarra
   for (let i = 0; i < 6; i++) {
+
+    // Buscar la cuerda en los datos proporcionados
     const findRope = file.find((n) => n.rope === 6 - i) || { rope: 0, frets: [] };
     const rowKeys = arrayRowKeys[i];
 
+    // Obtener las teclas asignadas a la fila de trastes
     const assignRowKeys = getAssignedKeys(rowKeys, invertKeyboard) || [];
 
+    // Iterar sobre los trastes de la cuerda
     for (let index = 0; index < findRope.frets.length; index++) {
       const element = findRope.frets[index];
 
+      // Asignar teclas si no está bloqueado el traste 0
       if (index >= startFromTheChord && !lockTheZeroChord) {
-        if (index <= assignRowKeys?.length) {
+        if (index <= assignRowKeys?.length + 1) {
           element.key = assignRowKeys[index - startFromTheChord];
         } else {
           element.key = undefined;
@@ -45,10 +52,12 @@ export const assignKeysToFrets = (
         element.key = undefined;
       }
 
+      // Ajuste si `lockTheZeroChord` está activado
       if (lockTheZeroChord && startFromTheChord === 0) {
         startFromTheChord = 1
       }
 
+      // Asignar la primera tecla si `lockTheZeroChord` está activado
       if (index === 0 && lockTheZeroChord) {
         const elementKey =
           assignRowKeys?.[0] !== undefined ? assignRowKeys?.[0] : "";
@@ -58,18 +67,21 @@ export const assignKeysToFrets = (
         continue
       }
 
+      // Asignación de teclas si `lockTheZeroChord` es verdadero
       if (index !== 0 && lockTheZeroChord) {
         if (index >= startFromTheChord) {
           if (index < assignRowKeys?.length + kEYSBYROW + 1) {
-            element.key = assignRowKeys[index - startFromTheChord + 1] === undefined ? "OCULTAR" : assignRowKeys[index - startFromTheChord + 1]
+            const assignedKey = assignRowKeys[index - startFromTheChord + 1];
+            element.key = assignedKey !== undefined ? assignedKey : undefined;
           } else {
             element.key = undefined
           }
         } else {
-          element.key = "OCULTAR"
+          element.key = "OCULTAR"; // Ocultar si está fuera del rango
         }
       }
 
+      // Asignación de teclas normal si `lockTheZeroChord` es falso
       if (!lockTheZeroChord) {
         if (index <= assignRowKeys?.length + kEYSBYROW) {
           element.key = assignRowKeys[index - startFromTheChord];
@@ -78,21 +90,23 @@ export const assignKeysToFrets = (
         }
       }
 
+      // Ocultar notas que no deben mostrarse
       if (!lockTheZeroChord && index <= startFromTheChord - 1) {
         element.key = "OCULTAR";
+      }
+
+      if (lockTheZeroChord && index === kEYSBYROW + startFromTheChord - 1) {
+        element.key = "OCULTAR"
       }
 
       if (index > kEYSBYROW - 1 + startFromTheChord) {
         element.key = "OCULTAR";
       }
-
     }
 
-
-
-    // RESULTADO
+    // Agregar la cuerda al resultado final
     result = [...result, { rope: findRope.rope, frets: findRope.frets }];
   }
 
-  return filterFrets(result);
+  return filterFrets(result); // Filtrar las notas finales antes de retornar
 };

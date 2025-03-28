@@ -1,10 +1,9 @@
 import { formatCamelCase } from "../../utils/formatCamelCase";
+import { useGuitar } from "../../hooks/useGuitar";
 
-type TitleViewProps = {
-  instrument: string;
-};
+export default function TitleView() {
+  const { instrument } = useGuitar();
 
-export default function TitleView({ instrument }: TitleViewProps) {
   return (
     <>
       <h1>Guitar App 1.1</h1>

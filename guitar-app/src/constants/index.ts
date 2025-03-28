@@ -1,4 +1,4 @@
-import { ChorusEffect, DelayEffect, DistortionEffect, PhaserEffect, ReverbEffect, TremoloEffect, VibratoEffect } from "../types"
+import { ChorusEffect, CompressorEffect, DelayEffect, DistortionEffect, EQ3Effect, PhaserEffect, ReverbEffect, TremoloEffect, VibratoEffect } from "../types"
 
 // TIEMPO DE CARGA INICIAL
 export const LOADING_TIME = 1000
@@ -73,3 +73,22 @@ export const INITIAL_PHASER: PhaserEffect = {
   baseFrequency: 350, // 350 Hz
   wet: 0.5, // Mezcla del efecto
 };
+
+export const INITIAL_EQ3: EQ3Effect = {
+  enabled: false,
+  low: 0,
+  mid: 0,
+  high: 0,
+  lowFrequency: 400,  // Hz
+  highFrequency: 2500, // Hz
+}
+
+export const INITIAL_COMPRESSOR: CompressorEffect = {
+  enabled: false,
+  threshold: -24, // dB
+  ratio: 4, // Relación 4:1
+  attack: 0.003, // Segundos (3ms)
+  release: 0.25, // Segundos (250ms)
+  knee: 30, // dB
+}
+
