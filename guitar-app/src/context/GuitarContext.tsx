@@ -9,6 +9,7 @@ import {
   DelayEffect,
   PhaserEffect,
   EQ3Effect,
+  Note,
 } from "../types";
 
 type GuitarContextProps = {
@@ -23,6 +24,11 @@ type GuitarContextProps = {
   setLockZeroChord: React.Dispatch<React.SetStateAction<boolean>>;
   invertKeyboard: boolean;
   setInvertKeyboard: React.Dispatch<React.SetStateAction<boolean>>;
+  mutePreviousNote: boolean;
+  setMutePreviousNote: React.Dispatch<React.SetStateAction<boolean>>;
+  notePlayed: Note;
+  setNotePlayed: React.Dispatch<React.SetStateAction<Note>>;
+
   gain: number;
   setGain: React.Dispatch<React.SetStateAction<number>>;
   distortion: DistortionEffect;

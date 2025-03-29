@@ -1,4 +1,3 @@
-import React from "react";
 import { instrumentsNames } from "../../data/instrumentsNames";
 import { formatCamelCase } from "../../utils/formatCamelCase";
 import { ALTERNATE, FIRST, MIDDLE } from "../../constants";
@@ -17,6 +16,8 @@ export default function ControlsView() {
     setLockZeroChord,
     invertKeyboard,
     setInvertKeyboard,
+    mutePreviousNote,
+    setMutePreviousNote,
   } = useGuitar();
 
   return (
@@ -82,6 +83,13 @@ export default function ControlsView() {
         onChange={(e) => setInvertKeyboard(e.target.checked)}
       />{" "}
       Invertir
+      <h3>Silenciar nota anterior</h3>
+      <input
+        type="checkbox"
+        checked={mutePreviousNote}
+        onChange={(e) => setMutePreviousNote(e.target.checked)}
+      />{" "}
+      Silenciar nota anterior
     </div>
   );
 }

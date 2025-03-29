@@ -109,3 +109,7 @@ export type Effects = {
   compressor?: CompressorEffect
 }
 
+export type Note = {
+  rope: number | null;
+  chord: number | null;
+}

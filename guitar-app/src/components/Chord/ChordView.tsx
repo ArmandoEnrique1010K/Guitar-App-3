@@ -25,18 +25,20 @@ export default function ChordView({
     delay,
     phaser,
     eq3,
+    mutePreviousNote,
+    setNotePlayed,
   } = useGuitar();
 
-  const handlePlaySound = () => {
-    // handleNotePlayed(note);
+  const handlePlaySound = (clickMode) => {
+    setNotePlayed({ rope, chord });
     playSound(
       instrument,
       neck,
       rope,
       chord,
-      true, //mutePreviousChord,
+      mutePreviousNote,
       keyFromKeyboard,
-      true,
+      clickMode,
       {
         gain: {
           gain,
@@ -56,10 +58,9 @@ export default function ChordView({
   useEffect(() => {
     const handleKeyDownPlaySound = (event) => {
       // ESTO ES MEJOR EN LUGAR DE UTILIZAR UN && en event.key
-      // if (typeMode === true) return;
       if (event.key === keyFromKeyboard) {
         // handlePlaySound(false);
-        handlePlaySound();
+        handlePlaySound(false);
       }
     };
 
@@ -73,21 +74,28 @@ export default function ChordView({
 
     const handleStopSound = () => {
       muteCurrentNote();
-      // setIsPlayed(false); // Marca la nota como detenida
     };
 
     window.addEventListener("keydown", handleKeyDownPlaySound);
-    window.addEventListener("keyup", handleKeyUpStopSound);
+    // window.addEventListener("keyup", handleKeyUpStopSound);
+
+    //if (mutePreviousNote === true) {
+    //  window.addEventListener("keyup", handleKeyUpStopSound);
+    //}
 
     return () => {
       window.removeEventListener("keydown", handleKeyDownPlaySound);
-      window.removeEventListener("keyup", handleKeyUpStopSound);
+      // window.removeEventListener("keyup", handleKeyUpStopSound);
+
+      //if (mutePreviousNote === true) {
+      //  window.addEventListener("keyup", handleKeyUpStopSound);
+      //}
     };
-  }, [keyFromKeyboard]);
+  }, [keyFromKeyboard, mutePreviousNote]);
 
   return (
     <button onClick={handlePlaySound}>
-      {chord} - {rope} - {keyFromKeyboard!}
+      {chord} - {rope} - [{keyFromKeyboard!}]
     </button>
   );
 }

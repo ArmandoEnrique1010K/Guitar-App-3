@@ -22,6 +22,7 @@ import {
   DelayEffect,
   PhaserEffect,
   EQ3Effect,
+  Note,
 } from "../types";
 import { assignKeysToFrets } from "../utils/assignKeysToFrets";
 import { preloadSounds } from "../utils/audioPlayer";
@@ -53,6 +54,9 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   // Invertir el instrumento
   const [invertKeyboard, setInvertKeyboard] = useState<boolean>(false);
 
+  // Silenciar la nota anterior (cuerda diferente)
+  const [mutePreviousNote, setMutePreviousNote] = useState<boolean>(false);
+
   // EFECTO DE SONIDO DE DISTORSIÓN
   const [distortion, setDistortion] =
     useState<DistortionEffect>(INITIAL_DISTORTION);
@@ -82,6 +86,12 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   // const [compressor, setCompressor] =
   //   useState<CompressorEffect>(INITIAL_COMPRESSOR);
 
+  // Nota actual reproducida
+  const [notePlayed, setNotePlayed] = useState<Note>({
+    rope: null,
+    chord: null,
+  });
+
   const loadData = () => {
     // Si initialNeck esta definido, cambia el estado de loading a false
     if (neck) {
@@ -98,6 +108,8 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
       loadData();
     }, LOADING_TIME);
 
+    // TODO: DEBE DEPENDER DE INSTRUMENT
+    console.log("SE PRECARGARON LOS SONIDOS");
     return () => clearTimeout(timeoutData);
   }, []);
 
@@ -119,6 +131,25 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
     console.log("Se cambio de instrumento a " + instrument);
   }, [instrument, keysRowType, initialChord, lockZeroChord, invertKeyboard]);
 
+  // ESTA FUNCIÓN DEBERIA EVITAR QUE SE SIGA REPRODUCIENDO LA NOTA MUSICAL
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.repeat) return;
+
+      // Prevent the default behavior to avoid repeated note playback
+      // event.preventDefault();
+
+      // Add your key handling logic here
+      console.log(`Key pressed: ${event.key}`);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    // Limpia el evento cuando el componente se desmonta
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <GuitarContext.Provider
       value={{
@@ -134,8 +165,13 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
         setLockZeroChord,
         invertKeyboard,
         setInvertKeyboard,
+        mutePreviousNote,
+        setMutePreviousNote,
         gain,
         setGain,
+
+        notePlayed,
+        setNotePlayed,
 
         distortion,
         setDistortion,
