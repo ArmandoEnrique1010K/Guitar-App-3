@@ -21,6 +21,8 @@ export default function ControlsView() {
     setMutePreviousNote,
     pulseMode,
     setPulseMode,
+    holdMode,
+    setHoldMode,
   } = useGuitar();
 
   return (
@@ -100,6 +102,30 @@ export default function ControlsView() {
         onChange={(e) => setPulseMode(e.target.checked)}
       />{" "}
       Activar
+      <h3>
+        Modo libre (mantiene reproduciendo la nota anterior despues de X
+        milisegundos luego de haber tocado la nueva nota actual)
+      </h3>
+      <input
+        type="checkbox"
+        checked={holdMode.enabled}
+        onChange={(e) =>
+          setHoldMode((prev) => ({ ...prev, enabled: e.target.checked }))
+        }
+      />{" "}
+      Activar
+      <br />
+      <input
+        type="range"
+        min={10}
+        max={5000}
+        step={1}
+        value={holdMode.time}
+        onChange={(e) => {
+          setHoldMode((prev) => ({ ...prev, time: +e.target.value }));
+        }}
+      />{" "}
+      Silenciar despues de {holdMode.time} milisegundos
       <h3>Silencio</h3>
       <button onClick={muteAll}>Silenciar todo</button>
     </div>

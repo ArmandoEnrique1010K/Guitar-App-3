@@ -30,7 +30,10 @@ type GuitarContextProps = {
   setMutePreviousNote: React.Dispatch<React.SetStateAction<boolean>>;
   pulseMode: boolean;
   setPulseMode: React.Dispatch<React.SetStateAction<boolean>>;
-
+  holdMode: { enabled: boolean; time: number };
+  setHoldMode: React.Dispatch<
+    React.SetStateAction<{ enabled: boolean; time: number }>
+  >;
   notePlayed: Note;
   setNotePlayed: React.Dispatch<React.SetStateAction<Note>>;
 

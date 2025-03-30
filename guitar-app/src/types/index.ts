@@ -132,10 +132,16 @@ export type ActiveNote = {
   chord: number;
   source: Tone.ToneBufferSource;
   effectNodes: Tone.ToneAudioNode[]; // Almacena los nodos de efectos
+  timeoutId?: NodeJS.Timeout; // Para manejar los timeouts
+
+  // npm install --save-dev @types/node
+
 }
 
 export type PreviousNote = {
   rope: number | null;
+  timeoutId?: NodeJS.Timeout; // Para manejar los timeouts
+
   chord: number | null
 }
 

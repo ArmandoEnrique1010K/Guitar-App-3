@@ -64,6 +64,12 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   // Modo pulso (manten pulsada una tecla para mantener reproduciendo la nota)
   const [pulseMode, setPulseMode] = useState<boolean>(false);
 
+  // Modo retención (no silencia la nota anterior de la misma cuerda)
+  const [holdMode, setHoldMode] = useState<{ enabled: boolean; time: number }>({
+    enabled: true,
+    time: 10, // Ajusta el tiempo en milisegundos
+  });
+
   // EFECTO DE SONIDO DE DISTORSIÓN
   const [distortion, setDistortion] =
     useState<DistortionEffect>(INITIAL_DISTORTION);
@@ -118,7 +124,6 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
       loadData();
     }, LOADING_TIME);
 
-    // TODO: DEBE DEPENDER DE INSTRUMENT
     console.log("SE PRECARGARON LOS SONIDOS");
     return () => clearTimeout(timeoutData);
   }, []);
@@ -179,6 +184,8 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
         setMutePreviousNote,
         pulseMode,
         setPulseMode,
+        holdMode,
+        setHoldMode,
 
         gain,
         setGain,
