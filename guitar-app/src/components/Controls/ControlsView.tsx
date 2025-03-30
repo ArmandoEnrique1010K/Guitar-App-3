@@ -3,6 +3,7 @@ import { formatCamelCase } from "../../utils/formatCamelCase";
 import { ALTERNATE, FIRST, MIDDLE } from "../../constants";
 import { LAST } from "../../constants/index";
 import { useGuitar } from "../../hooks/useGuitar";
+import { muteAll } from "../../utils/audioPlayer";
 
 export default function ControlsView() {
   const {
@@ -18,6 +19,8 @@ export default function ControlsView() {
     setInvertKeyboard,
     mutePreviousNote,
     setMutePreviousNote,
+    pulseMode,
+    setPulseMode,
   } = useGuitar();
 
   return (
@@ -90,6 +93,15 @@ export default function ControlsView() {
         onChange={(e) => setMutePreviousNote(e.target.checked)}
       />{" "}
       Silenciar nota anterior
+      <h3>Modo pulso (manten pulsada una tecla)</h3>
+      <input
+        type="checkbox"
+        checked={pulseMode}
+        onChange={(e) => setPulseMode(e.target.checked)}
+      />{" "}
+      Activar
+      <h3>Silencio</h3>
+      <button onClick={muteAll}>Silenciar todo</button>
     </div>
   );
 }

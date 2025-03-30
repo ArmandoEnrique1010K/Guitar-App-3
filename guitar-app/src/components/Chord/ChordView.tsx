@@ -27,6 +27,7 @@ export default function ChordView({
     eq3,
     mutePreviousNote,
     setNotePlayed,
+    pulseMode,
   } = useGuitar();
 
   const handlePlaySound = (clickMode) => {
@@ -55,41 +56,29 @@ export default function ChordView({
     );
   };
 
+  const handleStopSound = () => {
+    muteCurrentNote();
+  };
+
   useEffect(() => {
-    const handleKeyDownPlaySound = (event) => {
-      // ESTO ES MEJOR EN LUGAR DE UTILIZAR UN && en event.key
+    const handleKeyDownPlaySound = (event: KeyboardEvent) => {
       if (event.key === keyFromKeyboard) {
-        // handlePlaySound(false);
         handlePlaySound(false);
       }
     };
 
-    const handleKeyUpStopSound = (event) => {
-      // Si se suelta la tecla asignada y pulseMode es falso, se silencia la nota actual
-      if (event.key === keyFromKeyboard) {
-        //setIsPlayed(false)
+    const handleKeyUpStopSound = (event: KeyboardEvent) => {
+      if (event.key === keyFromKeyboard && pulseMode) {
         handleStopSound();
       }
     };
 
-    const handleStopSound = () => {
-      muteCurrentNote();
-    };
-
     window.addEventListener("keydown", handleKeyDownPlaySound);
-    // window.addEventListener("keyup", handleKeyUpStopSound);
-
-    //if (mutePreviousNote === true) {
-    //  window.addEventListener("keyup", handleKeyUpStopSound);
-    //}
+    window.addEventListener("keyup", handleKeyUpStopSound);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDownPlaySound);
-      // window.removeEventListener("keyup", handleKeyUpStopSound);
-
-      //if (mutePreviousNote === true) {
-      //  window.addEventListener("keyup", handleKeyUpStopSound);
-      //}
+      window.removeEventListener("keyup", handleKeyUpStopSound);
     };
   }, [
     keyFromKeyboard,
@@ -103,10 +92,39 @@ export default function ChordView({
     delay,
     phaser,
     eq3,
+    pulseMode,
   ]);
 
+  const handleMouseDown = () => {
+    handlePlaySound(true);
+  };
+
+  const handleMouseUp = () => {
+    if (pulseMode) {
+      handleStopSound();
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (!pulseMode) return; // No hacer nada si pulseMode es falso
+      console.log("Key up detected:", event.key);
+    };
+
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [pulseMode]); // Dependencia de pulseMode
+
   return (
-    <button onClick={handlePlaySound}>
+    <button
+      // onClick={handlePlaySound}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={pulseMode ? handleMouseUp : undefined} // Detener si el mouse sale del botón
+    >
       {chord} - {rope} - [{keyFromKeyboard!}]
     </button>
   );

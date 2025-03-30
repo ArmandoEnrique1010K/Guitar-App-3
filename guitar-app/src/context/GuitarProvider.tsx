@@ -57,6 +57,9 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   // Silenciar la nota anterior (cuerda diferente)
   const [mutePreviousNote, setMutePreviousNote] = useState<boolean>(false);
 
+  // Modo pulso (manten pulsada una tecla para mantener reproduciendo la nota)
+  const [pulseMode, setPulseMode] = useState<boolean>(false);
+
   // EFECTO DE SONIDO DE DISTORSIÓN
   const [distortion, setDistortion] =
     useState<DistortionEffect>(INITIAL_DISTORTION);
@@ -167,6 +170,9 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
         setInvertKeyboard,
         mutePreviousNote,
         setMutePreviousNote,
+        pulseMode,
+        setPulseMode,
+
         gain,
         setGain,
 

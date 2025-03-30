@@ -26,6 +26,9 @@ type GuitarContextProps = {
   setInvertKeyboard: React.Dispatch<React.SetStateAction<boolean>>;
   mutePreviousNote: boolean;
   setMutePreviousNote: React.Dispatch<React.SetStateAction<boolean>>;
+  pulseMode: boolean;
+  setPulseMode: React.Dispatch<React.SetStateAction<boolean>>;
+
   notePlayed: Note;
   setNotePlayed: React.Dispatch<React.SetStateAction<Note>>;
 
