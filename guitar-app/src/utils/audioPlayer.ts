@@ -124,7 +124,6 @@ export function playSound(
   );
 
   // Limpiar nota anterior en la misma cuerda
-  // cleanupPreviousNote(rope);
   if (!holdModeEnabled) {
     cleanupPreviousNote(rope); // Solo limpia si no estamos en holdModeEnabled
   }
@@ -135,10 +134,6 @@ export function playSound(
 
 
     // Programar reproducción
-    // const now = Tone.now();
-    // bufferSource.start(now);
-    // bufferSource.stop(now + bufferSource.buffer.duration);
-
     const now = Tone.now();
     const startTime = now + 0.01; // Pequeño offset para evitar cortes
     bufferSource.start(startTime);
@@ -147,7 +142,7 @@ export function playSound(
     updateActiveNote(rope, chord, bufferSource, effectNodes, currentNoteId);
 
     previousNotePlayed = { rope, chord };
-    console.log(`Nota ${currentNoteId} reproducida en cuerda ${rope}`);
+    // console.log(`Nota ${currentNoteId} reproducida en cuerda ${rope}`);
 
     console.log(`Reproduciendo: cuerda ${rope}, acorde ${chord}`);
 
@@ -195,145 +190,6 @@ function loadAudioFile(name: string, file: string) {
   const audioFile = `assets${audioPath}${file}.mp3`;
   return { player: players[audioFile], audioFile };
 }
-
-// function handlePreviousNotes(
-//   rope: number,
-//   chord: number,
-//   muteOnDifferentRope: boolean,
-//   holdModeEnabled: boolean,
-//   holdModeTime: number
-// ) {
-
-//   // // Solo detenemos notas en la misma cuerda si NO estamos en holdMode
-//   // if (!holdMode) {
-//   //   // Detener misma nota si ya está sonando
-//   //   if (activeNotes[rope]?.source) {
-//   //     activeNotes[rope].source.stop();
-//   //     console.log(`Detenida nota anterior en cuerda ${rope}`);
-//   //   }
-//   // }
-
-//   // // Detener nota anterior en cuerda diferente si está configurado
-//   // const { rope: prevRope } = previousNotePlayed;
-//   // if (
-//   //   prevRope !== null &&
-//   //   prevRope !== rope &&
-//   //   activeNotes[prevRope]?.source &&
-//   //   muteOnDifferentRope
-//   // ) {
-//   //   activeNotes[prevRope].source.stop();
-//   //   console.log(`Detenida nota anterior (${prevRope}) por cambio de cuerda`);
-//   //   delete activeNotes[prevRope];
-//   // }
-
-//   // Referencia a la nota anterior en la misma cuerda
-//   const previousNote = activeNotes[rope];
-
-//   if (previousNote?.source) {
-//     if (holdModeEnabled) {
-//       if (previousNote) {
-//         const timeoutId = setTimeout(() => {
-//           if (activeNotes[rope]?.source !== previousNote.source) {
-//             previousNote.source.stop();
-//             console.log(`Nota anterior silenciada después de ${holdModeTime} milisegundos`);
-//             delete activeNotes[rope];
-//           }
-//         }, holdModeTime);
-
-//         // Guardar el timeoutId para posible cancelación
-//         previousNote.timeoutId = timeoutId;
-
-//       }
-//     } else {
-//       // Comportamiento normal: silenciar inmediatamente
-//       if (previousNote.timeoutId) {
-//         clearTimeout(previousNote.timeoutId);
-//       }
-//       previousNote.source.stop();
-//       console.log(`Nota anterior silenciada inmediatamente`);
-//       delete activeNotes[rope];
-//     }
-//   }
-
-//   // Manejo de otras cuerdas
-//   const { rope: prevRope } = previousNotePlayed;
-//   if (prevRope !== null && prevRope !== rope && activeNotes[prevRope]?.source && muteOnDifferentRope) {
-//     if (activeNotes[prevRope].timeoutId) {
-//       clearTimeout(activeNotes[prevRope].timeoutId);
-//     }
-//     activeNotes[prevRope].source.stop();
-//     delete activeNotes[prevRope];
-//   }
-// }
-
-
-// function createAudioNodes(
-//   buffer: Tone.ToneAudioBuffer,
-//   effects: Effects
-// ) {
-//   const bufferSource = new Tone.ToneBufferSource(buffer);
-//   const gainNode = new Tone.Gain(effects.gain?.gain);
-//   const effectNodes: Tone.ToneAudioNode[] = [gainNode];
-
-//   let lastNode: Tone.ToneAudioNode = bufferSource;
-
-//   // Configurar cadena de efectos
-//   if (effects.distortion?.enabled) {
-//     const node = createDistortionNode(effects.distortion);
-//     lastNode = connectEffect(lastNode, node, effectNodes);
-//   }
-
-//   if (effects.reverb?.enabled) {
-//     const node = createReverbNode(effects.reverb);
-//     lastNode = connectEffect(lastNode, node, effectNodes);
-//   }
-
-//   if (effects.vibrato?.enabled) {
-//     const node = createVibratoNode(effects.vibrato);
-//     lastNode = connectEffect(lastNode, node, effectNodes)
-//   }
-
-//   if (effects.chorus?.enabled) {
-//     const node = createChorusNode(effects.chorus);
-//     lastNode = connectEffect(lastNode, node, effectNodes);
-//   }
-
-//   if (effects.tremolo?.enabled) {
-//     const node = createTremoloNode(effects.tremolo);
-//     lastNode = connectEffect(lastNode, node, effectNodes);
-//   }
-
-//   if (effects.delay?.enabled) {
-//     const node = createFeedbackDelayNode(effects.delay);
-//     lastNode = connectEffect(lastNode, node, effectNodes);
-//   }
-
-//   if (effects.phaser?.enabled) {
-//     const node = createPhaserNode(effects.phaser);
-//     lastNode = connectEffect(lastNode, node, effectNodes);
-//   }
-
-//   if (effects.eq3?.enabled) {
-//     const node = createEQ3Node(effects.eq3);
-//     lastNode = connectEffect(lastNode, node, effectNodes);
-//   }
-
-//   if (effects.compressor?.enabled) {
-//     const node = createCompressorNode(effects.compressor);
-//     lastNode = connectEffect(lastNode, node, effectNodes)
-//   }
-
-//   if (effects.autoWah?.enabled) {
-//     const node = createAutoWahNode(effects.autoWah);
-//     lastNode = connectEffect(lastNode, node, effectNodes)
-//   }
-
-//   // Conectar cadena al gain y al destino final
-//   lastNode.connect(gainNode);
-//   gainNode.toDestination();
-
-//   return { bufferSource, effectNodes };
-// }
 
 function createStableAudioChain(buffer: Tone.ToneAudioBuffer, effects: Effects, gain: number) {
   // Crear buffer source con configuración estable
@@ -384,7 +240,6 @@ function createStableAudioChain(buffer: Tone.ToneAudioBuffer, effects: Effects, 
   gainNode.toDestination();
 
   return { bufferSource, effectNodes };
-
 }
 
 
@@ -488,16 +343,6 @@ function createAutoWahNode(params: NonNullable<Effects['autoWah']>) {
   })
 }
 
-// function connectEffect(
-//   source: Tone.ToneAudioNode,
-//   effect: Tone.ToneAudioNode,
-//   effectNodes: Tone.ToneAudioNode[]
-// ): Tone.ToneAudioNode {
-//   source.connect(effect);
-//   effectNodes.push(effect);
-//   return effect;
-// }
-
 function updateActiveNote(
   rope: number,
   chord: number,
@@ -525,17 +370,13 @@ function setupKeyboardListener(key: string, clickMode: boolean) {
 }
 
 
-// 5. handlePreviousNotes actualizado
 function handlePreviousNotes(
   rope: number,
   chord: number,
   muteOnDifferentRope: boolean,
   holdMode: boolean,
   holdModeTime: number,
-  // currentNoteId: string
 ) {
-
-
   const previousNote = activeNotes[rope];
 
   // Manejo de notas en la misma cuerda
@@ -552,7 +393,8 @@ function handlePreviousNotes(
           delete activeNotes[rope];
         }
 
-        console.log("SILENCIANDO NOTA LUEGO DE ", holdModeTime)
+
+        console.log(`Nota silenciada: cuerda ${rope}, acorde ${previousNote.chord}, después de ${holdModeTime}ms`);
       }, holdModeTime);
     } else {
       // Comportamiento normal: silenciar inmediatamente
@@ -561,14 +403,43 @@ function handlePreviousNotes(
     }
   }
 
-  // Manejo de otras cuerdas
+  // TODO: REPARAR ESTO
+  // Manejo de notas en otras cuerdas (respetando muteOnDifferentRope)
   // const { rope: prevRope } = previousNotePlayed;
-  // if (prevRope !== null && prevRope !== rope && activeNotes[prevRope]) {
-  //   cleanupNoteResources(activeNotes[prevRope]!);
-  //   delete activeNotes[prevRope];
+  // if (
+  //   previousNote &&
+  //   prevRope !== null &&
+  //   prevRope === rope &&
+  //   activeNotes[prevRope] &&
+  //   muteOnDifferentRope
+  // ) {
+  //   console.log(`Silenciando nota en cuerda diferente: ${prevRope}`);
+
+  //   if (holdMode) {
+  //     // Configurar fadeout suave y limpiar después del tiempo de hold
+  //     setTimeout(() => {
+  //       if (activeNotes[prevRope]?.chord === previousNote.chord) {
+  //         cleanupNoteResources(activeNotes[prevRope]!);
+  //         delete activeNotes[prevRope];
+  //         console.log(`Nota silenciada en cuerda ${prevRope} después de ${holdModeTime}ms`);
+  //       }
+  //     }, holdModeTime);
+  //   } else {
+  //     // Silenciar inmediatamente
+  //     cleanupNoteResources(activeNotes[prevRope]!);
+  //     delete activeNotes[prevRope];
+  //     console.log(`Nota silenciada inmediatamente en cuerda ${prevRope}`);
+  //   }
+
+  //   console.log("previousNote:", previousNote);
+  //   console.log("prevRope:", prevRope);
+  //   console.log("activeNotes[prevRope]:", activeNotes[prevRope]);
   // }
+
   // Manejo de notas en otras cuerdas (respetando muteOnDifferentRope)
   const { rope: prevRope } = previousNotePlayed;
+
+  // TODO: ESTE CODIGO SI FUNCIONA, SILENCIA LA NOTA ANTERIOR SI NO SE HA TOCADO EN LA MISMA CUERDA
   if (
     prevRope !== null &&
     prevRope !== rope &&
@@ -582,7 +453,7 @@ function handlePreviousNotes(
 
 }
 
-// 6. Nueva función para limpieza segura
+// Nueva función para limpieza segura
 function cleanupNoteResources(note: ActiveNote) {
   if (note.timeoutId) clearTimeout(note.timeoutId);
   if (note.source) {

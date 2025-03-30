@@ -46,13 +46,6 @@ export default function EffectsView() {
       <input
         type="checkbox"
         name="distortion"
-        // checked={distortion.enabled}
-        // onChange={(e) =>
-        //   setDistortion({
-        //     ...distortion,
-        //     enabled: e.target.checked,
-        //   })
-        // }
         checked={effects.distortion?.enabled}
         onChange={handleChange}
       />
@@ -66,14 +59,6 @@ export default function EffectsView() {
         min={DISTORTION_DISTORTION_MIN}
         max={DISTORTION_DISTORTION_MAX}
         step={DISTORTION_DISTORTION_STEP}
-        // value={distortion.distortion}
-        // onChange={(e) =>
-        //   setDistortion({
-        //     ...distortion,
-        //     distortion: parseFloat(e.target.value),
-        //   })
-        // }
-
         value={effects.distortion?.distortion}
         onChange={handleChange}
       />
@@ -83,19 +68,11 @@ export default function EffectsView() {
         name="distortion"
         data-property="oversample" // Especifica la propiedad a actualizar
         onChange={handleChange}
-
-        // value={distortion.oversample}
-        // onChange={(e) =>
-        //   setDistortion({
-        //     ...distortion,
-        //     oversample: e.target.value as "none" | "2x" | "4x",
-        //   })
-        // }
       >
         <option value={DISTORTION_OVERSAMPLE_NONE}>
           {DISTORTION_OVERSAMPLE_NONE}
         </option>
-        <option value={`${DISTORTION_OVERSAMPLE_2X}`}>
+        <option value={DISTORTION_OVERSAMPLE_2X}>
           {DISTORTION_OVERSAMPLE_2X}
         </option>
         <option value={DISTORTION_OVERSAMPLE_4X}>
@@ -111,14 +88,6 @@ export default function EffectsView() {
         min={DISTORTION_WET_MIN}
         max={DISTORTION_WET_MAX}
         step={DISTORTION_WET_STEP}
-        // value={distortion.wet}
-        // onChange={(e) =>
-        //   setDistortion({
-        //     ...distortion,
-        //     wet: parseFloat(e.target.value),
-        //   })
-        // }
-
         value={effects.distortion?.wet}
         onChange={handleChange}
       />

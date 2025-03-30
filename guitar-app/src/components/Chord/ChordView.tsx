@@ -122,6 +122,8 @@ export default function ChordView({
   useEffect(() => {
     const handleKeyUp = (event: KeyboardEvent) => {
       if (!pulseMode) return; // No hacer nada si pulseMode es falso
+
+      // TODO: ¿PORQUE IMPRIME VARIAS VECES EL MISMO MENSAJE?
       console.log("Key up detected:", event.key);
     };
 

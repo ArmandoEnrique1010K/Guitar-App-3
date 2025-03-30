@@ -104,7 +104,8 @@ export default function ControlsView() {
       Activar
       <h3>
         Modo libre (mantiene reproduciendo la nota anterior despues de X
-        milisegundos luego de haber tocado la nueva nota actual)
+        milisegundos luego de haber tocado la nueva nota actual, agarra una
+        moneda y deslizala sobre el teclado)
       </h3>
       <input
         type="checkbox"
