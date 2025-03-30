@@ -241,6 +241,15 @@ function createAudioNodes(
     lastNode = connectEffect(lastNode, node, effectNodes);
   }
 
+  if (effects.compressor?.enabled) {
+    const node = createCompressorNode(effects.compressor);
+    lastNode = connectEffect(lastNode, node, effectNodes)
+  }
+
+  if (effects.autoWah?.enabled) {
+    const node = createAutoWahNode(effects.autoWah);
+    lastNode = connectEffect(lastNode, node, effectNodes)
+  }
 
   // Conectar cadena al gain y al destino final
   lastNode.connect(gainNode);
@@ -327,6 +336,27 @@ function createEQ3Node(params: NonNullable<Effects['eq3']>) {
   });
 }
 
+function createCompressorNode(params: NonNullable<Effects['compressor']>) {
+  return new Tone.Compressor({
+    threshold: params.threshold,
+    ratio: params.ratio,
+    attack: params.attack,
+    release: params.release,
+    knee: params.knee,
+  })
+}
+
+function createAutoWahNode(params: NonNullable<Effects['autoWah']>) {
+  return new Tone.AutoWah({
+    baseFrequency: params.baseFrequency,
+    octaves: params.octaves,
+    sensitivity: params.sensitivity,
+    follower: params.follower,
+    Q: params.Q,
+    gain: params.gain,
+    wet: params.wet
+  })
+}
 
 function connectEffect(
   source: Tone.ToneAudioNode,

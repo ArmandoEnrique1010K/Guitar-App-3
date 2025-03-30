@@ -10,6 +10,8 @@ import {
   PhaserEffect,
   EQ3Effect,
   Note,
+  CompressorEffect,
+  AutoWahEffect,
 } from "../types";
 
 type GuitarContextProps = {
@@ -50,6 +52,10 @@ type GuitarContextProps = {
   setPhaser: React.Dispatch<React.SetStateAction<PhaserEffect>>;
   eq3: EQ3Effect;
   setEq3: React.Dispatch<React.SetStateAction<EQ3Effect>>;
+  compressor: CompressorEffect;
+  setCompressor: React.Dispatch<React.SetStateAction<CompressorEffect>>;
+  autoWah: AutoWahEffect;
+  setAutoWah: React.Dispatch<React.SetStateAction<AutoWahEffect>>;
 };
 
 // Crear el contexto con valores por defecto

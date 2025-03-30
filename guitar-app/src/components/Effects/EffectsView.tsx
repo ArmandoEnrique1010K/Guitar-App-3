@@ -18,6 +18,10 @@ export default function EffectsView() {
     setPhaser,
     eq3,
     setEq3,
+    compressor,
+    setCompressor,
+    autoWah,
+    setAutoWah,
   } = useGuitar();
 
   return (
@@ -647,6 +651,169 @@ Wet: Ajusta el nivel de mezcla entre la señal procesada y la original.
         value={eq3.highFrequency}
         onChange={(e) =>
           setEq3({ ...eq3, highFrequency: parseFloat(e.target.value) })
+        }
+      />
+      <h3>Compresor</h3>
+      <input
+        type="checkbox"
+        checked={compressor.enabled}
+        onChange={(e) =>
+          setCompressor({ ...compressor, enabled: e.target.checked })
+        }
+      />{" "}
+      Habilitar
+      <br />
+      <label>Threshold (dB)</label>
+      <input
+        type="range"
+        min={-60}
+        max={0}
+        step={1}
+        value={compressor.threshold}
+        onChange={(e) =>
+          setCompressor({
+            ...compressor,
+            threshold: parseFloat(e.target.value),
+          })
+        }
+      />
+      <br />
+      <label>Ratio</label>
+      <input
+        type="range"
+        min={1}
+        max={20}
+        step={0.1}
+        value={compressor.ratio}
+        onChange={(e) =>
+          setCompressor({ ...compressor, ratio: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Attack (s)</label>
+      <input
+        type="range"
+        min={0.001}
+        max={1}
+        step={0.001}
+        value={compressor.attack}
+        onChange={(e) =>
+          setCompressor({ ...compressor, attack: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Release (s)</label>
+      <input
+        type="range"
+        min={0.01}
+        max={1}
+        step={0.01}
+        value={compressor.release}
+        onChange={(e) =>
+          setCompressor({ ...compressor, release: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Knee (dB)</label>
+      <input
+        type="range"
+        min={0}
+        max={40}
+        step={1}
+        value={compressor.knee}
+        onChange={(e) =>
+          setCompressor({ ...compressor, knee: parseFloat(e.target.value) })
+        }
+      />
+      <h3>Auto Wah</h3>
+      <input
+        type="checkbox"
+        checked={autoWah.enabled}
+        onChange={(e) => setAutoWah({ ...autoWah, enabled: e.target.checked })}
+      />{" "}
+      Habilitar
+      <br />
+      <label>Base Frequency (Hz)</label>
+      <input
+        type="range"
+        min={20}
+        max={2000}
+        step={1}
+        value={autoWah.baseFrequency}
+        onChange={(e) =>
+          setAutoWah({ ...autoWah, baseFrequency: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Octaves</label>
+      <input
+        type="range"
+        min={1}
+        max={6}
+        step={0.1}
+        value={autoWah.octaves}
+        onChange={(e) =>
+          setAutoWah({ ...autoWah, octaves: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Sensitivity</label>
+      <input
+        type="range"
+        min={-40}
+        max={0}
+        step={0.1}
+        value={autoWah.sensitivity}
+        onChange={(e) =>
+          setAutoWah({ ...autoWah, sensitivity: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Q (Resonancia)</label>
+      <input
+        type="range"
+        min={0.1}
+        max={10}
+        step={0.1}
+        value={autoWah.Q}
+        onChange={(e) =>
+          setAutoWah({ ...autoWah, Q: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Gain (dB)</label>
+      <input
+        type="range"
+        min={0}
+        max={10}
+        step={0.1}
+        value={autoWah.gain}
+        onChange={(e) =>
+          setAutoWah({ ...autoWah, gain: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Follower</label>
+      <input
+        type="range"
+        min={0}
+        max={1}
+        step={0.1}
+        value={autoWah.follower}
+        onChange={(e) =>
+          setAutoWah({ ...autoWah, follower: parseFloat(e.target.value) })
+        }
+      />
+      <br />
+      <label>Wet</label>
+      <input
+        type="range"
+        min={0}
+        max={1}
+        step={0.1}
+        value={autoWah.wet}
+        onChange={(e) =>
+          setAutoWah({ ...autoWah, wet: parseFloat(e.target.value) })
         }
       />
     </>

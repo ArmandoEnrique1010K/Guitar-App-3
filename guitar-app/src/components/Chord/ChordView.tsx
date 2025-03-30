@@ -25,12 +25,14 @@ export default function ChordView({
     delay,
     phaser,
     eq3,
+    compressor,
+    autoWah,
     mutePreviousNote,
     setNotePlayed,
     pulseMode,
   } = useGuitar();
 
-  const handlePlaySound = (clickMode) => {
+  const handlePlaySound = (clickMode: boolean) => {
     setNotePlayed({ rope, chord });
     playSound(
       instrument,
@@ -52,6 +54,8 @@ export default function ChordView({
         delay,
         phaser,
         eq3,
+        compressor,
+        autoWah,
       }
     );
   };
@@ -92,6 +96,8 @@ export default function ChordView({
     delay,
     phaser,
     eq3,
+    compressor,
+    autoWah,
     pulseMode,
   ]);
 

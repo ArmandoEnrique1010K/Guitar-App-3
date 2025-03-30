@@ -1,4 +1,4 @@
-import { ChorusEffect, CompressorEffect, DelayEffect, DistortionEffect, EQ3Effect, PhaserEffect, ReverbEffect, TremoloEffect, VibratoEffect } from "../types"
+import { AutoWahEffect, ChorusEffect, CompressorEffect, DelayEffect, DistortionEffect, EQ3Effect, PhaserEffect, ReverbEffect, TremoloEffect, VibratoEffect } from "../types"
 
 // TIEMPO DE CARGA INICIAL
 export const LOADING_TIME = 1000
@@ -92,3 +92,13 @@ export const INITIAL_COMPRESSOR: CompressorEffect = {
   knee: 30, // dB
 }
 
+export const INITIAL_AUTOWAH: AutoWahEffect = {
+  enabled: false,
+  baseFrequency: 100, // Hz
+  octaves: 6,
+  sensitivity: 0.5, // dB
+  follower: 1, // s
+  Q: 2,
+  gain: 5,
+  wet: 1
+}

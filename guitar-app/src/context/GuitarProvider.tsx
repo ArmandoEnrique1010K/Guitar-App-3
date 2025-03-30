@@ -10,6 +10,7 @@ import {
   INITIAL_PHASER,
   INITIAL_EQ3,
   LOADING_TIME,
+  INITIAL_AUTOWAH,
 } from "../constants";
 import { guitarNotes } from "../data/guitarNotes";
 import {
@@ -23,10 +24,13 @@ import {
   PhaserEffect,
   EQ3Effect,
   Note,
+  CompressorEffect,
+  AutoWahEffect,
 } from "../types";
 import { assignKeysToFrets } from "../utils/assignKeysToFrets";
 import { preloadSounds } from "../utils/audioPlayer";
 import { GuitarContext } from "./GuitarContext";
+import { INITIAL_COMPRESSOR } from "../constants/index";
 
 // Proveedor del contexto
 export const GuitarProvider = ({ children }: { children: ReactNode }) => {
@@ -86,8 +90,11 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   const [eq3, setEq3] = useState<EQ3Effect>(INITIAL_EQ3);
 
   // COMPRESOR
-  // const [compressor, setCompressor] =
-  //   useState<CompressorEffect>(INITIAL_COMPRESSOR);
+  const [compressor, setCompressor] =
+    useState<CompressorEffect>(INITIAL_COMPRESSOR);
+
+  // AUTOWAH
+  const [autoWah, setAutoWah] = useState<AutoWahEffect>(INITIAL_AUTOWAH);
 
   // Nota actual reproducida
   const [notePlayed, setNotePlayed] = useState<Note>({
@@ -195,6 +202,10 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
         setPhaser,
         eq3,
         setEq3,
+        compressor,
+        setCompressor,
+        autoWah,
+        setAutoWah,
       }}
     >
       {children}

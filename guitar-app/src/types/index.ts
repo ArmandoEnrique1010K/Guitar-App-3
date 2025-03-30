@@ -97,6 +97,17 @@ export type CompressorEffect = {
   knee: number;
 };
 
+export type AutoWahEffect = {
+  enabled: boolean;
+  baseFrequency: number;
+  octaves: number;
+  sensitivity: number;
+  Q: number;
+  gain: number;
+  follower: number;
+  wet: number;
+};
+
 export type Effects = {
   gain?: GainEffect,
   distortion?: DistortionEffect,
@@ -108,6 +119,7 @@ export type Effects = {
   phaser?: PhaserEffect
   eq3?: EQ3Effect
   compressor?: CompressorEffect
+  autoWah?: AutoWahEffect
 }
 
 export type Note = {
