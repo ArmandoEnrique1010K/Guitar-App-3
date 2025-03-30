@@ -97,6 +97,7 @@ export function playSound(
   clickMode: boolean,
   holdModeEnabled: boolean,
   holdModeTime: number,
+  gain: number,
   effects: Effects
 ) {
 
@@ -130,7 +131,7 @@ export function playSound(
 
   try {
     // Crear y configurar nueva nota
-    const { bufferSource, effectNodes } = createStableAudioChain(player.buffer, effects);
+    const { bufferSource, effectNodes } = createStableAudioChain(player.buffer, effects, gain);
 
 
     // Programar reproducción
@@ -334,7 +335,7 @@ function loadAudioFile(name: string, file: string) {
 //   return { bufferSource, effectNodes };
 // }
 
-function createStableAudioChain(buffer: Tone.ToneAudioBuffer, effects: Effects,) {
+function createStableAudioChain(buffer: Tone.ToneAudioBuffer, effects: Effects, gain: number) {
   // Crear buffer source con configuración estable
   const bufferSource = new Tone.ToneBufferSource({
     fadeIn: 0.01,
@@ -343,7 +344,7 @@ function createStableAudioChain(buffer: Tone.ToneAudioBuffer, effects: Effects,)
   });
   bufferSource.buffer = buffer;
 
-  const gainNode = new Tone.Gain(effects.gain?.gain ?? 0.8);
+  const gainNode = new Tone.Gain(gain);
   const effectNodes: Tone.ToneAudioNode[] = [gainNode];
 
   // Configurar cadena de efectos con protección

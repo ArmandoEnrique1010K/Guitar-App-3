@@ -1,4 +1,5 @@
 import { AutoWahEffect, ChorusEffect, CompressorEffect, DelayEffect, DistortionEffect, EQ3Effect, PhaserEffect, ReverbEffect, TremoloEffect, VibratoEffect } from "../types"
+import { DISTORTION_DISTORTION_DEFAULT, DISTORTION_OVERSAMPLE_DEFAULT, DISTORTION_WET_DEFAULT } from "./effectsProperties"
 
 // TIEMPO DE CARGA INICIAL
 export const LOADING_TIME = 1000
@@ -15,9 +16,9 @@ export const ALTERNATE = [0, 1, 4, 5, 2, 3]
 // VALORES INICIALES
 export const INITIAL_DISTORTION: DistortionEffect = {
   enabled: false,
-  distortion: 0.4,
-  oversample: "none",
-  wet: 1,
+  distortion: DISTORTION_DISTORTION_DEFAULT,
+  oversample: DISTORTION_OVERSAMPLE_DEFAULT,
+  wet: DISTORTION_WET_DEFAULT,
 };
 
 export const INITIAL_REVERB: ReverbEffect = {

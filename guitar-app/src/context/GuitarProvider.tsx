@@ -26,6 +26,7 @@ import {
   Note,
   CompressorEffect,
   AutoWahEffect,
+  Effects,
 } from "../types";
 import { assignKeysToFrets } from "../utils/assignKeysToFrets";
 import { preloadSounds } from "../utils/audioPlayer";
@@ -70,6 +71,48 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
     time: 10, // Ajusta el tiempo en milisegundos
   });
 
+  // ESTADO DE EFECTOS
+  const [effects, setEffects] = useState<Effects>({
+    distortion: INITIAL_DISTORTION,
+    reverb: INITIAL_REVERB,
+    vibrato: INITIAL_VIBRATO,
+    chorus: INITIAL_CHORUS,
+    tremolo: INITIAL_TREMOLO,
+    delay: INITIAL_DELAY,
+    phaser: INITIAL_PHASER,
+    eq3: INITIAL_EQ3,
+    compressor: INITIAL_COMPRESSOR,
+    autoWah: INITIAL_AUTOWAH,
+  });
+
+  // Función para manejar los cambios en los campos del formulario
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = event.target as HTMLInputElement;
+    const checked = (event.target as HTMLInputElement).checked;
+
+    // Determinar el valor basado en el tipo de input
+    const newValue =
+      type === "checkbox"
+        ? checked
+        : type === "select-one"
+        ? value
+        : type === ""
+        ? value
+        : parseFloat(value);
+
+    // Actualizar dinámicamente el estado correspondiente
+    setEffects((prevEffects) => ({
+      ...prevEffects,
+      [name]: {
+        ...prevEffects[name as keyof Effects],
+        [type === "checkbox"
+          ? "enabled"
+          : event.target.dataset.property || "value"]: newValue,
+      },
+    }));
+  };
   // EFECTO DE SONIDO DE DISTORSIÓN
   const [distortion, setDistortion] =
     useState<DistortionEffect>(INITIAL_DISTORTION);
@@ -192,6 +235,9 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
 
         notePlayed,
         setNotePlayed,
+
+        effects,
+        handleChange,
 
         distortion,
         setDistortion,

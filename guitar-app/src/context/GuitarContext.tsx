@@ -12,6 +12,7 @@ import {
   Note,
   CompressorEffect,
   AutoWahEffect,
+  Effects,
 } from "../types";
 
 type GuitarContextProps = {
@@ -39,6 +40,12 @@ type GuitarContextProps = {
 
   gain: number;
   setGain: React.Dispatch<React.SetStateAction<number>>;
+
+  effects: Effects;
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+
   distortion: DistortionEffect;
   setDistortion: React.Dispatch<React.SetStateAction<DistortionEffect>>;
   reverb: ReverbEffect;

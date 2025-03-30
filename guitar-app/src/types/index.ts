@@ -109,7 +109,7 @@ export type AutoWahEffect = {
 };
 
 export type Effects = {
-  gain?: GainEffect,
+  // gain?: GainEffect,
   distortion?: DistortionEffect,
   reverb?: ReverbEffect,
   vibrato?: VibratoEffect

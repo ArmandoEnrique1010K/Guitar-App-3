@@ -1,9 +1,20 @@
+import {
+  DISTORTION_DISTORTION_MAX,
+  DISTORTION_DISTORTION_MIN,
+  DISTORTION_DISTORTION_STEP,
+  DISTORTION_OVERSAMPLE_2X,
+  DISTORTION_OVERSAMPLE_4X,
+  DISTORTION_OVERSAMPLE_NONE,
+  DISTORTION_WET_MAX,
+  DISTORTION_WET_MIN,
+  DISTORTION_WET_STEP,
+} from "../../constants/effectsProperties";
 import { useGuitar } from "../../hooks/useGuitar";
 
 export default function EffectsView() {
   const {
-    distortion,
-    setDistortion,
+    // distortion,
+    // setDistortion,
     reverb,
     setReverb,
     vibrato,
@@ -22,6 +33,9 @@ export default function EffectsView() {
     setCompressor,
     autoWah,
     setAutoWah,
+
+    effects,
+    handleChange,
   } = useGuitar();
 
   return (
@@ -31,59 +45,82 @@ export default function EffectsView() {
       <h3>Distorsión</h3>
       <input
         type="checkbox"
-        checked={distortion.enabled}
-        onChange={(e) =>
-          setDistortion({
-            ...distortion,
-            enabled: e.target.checked,
-          })
-        }
+        name="distortion"
+        // checked={distortion.enabled}
+        // onChange={(e) =>
+        //   setDistortion({
+        //     ...distortion,
+        //     enabled: e.target.checked,
+        //   })
+        // }
+        checked={effects.distortion?.enabled}
+        onChange={handleChange}
       />
       Habilitar
       <br />
       <label>Distortion</label>
       <input
+        name="distortion"
+        data-property="distortion" // Especifica la propiedad a actualizar
         type="range"
-        min={0}
-        max={1}
-        step={0.1}
-        value={distortion.distortion}
-        onChange={(e) =>
-          setDistortion({
-            ...distortion,
-            distortion: parseFloat(e.target.value),
-          })
-        }
+        min={DISTORTION_DISTORTION_MIN}
+        max={DISTORTION_DISTORTION_MAX}
+        step={DISTORTION_DISTORTION_STEP}
+        // value={distortion.distortion}
+        // onChange={(e) =>
+        //   setDistortion({
+        //     ...distortion,
+        //     distortion: parseFloat(e.target.value),
+        //   })
+        // }
+
+        value={effects.distortion?.distortion}
+        onChange={handleChange}
       />
       <br />
       <label>Oversample</label>
       <select
-        value={distortion.oversample}
-        onChange={(e) =>
-          setDistortion({
-            ...distortion,
-            oversample: e.target.value as "none" | "2x" | "4x",
-          })
-        }
+        name="distortion"
+        data-property="oversample" // Especifica la propiedad a actualizar
+        onChange={handleChange}
+
+        // value={distortion.oversample}
+        // onChange={(e) =>
+        //   setDistortion({
+        //     ...distortion,
+        //     oversample: e.target.value as "none" | "2x" | "4x",
+        //   })
+        // }
       >
-        <option value="none">none</option>
-        <option value="2x">2x</option>
-        <option value="4x">4x</option>
+        <option value={DISTORTION_OVERSAMPLE_NONE}>
+          {DISTORTION_OVERSAMPLE_NONE}
+        </option>
+        <option value={`${DISTORTION_OVERSAMPLE_2X}`}>
+          {DISTORTION_OVERSAMPLE_2X}
+        </option>
+        <option value={DISTORTION_OVERSAMPLE_4X}>
+          {DISTORTION_OVERSAMPLE_4X}
+        </option>
       </select>
       <br />
       <label>Wet</label>
       <input
         type="range"
-        min={0}
-        max={1}
-        step={0.1}
-        value={distortion.wet}
-        onChange={(e) =>
-          setDistortion({
-            ...distortion,
-            wet: parseFloat(e.target.value),
-          })
-        }
+        data-property="wet" // Especifica la propiedad a actualizar
+        name="distortion"
+        min={DISTORTION_WET_MIN}
+        max={DISTORTION_WET_MAX}
+        step={DISTORTION_WET_STEP}
+        // value={distortion.wet}
+        // onChange={(e) =>
+        //   setDistortion({
+        //     ...distortion,
+        //     wet: parseFloat(e.target.value),
+        //   })
+        // }
+
+        value={effects.distortion?.wet}
+        onChange={handleChange}
       />
       {/* https://tonejs.github.io/docs/r13/Reverb */}
       <h3>Reverberación</h3>
