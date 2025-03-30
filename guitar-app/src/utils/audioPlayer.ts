@@ -5,13 +5,22 @@ import { Effects } from "../types";
 
 // Configurar prioridad de programación en Tone.js para mejorar la estabilidad
 
+type ActiveNote = {
+  chord: number;
+  source: Tone.ToneBufferSource;
+  effectNodes: Tone.ToneAudioNode[]; // Almacena los nodos de efectos
+}
 
 // Objeto para rastrear el estado de las teclas en reproducción activa
 const activeKeys: { [key: string]: boolean } = {};
 // Objeto para almacenar los reproductores
 const players: { [key: string]: Tone.Player } = {};
+
 // Objeto para guardar la nota activa para cada cuerda
-const activeNotes: { [key: number]: { chord: number; source: Tone.ToneBufferSource } | undefined } = {};
+const activeNotes: { [key: number]: ActiveNote | undefined } = {};
+
+// const activeNotes: { [key: number]: { chord: number; source: Tone.ToneBufferSource } | undefined } = {};
+
 // Objeto para guardar la nota tocada anteriormente
 let previousNotePlayed: { rope: number | null; chord: number | null } = { rope: null, chord: null };
 
@@ -29,6 +38,8 @@ export function preloadSounds(name: string) {
   const audioPath = `assets/audio/${name}`;
 
   // El siguiente arreglo contiene los nombres de los archivos de audio que se van a pre-cargar
+
+  // TODO: AQUI DEBERIA 
   const audioFiles = [
     "00",
     "01",
@@ -105,7 +116,7 @@ export function preloadSounds(name: string) {
         autostart: false,
         // Evento que se ejecuta luego de cargar el archivo
         onload: () => {
-          console.log(`Se cargo el archivo que se encuentra en ${audioFile}`);
+          // console.log(`Se cargo el archivo que se encuentra en ${audioFile}`);
         },
         // Evento que se ejecuta si hay un error al cargar el archivo
         onerror: (error) => {
@@ -121,6 +132,23 @@ export function preloadSounds(name: string) {
     }
   });
 }
+
+export function cleanupPreviousNote(rope: number) {
+  if (activeNotes[rope]) {
+    // Detener y desconectar la fuente
+    activeNotes[rope]?.source.stop();
+    activeNotes[rope]?.source.dispose();
+
+    // Limpiar nodos de efectos
+    activeNotes[rope]?.effectNodes.forEach(node => {
+      node.dispose();
+    });
+
+    delete activeNotes[rope];
+  }
+}
+
+
 
 // Función para reproducir un sonido, requiere 8 argumentos
 export function playSound(
@@ -143,338 +171,373 @@ export function playSound(
   // Efectos de sonido
   effects: Effects
 ) {
-  // Si la tecla ya está activa y no se está usando clickMode, evita reproducir la nota nuevamente
+  // 1. Asegurarse que el contexto de audio esté iniciado
+  // if (Tone.context.state !== 'running') {
+  //   Tone.start().then(() => {
+  //     console.log('AudioContext iniciado');
+  //     // Volver a llamar a playSound después de iniciar el contexto
+  //     playSound(name, data, rope, chord, muteOnDifferentRope, keyfromkeyboard, clickMode, effects);
+  //   });
+  //   return;
+  // }
+
+
+  // Verificación de teclado y limpieza previa (mantener igual)
   if (keyfromkeyboard && !clickMode && activeKeys[keyfromkeyboard]) {
     return;
   }
 
-  // Marca la tecla como activa solo si es válida y no se está usando clickMode
   if (keyfromkeyboard && !clickMode) {
     activeKeys[keyfromkeyboard] = true;
   }
 
-  // Si no hay ningun formato soportado, detiene la ejecución de la función
-
-  // Define la ruta de los archivos de audio según el nombre de la carpeta
   const audioPath = `/audio/${name}/`;
-
-  // Encuentra la nota en el arreglo que se recibe desde el parametro data usando el número de cuerda (rope)
   const ropeData = data.find((note) => note.rope === rope);
-
-  if (ropeData) {
-    // Busca el acorde especificado dentro de los datos de la cuerda
-    const fretData = ropeData.frets.find((fret) => fret.chord === chord);
-
-    // Imprime el valor de la propiedad rope del objeto ropeData (solamente para pruebas)
-    // Posibles valores: 1, 2, 3, 4, 5 o 6
-    // console.log(ropeData.rope);
-
-    if (fretData) {
-      // Genera el nombre completo del archivo de audio
-      // La propiedad file contiene el nombre del archivo de audio
-      const audioFile = `assets${audioPath}${fretData.file}.mp3`;
-
-      // Imprime un objeto que contiene la ruta hacia el archivo como propiedad, esa propiedad
-      // Contiene una serie de propiedades y metodos definidos.
-      // console.log(players);
-
-      // Busca la propiedad que corresponde a la ruta del archivo
-      const player = players[audioFile];
-
-      // Imprimir para una prueba, muestra un objeto que contiene las propiedades y metodos del archivo de audio actual
-      // console.log(typeof player);
-      // console.log(player);
-
-      // Si el archivo de audio no está en players, muestra un error y detiene la ejecución de la función
-      if (!player) {
-        console.error(
-          "No se encontro un reproductor para el archivo que se encuentra en ",
-          audioFile
-        );
-        return;
-      }
-
-      // Verifica si la nota anterior es la misma que la actual y la detiene si es así
-      // Esto evita que se reproduzca la misma nota repetidamente cuando ya está sonando
-      if (
-        // Verifica que haya una nota activa en la cuerda
-        activeNotes[rope] &&
-        // Verifica que el acorde es el mismo
-        activeNotes[rope].chord === chord &&
-        // Verifica que existe una fuente de audio activa
-        activeNotes[rope].source
-      ) {
-        // Detiene la fuente de audio actual
-        activeNotes[rope].source.stop();
-        console.log(`Nota anterior (${rope}, ${chord}) detenida.`);
-      }
-
-      // Detiene la nota anterior si se toca nuevamente la misma cuerda, incluso si el acorde es distinto
-      // Esto asegura que solo una nota suene por cuerda a la vez
-      if (
-        activeNotes[rope] &&
-        // Verifica que la cuerda es la misma
-        ropeData.rope === rope &&
-        activeNotes[rope].source
-      ) {
-        // Detiene la fuente de audio actual en esa cuerda
-        activeNotes[rope].source.stop();
-        console.log(
-          `Nota anterior (${rope}, ${chord}) detenida porque ha tocado la misma cuerda.`
-        );
-      }
-
-      // Si `muteOnDifferentRope` es true, detiene la nota anterior al cambiar de cuerda
-      // Esto permite que una nueva nota silencie cualquier otra nota que esté sonando en una cuerda diferente
-      if (
-        // Verifica que haya una nota tocada previamente
-        previousNotePlayed &&
-        // Verifica que la nota anterior tiene una cuerda válida
-        previousNotePlayed.rope !== null &&
-        // Asegura que la cuerda anterior es distinta a la actual
-        previousNotePlayed.rope !== rope &&
-        // Verifica que hay una nota activa en la cuerda anterior
-        activeNotes[previousNotePlayed.rope] &&
-        // Verifica que la fuente de audio de la nota anterior sigue activa
-        activeNotes[previousNotePlayed.rope]?.source &&
-        // Verifica si el modo de silencio entre cuerdas está activado
-        muteOnDifferentRope === true
-      ) {
-        activeNotes[previousNotePlayed.rope]?.source.stop(); // Detiene la nota anterior
-        console.log(
-          `Nota anterior (${previousNotePlayed.rope}, ${previousNotePlayed.chord}) detenida porque muteOnDifferentRope está en true.`
-        );
-
-        // Elimina la referencia a la nota activa en la cuerda anterior para evitar que se vuelva a detener innecesariamente
-        // Con el termino delete se elimina la propiedad de la nota en la cuerda anterior. Sintaxis: delete objeto[propiedad]
-        delete activeNotes[previousNotePlayed.rope];
-      }
-
-
-      const gainNode = new Tone.Gain(effects.gain!.gain || 0)
-      // console.log("Nodo de ganancia " + gainNode)
-
-
-      const distortionNode =
-        effects.distortion && effects.distortion.enabled
-          ? new Tone.Distortion({
-            distortion: effects.distortion.distortion,
-            oversample: effects.distortion.oversample,
-            wet: effects.distortion.wet,
-          })
-          : null;
-
-
-      const reverbNode =
-        effects.reverb && effects.reverb.enabled ?
-          new Tone.Reverb({
-            decay: effects.reverb.decay,
-            preDelay: effects.reverb.preDelay,
-            wet: effects.reverb.wet
-          })
-          : null
-
-      const vibratoNode =
-        effects.vibrato && effects.vibrato.enabled ?
-          new Tone.Vibrato({
-            frequency: effects.vibrato.frequency,
-            depth: effects.vibrato.depth,
-            type: effects.vibrato.type,
-            maxDelay: effects.vibrato.maxDelay,
-            wet: effects.vibrato.wet
-          }) : null
-
-      const chorusNode =
-        effects.chorus && effects.chorus.enabled ?
-          new Tone.Chorus({
-            delayTime: effects.chorus.delayTime,
-            depth: effects.chorus.depth,
-            feedback: effects.chorus.feedback,
-            frequency: effects.chorus.frequency,
-            spread: effects.chorus.spread,
-            type: effects.chorus.type,
-            wet: effects.chorus.wet
-          }) : null
-
-      const tremoloNode =
-        effects.tremolo && effects.tremolo.enabled
-          ? new Tone.Tremolo({
-            frequency: effects.tremolo.frequency,
-            depth: effects.tremolo.depth,
-            spread: effects.tremolo.spread,
-            type: effects.tremolo.type,
-            wet: effects.tremolo.wet,
-          }).start()
-          : null;
-
-
-      const delayNode =
-        effects.delay && effects.delay.enabled
-          ? new Tone.FeedbackDelay({
-            delayTime: effects.delay.delayTime,
-            feedback: effects.delay.feedback,
-            maxDelay: effects.delay.maxDelay,
-            wet: effects.delay.wet,
-          })
-          : null;
-
-      const phaserNode =
-        effects.phaser && effects.phaser.enabled
-          ? new Tone.Phaser({
-            frequency: effects.phaser.frequency,
-            octaves: effects.phaser.octaves,
-            stages: effects.phaser.stages,
-            Q: effects.phaser.Q,
-            baseFrequency: effects.phaser.baseFrequency,
-            wet: effects.phaser.wet,
-          })
-          : null;
-
-
-      const eq3Node =
-        effects.eq3 && effects.eq3.enabled
-          ? new Tone.EQ3({
-            low: effects.eq3.low,
-            mid: effects.eq3.mid,
-            high: effects.eq3.high,
-            lowFrequency: effects.eq3.lowFrequency,
-            highFrequency: effects.eq3.highFrequency,
-          })
-          : null;
-
-      const bufferSource = new Tone.ToneBufferSource(player.buffer);
-
-      // No encadenar el método toDestination porque reproduce 2 veces el mismo sonido
-      // .toDestination();
-
-      console.log(
-        `La nota anterior ${previousNotePlayed.rope}, ${previousNotePlayed.chord} desde audioPlayer`
-      );
-
-      // Forma para conectar solamente el nodo de volumen.
-      bufferSource.connect(gainNode);
-
-      // const effect = Tone.Effect.AudioNode. 
-
-      let chainNodes: Tone.ToneAudioNode[] = [];
-
-      if (gainNode) {
-        chainNodes = [...chainNodes, gainNode];
-      }
-
-      if (distortionNode) {
-        chainNodes = [...chainNodes, distortionNode]
-      }
-
-      if (reverbNode) {
-        chainNodes = [...chainNodes, reverbNode]
-      }
-
-      if (vibratoNode) {
-        chainNodes = [...chainNodes, vibratoNode]
-      }
-
-      if (chorusNode) {
-        chainNodes = [...chainNodes, chorusNode]
-      }
-
-      if (tremoloNode) {
-        chainNodes = [...chainNodes, tremoloNode]
-      }
-
-      if (delayNode) {
-        chainNodes = [...chainNodes, delayNode]
-      }
-
-      if (phaserNode) {
-        chainNodes = [...chainNodes, phaserNode]
-      }
-
-      if (eq3Node) {
-        chainNodes = [...chainNodes, eq3Node];
-      }
-
-      chainNodes.push(Tone.getDestination());
-      bufferSource.chain(...chainNodes);
-
-      // const startTime = Tone.now() + Tone.getContext().lookAhead
-
-      // TODO: INVESTIGAR ESTO, SOLUCIONA EL PROBLEMA DEL RENDIMIENTO
-      if (activeNotes[rope]) {
-        activeNotes[rope].source.stop("+0.001")
-      }
-
-      console.log(chainNodes);
-
-
-      // // Nota: En versiones anteriores de Tone.Js se utilizaba la clase Destination en lugar del método getDestination.
-
-      // // Reproduce el buffer
-      // bufferSource.start(startTime);
-
-      bufferSource.start();
-
-      // si un nodo es null, no lo agregas
-
-      // Alamacena la nota anterior
-      previousNotePlayed = { rope, chord };
-
-      // Almacena la nueva cuerda activa
-      activeNotes[rope] = { chord, source: bufferSource };
-
-      console.log(`Reproduciendo la nota ${rope}, ${chord} desde audioPlayer`);
-
-      // Agrega un listener global solo si se usa una tecla
-      if (keyfromkeyboard && clickMode === false) {
-        const handleKeyUp = (event: KeyboardEvent) => {
-          if (event.key === keyfromkeyboard) {
-            activeKeys[keyfromkeyboard] = false;
-            document.removeEventListener("keyup", handleKeyUp);
-            console.log(clickMode);
-          }
-        };
-
-        document.addEventListener("keyup", handleKeyUp);
-      }
-
-      // Resetea el estado de la tecla después del clic
-      if (clickMode === true) {
-        console.log(clickMode);
-        console.log("Modo de clic activado para la reproducción de la nota.");
-        activeKeys[keyfromkeyboard] = false;
-      }
-    } else {
-      console.log("Acorde no encontrado para esta cuerda.");
-    }
-  } else {
+  if (!ropeData) {
     console.log("Cuerda no encontrada.");
+    return;
   }
+  const fretData = ropeData.frets.find((fret) => fret.chord === chord);
+  if (!fretData) {
+    console.log("Acorde no encontrado para esta cuerda.");
+    return;
+  }
+
+  const audioFile = `assets${audioPath}${fretData.file}.mp3`;
+  const player = players[audioFile];
+
+  if (!player || !player.loaded) {
+    console.error("Reproductor no disponible o archivo no cargado:", audioFile);
+    return;
+  }
+
+
+  // Verifica si la nota anterior es la misma que la actual y la detiene si es así
+  // Esto evita que se reproduzca la misma nota repetidamente cuando ya está sonando
+  if (
+    // Verifica que haya una nota activa en la cuerda
+    activeNotes[rope] &&
+    // Verifica que el acorde es el mismo
+    activeNotes[rope].chord === chord &&
+    // Verifica que existe una fuente de audio activa
+    activeNotes[rope].source
+  ) {
+    // Detiene la fuente de audio actual
+    activeNotes[rope].source.stop();
+    console.log(`Nota anterior (${rope}, ${chord}) detenida.`);
+  }
+
+  // Detiene la nota anterior si se toca nuevamente la misma cuerda, incluso si el acorde es distinto
+  // Esto asegura que solo una nota suene por cuerda a la vez
+  if (
+    activeNotes[rope] &&
+    // Verifica que la cuerda es la misma
+    ropeData.rope === rope &&
+    activeNotes[rope].source
+  ) {
+    // Detiene la fuente de audio actual en esa cuerda
+    activeNotes[rope].source.stop();
+    console.log(
+      `Nota anterior (${rope}, ${chord}) detenida porque ha tocado la misma cuerda.`
+    );
+  }
+
+  // Si `muteOnDifferentRope` es true, detiene la nota anterior al cambiar de cuerda
+  // Esto permite que una nueva nota silencie cualquier otra nota que esté sonando en una cuerda diferente
+  if (
+    // Verifica que haya una nota tocada previamente
+    previousNotePlayed &&
+    // Verifica que la nota anterior tiene una cuerda válida
+    previousNotePlayed.rope !== null &&
+    // Asegura que la cuerda anterior es distinta a la actual
+    previousNotePlayed.rope !== rope &&
+    // Verifica que hay una nota activa en la cuerda anterior
+    activeNotes[previousNotePlayed.rope] &&
+    // Verifica que la fuente de audio de la nota anterior sigue activa
+    activeNotes[previousNotePlayed.rope]?.source &&
+    // Verifica si el modo de silencio entre cuerdas está activado
+    muteOnDifferentRope === true
+  ) {
+    activeNotes[previousNotePlayed.rope]?.source.stop(); // Detiene la nota anterior
+    console.log(
+      `Nota anterior (${previousNotePlayed.rope}, ${previousNotePlayed.chord}) detenida porque muteOnDifferentRope está en true.`
+    );
+
+    delete activeNotes[previousNotePlayed.rope];
+  }
+
+  // Antes de crear nuevos nodos, limpia los anteriores
+  cleanupPreviousNote(rope);
+
+  // Crear buffer source
+  const bufferSource = new Tone.ToneBufferSource(player.buffer);
+
+  console.log(player.buffer)
+  const gainNode = new Tone.Gain(effects.gain!.gain || 0)
+
+  // TODO: PORQUE CUANDO COLOCO .toDestination() COMIENZA A SONAR, PERO NO APLICA LAS DEMÁS CONDICIONES COMO SI SUBO EL VOLUMEN NO SUENA O CUANDO TOCO UNA CUERDA DISTINTA NO MANTIENE SONANDO LA NOTA ANTERIOR
+  // bufferSource.connect(gainNode)
+
+
+  // TODO: EL ERROR PUEDE PROVENIR DE AQUI
+  // Almacenar nodos para limpieza posterior
+  const effectNodes: Tone.ToneAudioNode[] = [gainNode];
+  // Configurar la cadena de audio básica
+  let lastNode: Tone.ToneAudioNode = bufferSource;
+
+  // Crear y conectar otros efectos si están habilitados
+  if (effects.distortion?.enabled) {
+    const distortionNode = new Tone.Distortion({
+      distortion: effects.distortion.distortion,
+      oversample: effects.distortion.oversample,
+      wet: effects.distortion.wet,
+    })
+
+    lastNode.connect(distortionNode);
+    lastNode = distortionNode;
+    effectNodes.push(distortionNode);
+
+    // .connect(gainNode);
+    // bufferSource.disconnect();
+
+    // TODO: LO MISMO OCURRE CUANDO COLOCO .toDestination(), PERO NO APLICA LA DISTORSIÓN 
+    // bufferSource.connect(distortionNode).toDestination()
+    // effectNodes.push(distortionNode)
+
+    // console.log('EFECTO DE SONIDO DISTORSIÓN')
+  }
+
+  if (effects.reverb?.enabled) {
+    const reverbNode = new Tone.Reverb({
+      decay: effects.reverb.decay,
+      preDelay: effects.reverb.preDelay,
+      wet: effects.reverb.wet,
+    })
+
+    // .connect(gainNode);
+    // bufferSource.disconnect();
+    // bufferSource.connect(reverbNode);
+
+    lastNode.connect(reverbNode);
+    lastNode = reverbNode;
+    effectNodes.push(reverbNode);
+
+  }
+
+  if (effects.vibrato?.enabled) {
+    const vibratoNode = new Tone.Vibrato({
+      frequency: effects.vibrato.frequency,
+      depth: effects.vibrato.depth,
+      type: effects.vibrato.type,
+      maxDelay: effects.vibrato.maxDelay,
+      wet: effects.vibrato.wet,
+    })
+    // .connect(gainNode);
+    // bufferSource.disconnect();
+    // bufferSource.connect(vibratoNode);
+
+    lastNode.connect(vibratoNode);
+    lastNode = vibratoNode;
+    effectNodes.push(vibratoNode);
+
+  }
+
+  if (effects.chorus?.enabled) {
+    const chorusNode = new Tone.Chorus({
+      delayTime: effects.chorus.delayTime,
+      depth: effects.chorus.depth,
+      feedback: effects.chorus.feedback,
+      frequency: effects.chorus.frequency,
+      spread: effects.chorus.spread,
+      type: effects.chorus.type,
+      wet: effects.chorus.wet,
+    })
+    // .connect(gainNode);
+    // bufferSource.disconnect();
+    // bufferSource.connect(chorusNode);
+
+    lastNode.connect(chorusNode);
+    lastNode = chorusNode;
+    effectNodes.push(chorusNode);
+  }
+
+  if (effects.tremolo?.enabled) {
+    const tremoloNode = new Tone.Tremolo({
+      frequency: effects.tremolo.frequency,
+      depth: effects.tremolo.depth,
+      spread: effects.tremolo.spread,
+      type: effects.tremolo.type,
+      wet: effects.tremolo.wet,
+    }).start()
+
+    // .connect(gainNode);
+    // bufferSource.disconnect();
+    // bufferSource.connect(tremoloNode);
+
+    lastNode.connect(tremoloNode);
+    lastNode = tremoloNode;
+    effectNodes.push(tremoloNode);
+  }
+
+  if (effects.delay?.enabled) {
+    const delayNode = new Tone.FeedbackDelay({
+      delayTime: effects.delay.delayTime,
+      feedback: effects.delay.feedback,
+      maxDelay: effects.delay.maxDelay,
+      wet: effects.delay.wet,
+    })
+
+    // .connect(gainNode);
+    // bufferSource.disconnect();
+    // bufferSource.connect(delayNode);
+
+    lastNode.connect(delayNode);
+    lastNode = delayNode;
+    effectNodes.push(delayNode);
+  }
+
+  if (effects.phaser?.enabled) {
+    const phaserNode = new Tone.Phaser({
+      frequency: effects.phaser.frequency,
+      octaves: effects.phaser.octaves,
+      stages: effects.phaser.stages,
+      Q: effects.phaser.Q,
+      baseFrequency: effects.phaser.baseFrequency,
+      wet: effects.phaser.wet,
+    })
+
+    // .connect(gainNode);
+    // bufferSource.disconnect();
+    // bufferSource.connect(phaserNode);
+
+    lastNode.connect(phaserNode);
+    lastNode = phaserNode;
+    effectNodes.push(phaserNode);
+  }
+
+  if (effects.eq3?.enabled) {
+    const eq3Node = new Tone.EQ3({
+      low: effects.eq3.low,
+      mid: effects.eq3.mid,
+      high: effects.eq3.high,
+      lowFrequency: effects.eq3.lowFrequency,
+      highFrequency: effects.eq3.highFrequency,
+    })
+
+    // .connect(gainNode);
+    // bufferSource.disconnect();
+    // bufferSource.connect(eq3Node);
+
+    lastNode.connect(eq3Node);
+    lastNode = eq3Node;
+    effectNodes.push(eq3Node);
+
+  }
+
+  // Conectar el último nodo al gainNode
+  lastNode.connect(gainNode);
+
+  // Conectar el gainNode al destino final (SOLO UNA VEZ)
+  gainNode.toDestination();
+
+  // Configurar tiempo de inicio
+  const now = Tone.now();
+  bufferSource.start(now);
+  bufferSource.stop(now + bufferSource.buffer.duration);
+
+  // console.log('Player state:', {
+  //   loaded: player.loaded,
+  //   buffer: player.buffer,
+  //   duration: player.buffer?.duration
+  // });
+
+
+  // Tone.Draw.schedule(() => {
+  //   console.log("Audio context estado:", Tone.context.state);
+  //   console.log('Current time:', Tone.now());
+
+  //   console.log("Número de nodos activos:", /* contador de nodos */);
+  // }, now);
+
+
+  // si un nodo es null, no lo agregas
+  // Almacenar todo junto
+  activeNotes[rope] = {
+    chord,
+    source: bufferSource,
+    effectNodes
+  };
+
+  // Alamacena la nota anterior
+  previousNotePlayed = { rope, chord };
+
+  console.log(`Reproduciendo la nota ${rope}, ${chord} desde audioPlayer`);
+
+  // Almacena la nueva cuerda activa
+  // activeNotes[rope] = { chord, source: bufferSource };
+
+
+  // Agrega un listener global solo si se usa una tecla
+  if (keyfromkeyboard && clickMode === false) {
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (event.key === keyfromkeyboard) {
+        activeKeys[keyfromkeyboard] = false;
+        document.removeEventListener("keyup", handleKeyUp);
+      }
+    };
+
+    document.addEventListener("keyup", handleKeyUp);
+  }
+
+  // Resetea el estado de la tecla después del clic
+  if (clickMode === true) {
+    // console.log(clickMode);
+    // console.log("Modo de clic activado para la reproducción de la nota.");
+    activeKeys[keyfromkeyboard] = false;
+  }
+
 }
 
-// Función para silenciar todas las notas activas en todas las cuerdas
+// // Función para silenciar todas las notas activas en todas las cuerdas
+// export function muteAll() {
+//   // Itera sobre cada cuerda en el objeto activeNotes
+//   for (const rope in activeNotes) {
+//     // Verifica que la propiedad pertenece a activeNotes y no a su prototipo
+//     // Sintaxis correcta hasOwnProperty.call
+//     if (!Object.prototype.hasOwnProperty.call(activeNotes, rope)) {
+//       const note = activeNotes[rope];
+
+//       // Si la nota en esta cuerda tiene una fuente de audio activa, la detiene
+//       if (note?.source) {
+//         // Detener la reproducción de audio
+//         note.source.stop();
+//         console.log(`Nota en cuerda ${rope} silenciada.`);
+//       }
+
+//       // Elimina la referencia de la nota en activeNotes para liberar recursos
+//       delete activeNotes[rope];
+//     }
+//   }
+
+//   // Restablece el registro de la última nota reproducida para indicar que no hay ninguna nota activa
+//   previousNotePlayed = { rope: null, chord: null };
+//   console.log("Todas las notas han sido silenciadas.");
+// }
+
+
 export function muteAll() {
-  // Itera sobre cada cuerda en el objeto activeNotes
   for (const rope in activeNotes) {
-    // Verifica que la propiedad pertenece a activeNotes y no a su prototipo
-    // Sintaxis correcta hasOwnProperty.call
-    if (!Object.prototype.hasOwnProperty.call(activeNotes, rope)) {
+    if (Object.prototype.hasOwnProperty.call(activeNotes, rope)) {
       const note = activeNotes[rope];
-
-      // Si la nota en esta cuerda tiene una fuente de audio activa, la detiene
-      if (note?.source) {
-        // Detener la reproducción de audio
+      if (note) {
         note.source.stop();
-        console.log(`Nota en cuerda ${rope} silenciada.`);
+        note.source.dispose();
+        note.effectNodes.forEach(node => node.dispose());
+        delete activeNotes[rope];
       }
-
-      // Elimina la referencia de la nota en activeNotes para liberar recursos
-      delete activeNotes[rope];
     }
   }
-
-  // Restablece el registro de la última nota reproducida para indicar que no hay ninguna nota activa
   previousNotePlayed = { rope: null, chord: null };
-  console.log("Todas las notas han sido silenciadas.");
 }
 
 // Función para silenciar solo la nota actualmente activa en la cuerda previa

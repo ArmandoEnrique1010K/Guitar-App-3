@@ -91,7 +91,19 @@ export default function ChordView({
       //  window.addEventListener("keyup", handleKeyUpStopSound);
       //}
     };
-  }, [keyFromKeyboard, mutePreviousNote]);
+  }, [
+    keyFromKeyboard,
+    mutePreviousNote,
+    gain,
+    distortion,
+    reverb,
+    vibrato,
+    chorus,
+    tremolo,
+    delay,
+    phaser,
+    eq3,
+  ]);
 
   return (
     <button onClick={handlePlaySound}>

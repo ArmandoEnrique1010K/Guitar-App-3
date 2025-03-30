@@ -1,3 +1,4 @@
+import * as Tone from "tone";
 
 export type Neck = {
   rope: number
@@ -112,4 +113,27 @@ export type Effects = {
 export type Note = {
   rope: number | null;
   chord: number | null;
+}
+
+
+export type ActiveNote = {
+  chord: number;
+  source: Tone.ToneBufferSource;
+  effectNodes: Tone.ToneAudioNode[]; // Almacena los nodos de efectos
+}
+
+export type PreviousNote = {
+  rope: number | null;
+  chord: number | null
+}
+
+export type PlaySoundParams = {
+  name: string;
+  data: { rope: number; frets: { chord: number; file: string }[] }[];
+  rope: number;
+  chord: number;
+  muteOnDifferentRope: boolean;
+  keyFromKeyboard: string;
+  clickMode: boolean;
+  effects: Effects;
 }
