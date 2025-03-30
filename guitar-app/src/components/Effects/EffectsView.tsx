@@ -102,9 +102,9 @@ export default function EffectsView() {
       <label>Decay</label>
       <input
         type="range"
-        min={0.01}
+        min={0.1}
         max={10}
-        step={0.01}
+        step={0.1}
         value={reverb.decay}
         onChange={(e) =>
           setReverb({
@@ -116,9 +116,9 @@ export default function EffectsView() {
       <label>PreDelay</label>
       <input
         type="range"
-        min={0.01}
-        max={5}
-        step={0.01}
+        min={0}
+        max={0.1}
+        step={0.001}
         value={reverb.preDelay}
         onChange={(e) =>
           setReverb({
@@ -205,9 +205,9 @@ export default function EffectsView() {
       <label>MaxDelay</label>
       <input
         type="range"
-        min={0.1}
-        max={15}
-        step={0.1}
+        min={0.005}
+        max={0.1}
+        step={0.001}
         value={vibrato.maxDelay}
         onChange={(e) =>
           setVibrato({

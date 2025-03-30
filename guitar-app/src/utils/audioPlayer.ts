@@ -118,7 +118,9 @@ export function playSound(
   const currentNoteId = generateNoteId();
 
   // Manejo de notas anteriores
-  handlePreviousNotes(rope, chord, muteOnDifferentRope, holdModeEnabled, holdModeTime, currentNoteId);
+  handlePreviousNotes(rope, chord, muteOnDifferentRope, holdModeEnabled, holdModeTime,
+    //  currentNoteId
+  );
 
   // Limpiar nota anterior en la misma cuerda
   // cleanupPreviousNote(rope);
@@ -529,14 +531,14 @@ function handlePreviousNotes(
   muteOnDifferentRope: boolean,
   holdMode: boolean,
   holdModeTime: number,
-  currentNoteId: string
+  // currentNoteId: string
 ) {
 
 
   const previousNote = activeNotes[rope];
 
   // Manejo de notas en la misma cuerda
-  if (previousNote && previousNote.noteId !== currentNoteId) {
+  if (previousNote && previousNote.chord !== chord) {
     if (holdMode) {
       // Configurar fadeout suave
       if (previousNote.source) {
@@ -544,10 +546,12 @@ function handlePreviousNotes(
       }
       // Limpiar después del tiempo de hold
       setTimeout(() => {
-        if (activeNotes[rope]?.noteId === previousNote.noteId) {
+        if (activeNotes[rope]?.chord === previousNote.chord) {
           cleanupNoteResources(previousNote);
           delete activeNotes[rope];
         }
+
+        console.log("SILENCIANDO NOTA LUEGO DE ", holdModeTime)
       }, holdModeTime);
     } else {
       // Comportamiento normal: silenciar inmediatamente
