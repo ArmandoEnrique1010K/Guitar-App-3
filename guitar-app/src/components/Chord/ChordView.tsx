@@ -19,14 +19,14 @@ export default function ChordView({
     gain,
     // distortion,
     // reverb,
-    vibrato,
-    chorus,
-    tremolo,
-    delay,
-    phaser,
-    eq3,
-    compressor,
-    autoWah,
+    // vibrato,
+    // chorus,
+    // tremolo,
+    // delay,
+    // phaser,
+    // eq3,
+    // compressor,
+    // autoWah,
     mutePreviousNote,
     setNotePlayed,
     pulseMode,
@@ -35,7 +35,18 @@ export default function ChordView({
     effects,
   } = useGuitar();
 
-  const { distortion, reverb } = effects;
+  const {
+    distortion,
+    reverb,
+    vibrato,
+    chorus,
+    tremolo,
+    delay,
+    phaser,
+    eq3,
+    compressor,
+    autoWah,
+  } = effects;
 
   const handlePlaySound = (clickMode: boolean) => {
     setNotePlayed({ rope, chord });

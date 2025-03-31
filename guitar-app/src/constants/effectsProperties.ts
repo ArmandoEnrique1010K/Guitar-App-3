@@ -21,7 +21,7 @@ export const DISTORTION_OVERSAMPLE_UNIT = ""
 export const DISTORTION_WET_MIN = 0;
 export const DISTORTION_WET_MAX = 1;
 export const DISTORTION_WET_STEP = 0.1;
-export const DISTORTION_WET_DEFAULT = 0.5
+export const DISTORTION_WET_DEFAULT = 1
 export const DISTORTION_WET_UNIT = "%"
 
 
@@ -45,7 +45,7 @@ export const REVERB_PREDELAY_UNIT = "s"
 export const REVERB_WET_MIN = 0;
 export const REVERB_WET_MAX = 1;
 export const REVERB_WET_STEP = 0.1;
-export const REVERB_WET_DEFAULT = 0.5
+export const REVERB_WET_DEFAULT = 1
 export const REVERB_WET_UNIT = "%"
 
 // VIBRATO
@@ -83,7 +83,8 @@ export const VIBRATO_TYPE_UNIT = ""
 export const VIBRATO_WET_MIN = 0; // Nivel mínimo de mezcla
 export const VIBRATO_WET_MAX = 1; // Nivel máximo de mezcla
 export const VIBRATO_WET_STEP = 0.1; // Incremento del nivel de mezcla
-export const VIBRATO_WET_DEFAULT = 0.5; // Valor por defecto
+export const VIBRATO_WET_DEFAULT = 1; // Valor por defecto
+export const VIBRATO_WET_UNIT = "%"
 
 
 // CHORUS
@@ -104,7 +105,7 @@ export const CHORUS_DEPTH_UNIT = ""; // Adimensional
 
 // Feedback (retroalimentación)
 export const CHORUS_FEEDBACK_MIN = 0; // Retroalimentación mínima
-export const CHORUS_FEEDBACK_MAX = 1; // Retroalimentación máxima
+export const CHORUS_FEEDBACK_MAX = 0.99; // Retroalimentación máxima
 export const CHORUS_FEEDBACK_STEP = 0.01; // Incremento de retroalimentación
 export const CHORUS_FEEDBACK_DEFAULT = 0.4; // Valor por defecto
 export const CHORUS_FEEDBACK_UNIT = ""; // Adimensional
@@ -128,7 +129,7 @@ export const CHORUS_WET_MIN = 0; // Nivel mínimo de mezcla
 export const CHORUS_WET_MAX = 1; // Nivel máximo de mezcla
 export const CHORUS_WET_STEP = 0.1; // Incremento del nivel de mezcla
 export const CHORUS_WET_DEFAULT = 1; // Valor por defecto
-export const CHORUS_WET_UNIT = ""; // Adimensional
+export const CHORUS_WET_UNIT = "%"; // Adimensional
 
 // Type (forma de onda)
 export const CHORUS_TYPE_SINE = "sine";
@@ -175,7 +176,7 @@ export const TREMOLO_WET_MIN = 0; // Nivel mínimo de mezcla
 export const TREMOLO_WET_MAX = 1; // Nivel máximo de mezcla
 export const TREMOLO_WET_STEP = 0.1; // Incremento del nivel de mezcla
 export const TREMOLO_WET_DEFAULT = 0.5; // Valor por defecto
-export const TREMOLO_WET_UNIT = ""; // Adimensional
+export const TREMOLO_WET_UNIT = "%"; // Adimensional
 
 // DELAY
 
@@ -205,7 +206,7 @@ export const DELAY_WET_MIN = 0; // Nivel mínimo de mezcla
 export const DELAY_WET_MAX = 1; // Nivel máximo de mezcla
 export const DELAY_WET_STEP = 0.1; // Incremento del nivel de mezcla
 export const DELAY_WET_DEFAULT = 0.5; // Valor por defecto
-export const DELAY_WET_UNIT = ""; // Adimensional
+export const DELAY_WET_UNIT = "%"; // Adimensional
 
 
 // PHASER
@@ -250,7 +251,7 @@ export const PHASER_WET_MIN = 0; // Nivel mínimo de mezcla
 export const PHASER_WET_MAX = 1; // Nivel máximo de mezcla
 export const PHASER_WET_STEP = 0.1; // Incremento del nivel de mezcla
 export const PHASER_WET_DEFAULT = 0.5; // Valor por defecto
-export const PHASER_WET_UNIT = ""; // Adimensional
+export const PHASER_WET_UNIT = "%"; // Adimensional
 
 
 // EQ3
@@ -290,12 +291,6 @@ export const EQ3_HIGH_FREQUENCY_STEP = 100; // Incremento de frecuencia
 export const EQ3_HIGH_FREQUENCY_DEFAULT = 2500; // Valor por defecto
 export const EQ3_HIGH_FREQUENCY_UNIT = "Hz"; // Unidad de medida
 
-// Wet (mezcla)
-export const EQ3_WET_MIN = 0; // Nivel mínimo de mezcla
-export const EQ3_WET_MAX = 1; // Nivel máximo de mezcla
-export const EQ3_WET_STEP = 0.1; // Incremento del nivel de mezcla
-export const EQ3_WET_DEFAULT = 0.5; // Valor por defecto
-export const EQ3_WET_UNIT = ""; // Adimensional
 
 
 // COMPRESSOR
@@ -335,12 +330,6 @@ export const COMPRESSOR_KNEE_STEP = 1; // Incremento de la rodilla
 export const COMPRESSOR_KNEE_DEFAULT = 30; // Valor por defecto
 export const COMPRESSOR_KNEE_UNIT = "dB"; // Unidad de medida
 
-// Wet (mezcla)
-export const COMPRESSOR_WET_MIN = 0; // Nivel mínimo de mezcla
-export const COMPRESSOR_WET_MAX = 1; // Nivel máximo de mezcla
-export const COMPRESSOR_WET_STEP = 0.1; // Incremento del nivel de mezcla
-export const COMPRESSOR_WET_DEFAULT = 0.5; // Valor por defecto
-export const COMPRESSOR_WET_UNIT = ""; // Adimensional
 
 
 // AUTOWAH
@@ -392,4 +381,4 @@ export const AUTOWAH_WET_MIN = 0; // Nivel mínimo de mezcla
 export const AUTOWAH_WET_MAX = 1; // Nivel máximo de mezcla
 export const AUTOWAH_WET_STEP = 0.1; // Incremento del nivel de mezcla
 export const AUTOWAH_WET_DEFAULT = 0.5; // Valor por defecto
-export const AUTOWAH_WET_UNIT = ""; // Adimensional
+export const AUTOWAH_WET_UNIT = "%"; // Adimensional

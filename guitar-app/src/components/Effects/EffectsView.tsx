@@ -1,4 +1,96 @@
 import {
+  AUTOWAH_BASE_FREQUENCY_MAX,
+  AUTOWAH_BASE_FREQUENCY_MIN,
+  AUTOWAH_BASE_FREQUENCY_STEP,
+  AUTOWAH_BASE_FREQUENCY_UNIT,
+  AUTOWAH_FOLLOWER_MAX,
+  AUTOWAH_FOLLOWER_MIN,
+  AUTOWAH_FOLLOWER_STEP,
+  AUTOWAH_FOLLOWER_UNIT,
+  AUTOWAH_GAIN_MAX,
+  AUTOWAH_GAIN_MIN,
+  AUTOWAH_GAIN_STEP,
+  AUTOWAH_GAIN_UNIT,
+  AUTOWAH_OCTAVES_MAX,
+  AUTOWAH_OCTAVES_MIN,
+  AUTOWAH_OCTAVES_STEP,
+  AUTOWAH_OCTAVES_UNIT,
+  AUTOWAH_Q_MAX,
+  AUTOWAH_Q_MIN,
+  AUTOWAH_Q_STEP,
+  AUTOWAH_Q_UNIT,
+  AUTOWAH_SENSITIVITY_MAX,
+  AUTOWAH_SENSITIVITY_MIN,
+  AUTOWAH_SENSITIVITY_STEP,
+  AUTOWAH_SENSITIVITY_UNIT,
+  AUTOWAH_WET_MAX,
+  AUTOWAH_WET_MIN,
+  AUTOWAH_WET_STEP,
+  AUTOWAH_WET_UNIT,
+  CHORUS_DELAY_TIME_MAX,
+  CHORUS_DELAY_TIME_MIN,
+  CHORUS_DELAY_TIME_STEP,
+  CHORUS_DELAY_TIME_UNIT,
+  CHORUS_DEPTH_MAX,
+  CHORUS_DEPTH_MIN,
+  CHORUS_DEPTH_STEP,
+  CHORUS_DEPTH_UNIT,
+  CHORUS_FEEDBACK_MAX,
+  CHORUS_FEEDBACK_MIN,
+  CHORUS_FEEDBACK_STEP,
+  CHORUS_FEEDBACK_UNIT,
+  CHORUS_FREQUENCY_MAX,
+  CHORUS_FREQUENCY_MIN,
+  CHORUS_FREQUENCY_STEP,
+  CHORUS_FREQUENCY_UNIT,
+  CHORUS_SPREAD_MAX,
+  CHORUS_SPREAD_MIN,
+  CHORUS_SPREAD_STEP,
+  CHORUS_SPREAD_UNIT,
+  CHORUS_TYPE_SAWTOOTH,
+  CHORUS_TYPE_SINE,
+  CHORUS_TYPE_SQUARE,
+  CHORUS_TYPE_TRIANGLE,
+  CHORUS_WET_MAX,
+  CHORUS_WET_MIN,
+  CHORUS_WET_STEP,
+  CHORUS_WET_UNIT,
+  COMPRESSOR_ATTACK_MAX,
+  COMPRESSOR_ATTACK_MIN,
+  COMPRESSOR_ATTACK_STEP,
+  COMPRESSOR_ATTACK_UNIT,
+  COMPRESSOR_KNEE_MAX,
+  COMPRESSOR_KNEE_MIN,
+  COMPRESSOR_KNEE_STEP,
+  COMPRESSOR_KNEE_UNIT,
+  COMPRESSOR_RATIO_MAX,
+  COMPRESSOR_RATIO_MIN,
+  COMPRESSOR_RATIO_STEP,
+  COMPRESSOR_RATIO_UNIT,
+  COMPRESSOR_RELEASE_MAX,
+  COMPRESSOR_RELEASE_MIN,
+  COMPRESSOR_RELEASE_STEP,
+  COMPRESSOR_RELEASE_UNIT,
+  COMPRESSOR_THRESHOLD_MAX,
+  COMPRESSOR_THRESHOLD_MIN,
+  COMPRESSOR_THRESHOLD_STEP,
+  COMPRESSOR_THRESHOLD_UNIT,
+  DELAY_FEEDBACK_MAX,
+  DELAY_FEEDBACK_MIN,
+  DELAY_FEEDBACK_STEP,
+  DELAY_FEEDBACK_UNIT,
+  DELAY_MAX_DELAY_MAX,
+  DELAY_MAX_DELAY_MIN,
+  DELAY_MAX_DELAY_STEP,
+  DELAY_MAX_DELAY_UNIT,
+  DELAY_TIME_MAX,
+  DELAY_TIME_MIN,
+  DELAY_TIME_STEP,
+  DELAY_TIME_UNIT,
+  DELAY_WET_MAX,
+  DELAY_WET_MIN,
+  DELAY_WET_STEP,
+  DELAY_WET_UNIT,
   DISTORTION_DISTORTION_MAX,
   DISTORTION_DISTORTION_MIN,
   DISTORTION_DISTORTION_STEP,
@@ -10,6 +102,50 @@ import {
   DISTORTION_WET_MIN,
   DISTORTION_WET_STEP,
   DISTORTION_WET_UNIT,
+  EQ3_HIGH_FREQUENCY_MAX,
+  EQ3_HIGH_FREQUENCY_MIN,
+  EQ3_HIGH_FREQUENCY_STEP,
+  EQ3_HIGH_FREQUENCY_UNIT,
+  EQ3_HIGH_MAX,
+  EQ3_HIGH_MIN,
+  EQ3_HIGH_STEP,
+  EQ3_HIGH_UNIT,
+  EQ3_LOW_FREQUENCY_MAX,
+  EQ3_LOW_FREQUENCY_MIN,
+  EQ3_LOW_FREQUENCY_STEP,
+  EQ3_LOW_FREQUENCY_UNIT,
+  EQ3_LOW_MAX,
+  EQ3_LOW_MIN,
+  EQ3_LOW_STEP,
+  EQ3_LOW_UNIT,
+  EQ3_MID_MAX,
+  EQ3_MID_MIN,
+  EQ3_MID_STEP,
+  EQ3_MID_UNIT,
+  PHASER_BASE_FREQUENCY_MAX,
+  PHASER_BASE_FREQUENCY_MIN,
+  PHASER_BASE_FREQUENCY_STEP,
+  PHASER_BASE_FREQUENCY_UNIT,
+  PHASER_FREQUENCY_MAX,
+  PHASER_FREQUENCY_MIN,
+  PHASER_FREQUENCY_STEP,
+  PHASER_FREQUENCY_UNIT,
+  PHASER_OCTAVES_MAX,
+  PHASER_OCTAVES_MIN,
+  PHASER_OCTAVES_STEP,
+  PHASER_OCTAVES_UNIT,
+  PHASER_Q_MAX,
+  PHASER_Q_MIN,
+  PHASER_Q_STEP,
+  PHASER_Q_UNIT,
+  PHASER_STAGES_MAX,
+  PHASER_STAGES_MIN,
+  PHASER_STAGES_STEP,
+  PHASER_STAGES_UNIT,
+  PHASER_WET_MAX,
+  PHASER_WET_MIN,
+  PHASER_WET_STEP,
+  PHASER_WET_UNIT,
   REVERB_DECAY_MAX,
   REVERB_DECAY_MIN,
   REVERB_DECAY_STEP,
@@ -18,6 +154,50 @@ import {
   REVERB_PREDELAY_MIN,
   REVERB_PREDELAY_STEP,
   REVERB_PREDELAY_UNIT,
+  REVERB_WET_MAX,
+  REVERB_WET_MIN,
+  REVERB_WET_STEP,
+  REVERB_WET_UNIT,
+  TREMOLO_DEPTH_MAX,
+  TREMOLO_DEPTH_MIN,
+  TREMOLO_DEPTH_STEP,
+  TREMOLO_DEPTH_UNIT,
+  TREMOLO_FREQUENCY_MAX,
+  TREMOLO_FREQUENCY_MIN,
+  TREMOLO_FREQUENCY_STEP,
+  TREMOLO_FREQUENCY_UNIT,
+  TREMOLO_SPREAD_MAX,
+  TREMOLO_SPREAD_MIN,
+  TREMOLO_SPREAD_STEP,
+  TREMOLO_SPREAD_UNIT,
+  TREMOLO_TYPE_SAWTOOTH,
+  TREMOLO_TYPE_SINE,
+  TREMOLO_TYPE_SQUARE,
+  TREMOLO_TYPE_TRIANGLE,
+  TREMOLO_WET_MAX,
+  TREMOLO_WET_MIN,
+  TREMOLO_WET_STEP,
+  TREMOLO_WET_UNIT,
+  VIBRATO_DEPTH_MAX,
+  VIBRATO_DEPTH_MIN,
+  VIBRATO_DEPTH_STEP,
+  VIBRATO_DEPTH_UNIT,
+  VIBRATO_FREQUENCY_MAX,
+  VIBRATO_FREQUENCY_MIN,
+  VIBRATO_FREQUENCY_STEP,
+  VIBRATO_FREQUENCY_UNIT,
+  VIBRATO_MAX_DELAY_MAX,
+  VIBRATO_MAX_DELAY_MIN,
+  VIBRATO_MAX_DELAY_STEP,
+  VIBRATO_MAX_DELAY_UNIT,
+  VIBRATO_TYPE_SAWTOOTH,
+  VIBRATO_TYPE_SINE,
+  VIBRATO_TYPE_SQUARE,
+  VIBRATO_TYPE_TRIANGLE,
+  VIBRATO_WET_MAX,
+  VIBRATO_WET_MIN,
+  VIBRATO_WET_STEP,
+  VIBRATO_WET_UNIT,
 } from "../../constants/effectsProperties";
 import { useGuitar } from "../../hooks/useGuitar";
 import DropdownControlView from "./DropdownControlView";
@@ -28,24 +208,24 @@ export default function EffectsView() {
   const {
     // distortion,
     // setDistortion,
-    reverb,
-    setReverb,
-    vibrato,
-    setVibrato,
-    chorus,
-    setChorus,
-    tremolo,
-    setTremolo,
-    delay,
-    setDelay,
-    phaser,
-    setPhaser,
-    eq3,
-    setEq3,
-    compressor,
-    setCompressor,
-    autoWah,
-    setAutoWah,
+    // reverb,
+    // setReverb,
+    // vibrato,
+    // setVibrato,
+    // chorus,
+    // setChorus,
+    // tremolo,
+    // setTremolo,
+    // delay,
+    // setDelay,
+    // phaser,
+    // setPhaser,
+    // eq3,
+    // setEq3,
+    // compressor,
+    // setCompressor,
+    // autoWah,
+    // setAutoWah,
 
     effects,
     handleChange,
@@ -73,7 +253,6 @@ export default function EffectsView() {
               step={DISTORTION_DISTORTION_STEP}
               unit={DISTORTION_DISTORTION_UNIT}
             />
-
             <DropdownControlView
               name="distortion"
               property="oversample"
@@ -131,789 +310,599 @@ export default function EffectsView() {
               step={REVERB_PREDELAY_STEP}
               unit={REVERB_PREDELAY_UNIT}
             />
+
+            <SliderControlView
+              name="reverb"
+              property="wet"
+              label="Mezcla"
+              value={effects.reverb?.wet}
+              handleChange={handleChange}
+              min={REVERB_WET_MIN}
+              max={REVERB_WET_MAX}
+              step={REVERB_WET_STEP}
+              unit={REVERB_WET_UNIT}
+            />
           </>
         }
       />
-      {/* <h3>Distorsión</h3>
-      <input
-        type="checkbox"
-        name="distortion"
-        checked={effects.distortion?.enabled}
-        onChange={handleChange}
-      />
-      Habilitar
-      <br />
-      <label>Distortion</label>
-      <input
-        name="distortion"
-        data-property="distortion"
-        type="range"
-        min={DISTORTION_DISTORTION_MIN}
-        max={DISTORTION_DISTORTION_MAX}
-        step={DISTORTION_DISTORTION_STEP}
-        value={effects.distortion?.distortion}
-        onChange={handleChange}
-      />
-      <br />
-      <label>Oversample</label>
-      <select
-        name="distortion"
-        data-property="oversample"
-        onChange={handleChange}
-      >
-        <option value={DISTORTION_OVERSAMPLE_NONE}>
-          {DISTORTION_OVERSAMPLE_NONE}
-        </option>
-        <option value={DISTORTION_OVERSAMPLE_2X}>
-          {DISTORTION_OVERSAMPLE_2X}
-        </option>
-        <option value={DISTORTION_OVERSAMPLE_4X}>
-          {DISTORTION_OVERSAMPLE_4X}
-        </option>
-      </select>
-      <br /> */}
-      {/* <label>Wet</label>
-      <input
-        type="range"
-        data-property="wet" // Especifica la propiedad a actualizar
-        name="distortion"
-        min={DISTORTION_WET_MIN}
-        max={DISTORTION_WET_MAX}
-        step={DISTORTION_WET_STEP}
-        value={effects.distortion?.wet}
-        onChange={handleChange}
-      /> */}
-      {/* https://tonejs.github.io/docs/r13/Reverb */}
-      <h3>Reverberación</h3>
-      <input
-        type="checkbox"
-        checked={reverb.enabled}
-        onChange={(e) =>
-          setReverb({
-            ...reverb,
-            enabled: e.target.checked,
-          })
-        }
-      />
-      Habilitar
-      <br />
-      <label>Decay</label>
-      <input
-        type="range"
-        min={0.1}
-        max={10}
-        step={0.1}
-        value={reverb.decay}
-        onChange={(e) =>
-          setReverb({
-            ...reverb,
-            decay: parseFloat(e.target.value),
-          })
-        }
-      />
-      <label>PreDelay</label>
-      <input
-        type="range"
-        min={0}
-        max={0.1}
-        step={0.001}
-        value={reverb.preDelay}
-        onChange={(e) =>
-          setReverb({
-            ...reverb,
-            preDelay: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Wet</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.1}
-        value={reverb.wet}
-        onChange={(e) =>
-          setReverb({
-            ...reverb,
-            wet: parseFloat(e.target.value),
-          })
-        }
-      />
       {/* https://tonejs.github.io/docs/r13/Vibrato */}
-      <h3>Vibrato</h3>
-      <input
-        type="checkbox"
-        checked={vibrato.enabled}
-        onChange={(e) =>
-          setVibrato({
-            ...vibrato,
-            enabled: e.target.checked,
-          })
+      <EffectControlView
+        name="vibrato"
+        label="Vibración"
+        checked={effects.vibrato?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="vibrato"
+              property="frequency"
+              label="Frecuencia"
+              value={effects.vibrato?.frequency}
+              handleChange={handleChange}
+              min={VIBRATO_FREQUENCY_MIN}
+              max={VIBRATO_FREQUENCY_MAX}
+              step={VIBRATO_FREQUENCY_STEP}
+              unit={VIBRATO_FREQUENCY_UNIT}
+            />
+            <SliderControlView
+              name="vibrato"
+              property="depth"
+              label="Profundidad"
+              value={effects.vibrato?.depth}
+              handleChange={handleChange}
+              min={VIBRATO_DEPTH_MIN}
+              max={VIBRATO_DEPTH_MAX}
+              step={VIBRATO_DEPTH_STEP}
+              unit={VIBRATO_DEPTH_UNIT}
+            />
+            <DropdownControlView
+              name="vibrato"
+              property="type"
+              label="Tipo"
+              value={effects.vibrato?.type}
+              handleChange={handleChange}
+              options={[
+                VIBRATO_TYPE_SINE,
+                VIBRATO_TYPE_SQUARE,
+                VIBRATO_TYPE_TRIANGLE,
+                VIBRATO_TYPE_SAWTOOTH,
+              ]}
+            />
+            <SliderControlView
+              name="vibrato"
+              property="maxDelay"
+              label="Retardo Máximo"
+              value={effects.vibrato?.maxDelay}
+              handleChange={handleChange}
+              min={VIBRATO_MAX_DELAY_MIN}
+              max={VIBRATO_MAX_DELAY_MAX}
+              step={VIBRATO_MAX_DELAY_STEP}
+              unit={VIBRATO_MAX_DELAY_UNIT}
+            />
+            <SliderControlView
+              name="vibrato"
+              property="wet"
+              label="Mezcla"
+              value={effects.vibrato?.wet}
+              handleChange={handleChange}
+              min={VIBRATO_WET_MIN}
+              max={VIBRATO_WET_MAX}
+              step={VIBRATO_WET_STEP}
+              unit={VIBRATO_WET_UNIT}
+            />
+          </>
         }
       />
-      Habilitar
-      <br />
-      <label>Frequency</label>
-      <input
-        type="range"
-        min={0.1}
-        max={10}
-        step={0.1}
-        value={vibrato.frequency}
-        onChange={(e) =>
-          setVibrato({
-            ...vibrato,
-            frequency: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Depth</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.01}
-        value={vibrato.depth}
-        onChange={(e) =>
-          setVibrato({
-            ...vibrato,
-            depth: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Type</label>
-      <select
-        value={vibrato.type}
-        onChange={(e) =>
-          setVibrato({
-            ...vibrato,
-            type: e.target.value as "sine" | "square" | "triangle" | "sawtooth",
-          })
-        }
-      >
-        <option value="sine">sine</option>
-        <option value="square">square</option>
-        <option value="triangle">triangle</option>
-        <option value="sawtooth">sawtooth</option>
-      </select>
-      <br />
-      <label>MaxDelay</label>
-      <input
-        type="range"
-        min={0.005}
-        max={0.1}
-        step={0.001}
-        value={vibrato.maxDelay}
-        onChange={(e) =>
-          setVibrato({
-            ...vibrato,
-            maxDelay: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Wet</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.1}
-        value={vibrato.wet}
-        onChange={(e) =>
-          setVibrato({
-            ...vibrato,
-            wet: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
       {/* https://tonejs.github.io/docs/r13/Chorus */}
-      <h3>Coro</h3>
-      <input
-        type="checkbox"
-        checked={chorus.enabled}
-        onChange={(e) =>
-          setChorus({
-            ...chorus,
-            enabled: e.target.checked,
-          })
+      <EffectControlView
+        name="chorus"
+        label="Coro"
+        checked={effects.chorus?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="chorus"
+              property="delayTime"
+              label="Tiempo de Retardo"
+              value={effects.chorus?.delayTime}
+              handleChange={handleChange}
+              min={CHORUS_DELAY_TIME_MIN}
+              max={CHORUS_DELAY_TIME_MAX}
+              step={CHORUS_DELAY_TIME_STEP}
+              unit={CHORUS_DELAY_TIME_UNIT}
+            />
+            <SliderControlView
+              name="chorus"
+              property="depth"
+              label="Profundidad"
+              value={effects.chorus?.depth}
+              handleChange={handleChange}
+              min={CHORUS_DEPTH_MIN}
+              max={CHORUS_DEPTH_MAX}
+              step={CHORUS_DEPTH_STEP}
+              unit={CHORUS_DEPTH_UNIT}
+            />
+            <SliderControlView
+              name="chorus"
+              property="feedback"
+              label="Retroalimentación"
+              value={effects.chorus?.feedback}
+              handleChange={handleChange}
+              min={CHORUS_FEEDBACK_MIN}
+              max={CHORUS_FEEDBACK_MAX}
+              step={CHORUS_FEEDBACK_STEP}
+              unit={CHORUS_FEEDBACK_UNIT}
+            />
+            <SliderControlView
+              name="chorus"
+              property="frequency"
+              label="Frecuencia"
+              value={effects.chorus?.frequency}
+              handleChange={handleChange}
+              min={CHORUS_FREQUENCY_MIN}
+              max={CHORUS_FREQUENCY_MAX}
+              step={CHORUS_FREQUENCY_STEP}
+              unit={CHORUS_FREQUENCY_UNIT}
+            />
+            <SliderControlView
+              name="chorus"
+              property="spread"
+              label="Propagación"
+              value={effects.chorus?.spread}
+              handleChange={handleChange}
+              min={CHORUS_SPREAD_MIN}
+              max={CHORUS_SPREAD_MAX}
+              step={CHORUS_SPREAD_STEP}
+              unit={CHORUS_SPREAD_UNIT}
+            />
+            <DropdownControlView
+              name="chorus"
+              property="type"
+              label="Forma de Onda"
+              value={effects.chorus?.type}
+              handleChange={handleChange}
+              options={[
+                CHORUS_TYPE_SINE,
+                CHORUS_TYPE_SQUARE,
+                CHORUS_TYPE_TRIANGLE,
+                CHORUS_TYPE_SAWTOOTH,
+              ]}
+            />
+            <SliderControlView
+              name="chorus"
+              property="wet"
+              label="Mezcla"
+              value={effects.chorus?.wet}
+              handleChange={handleChange}
+              min={CHORUS_WET_MIN}
+              max={CHORUS_WET_MAX}
+              step={CHORUS_WET_STEP}
+              unit={CHORUS_WET_UNIT}
+            />
+          </>
         }
       />
-      Habilitar
-      <br />
-      <label>Delay Time</label>
-      <input
-        type="range"
-        min={0}
-        max={20}
-        step={0.1}
-        value={chorus.delayTime}
-        onChange={(e) =>
-          setChorus({
-            ...chorus,
-            delayTime: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Depth</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.01}
-        value={chorus.depth}
-        onChange={(e) =>
-          setChorus({
-            ...chorus,
-            depth: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Feedback</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.01}
-        value={chorus.feedback}
-        onChange={(e) =>
-          setChorus({
-            ...chorus,
-            feedback: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Frequency</label>
-      <input
-        type="range"
-        min={0.1}
-        max={10}
-        step={0.1}
-        value={chorus.frequency}
-        onChange={(e) =>
-          setChorus({
-            ...chorus,
-            frequency: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Spread</label>
-      <input
-        type="range"
-        min={0}
-        max={360}
-        step={1}
-        value={chorus.spread}
-        onChange={(e) =>
-          setChorus({
-            ...chorus,
-            spread: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Type</label>
-      <select
-        value={chorus.type}
-        onChange={(e) =>
-          setChorus({
-            ...chorus,
-            type: e.target.value as "sine" | "square" | "triangle" | "sawtooth",
-          })
-        }
-      >
-        <option value="sine">sine</option>
-        <option value="square">square</option>
-        <option value="triangle">triangle</option>
-        <option value="sawtooth">sawtooth</option>
-      </select>
-      <br />
-      <label>Wet</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.1}
-        value={chorus.wet}
-        onChange={(e) =>
-          setChorus({
-            ...chorus,
-            wet: parseFloat(e.target.value),
-          })
-        }
-      />
-      {/* 
-        
-        Checkbox: Activa o desactiva el efecto de chorus.
-Delay Time: Controla el tiempo de retardo.
-Depth: Ajusta la profundidad del efecto.
-Feedback: Controla la cantidad de retroalimentación.
-Frequency: Ajusta la frecuencia del efecto.
-Spread: Controla la propagación del efecto en el panorama estéreo.
-Type: Selecciona la forma de onda del efecto (sine, square, triangle, sawtooth).
-Wet: Ajusta el nivel de mezcla entre la señal procesada y la original.
-
-        */}
-      <br />
       {/* https://tonejs.github.io/docs/r13/Tremolo */}
-      <h3>Tremolo</h3>
-      <input
-        type="checkbox"
-        checked={tremolo.enabled}
-        onChange={(e) =>
-          setTremolo({
-            ...tremolo,
-            enabled: e.target.checked,
-          })
+      <EffectControlView
+        name="tremolo"
+        label="Tremolo"
+        checked={effects.tremolo?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="tremolo"
+              property="frequency"
+              label="Frecuencia"
+              value={effects.tremolo?.frequency}
+              handleChange={handleChange}
+              min={TREMOLO_FREQUENCY_MIN}
+              max={TREMOLO_FREQUENCY_MAX}
+              step={TREMOLO_FREQUENCY_STEP}
+              unit={TREMOLO_FREQUENCY_UNIT}
+            />
+            <SliderControlView
+              name="tremolo"
+              property="depth"
+              label="Profundidad"
+              value={effects.tremolo?.depth}
+              handleChange={handleChange}
+              min={TREMOLO_DEPTH_MIN}
+              max={TREMOLO_DEPTH_MAX}
+              step={TREMOLO_DEPTH_STEP}
+              unit={TREMOLO_DEPTH_UNIT}
+            />
+            <SliderControlView
+              name="tremolo"
+              property="spread"
+              label="Propagación"
+              value={effects.tremolo?.spread}
+              handleChange={handleChange}
+              min={TREMOLO_SPREAD_MIN}
+              max={TREMOLO_SPREAD_MAX}
+              step={TREMOLO_SPREAD_STEP}
+              unit={TREMOLO_SPREAD_UNIT}
+            />
+            <DropdownControlView
+              name="tremolo"
+              property="type"
+              label="Forma de Onda"
+              value={effects.tremolo?.type}
+              handleChange={handleChange}
+              options={[
+                TREMOLO_TYPE_SINE,
+                TREMOLO_TYPE_SQUARE,
+                TREMOLO_TYPE_TRIANGLE,
+                TREMOLO_TYPE_SAWTOOTH,
+              ]}
+            />
+            <SliderControlView
+              name="tremolo"
+              property="wet"
+              label="Mezcla"
+              value={effects.tremolo?.wet}
+              handleChange={handleChange}
+              min={TREMOLO_WET_MIN}
+              max={TREMOLO_WET_MAX}
+              step={TREMOLO_WET_STEP}
+              unit={TREMOLO_WET_UNIT}
+            />
+          </>
         }
       />
-      Habilitar
-      <br />
-      <label>Frecuencia</label>
-      <input
-        type="range"
-        min={0.1}
-        max={20}
-        step={0.1}
-        value={tremolo.frequency}
-        onChange={(e) =>
-          setTremolo({
-            ...tremolo,
-            frequency: parseFloat(e.target.value),
-          })
+      {/* https://tonejs.github.io/docs/r13/FeedbackDelay */}
+      <EffectControlView
+        name="delay"
+        label="Retardo"
+        checked={effects.delay?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="delay"
+              property="delayTime"
+              label="Tiempo de Retardo"
+              value={effects.delay?.delayTime}
+              handleChange={handleChange}
+              min={DELAY_TIME_MIN}
+              max={DELAY_TIME_MAX}
+              step={DELAY_TIME_STEP}
+              unit={DELAY_TIME_UNIT}
+            />
+            <SliderControlView
+              name="delay"
+              property="feedback"
+              label="Retroalimentación"
+              value={effects.delay?.feedback}
+              handleChange={handleChange}
+              min={DELAY_FEEDBACK_MIN}
+              max={DELAY_FEEDBACK_MAX}
+              step={DELAY_FEEDBACK_STEP}
+              unit={DELAY_FEEDBACK_UNIT}
+            />
+            <SliderControlView
+              name="delay"
+              property="maxDelay"
+              label="Retardo Máximo"
+              value={effects.delay?.maxDelay}
+              handleChange={handleChange}
+              min={DELAY_MAX_DELAY_MIN}
+              max={DELAY_MAX_DELAY_MAX}
+              step={DELAY_MAX_DELAY_STEP}
+              unit={DELAY_MAX_DELAY_UNIT}
+            />
+            <SliderControlView
+              name="delay"
+              property="wet"
+              label="Mezcla"
+              value={effects.delay?.wet}
+              handleChange={handleChange}
+              min={DELAY_WET_MIN}
+              max={DELAY_WET_MAX}
+              step={DELAY_WET_STEP}
+              unit={DELAY_WET_UNIT}
+            />
+          </>
         }
       />
-      <br />
-      <label>Profundidad</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.01}
-        value={tremolo.depth}
-        onChange={(e) =>
-          setTremolo({
-            ...tremolo,
-            depth: parseFloat(e.target.value),
-          })
+      {/* https://tonejs.github.io/docs/r13/Phaser */}
+      <EffectControlView
+        name="phaser"
+        label="Phaser"
+        checked={effects.phaser?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="phaser"
+              property="frequency"
+              label="Frecuencia"
+              value={effects.phaser?.frequency}
+              handleChange={handleChange}
+              min={PHASER_FREQUENCY_MIN}
+              max={PHASER_FREQUENCY_MAX}
+              step={PHASER_FREQUENCY_STEP}
+              unit={PHASER_FREQUENCY_UNIT}
+            />
+            <SliderControlView
+              name="phaser"
+              property="octaves"
+              label="Octavas"
+              value={effects.phaser?.octaves}
+              handleChange={handleChange}
+              min={PHASER_OCTAVES_MIN}
+              max={PHASER_OCTAVES_MAX}
+              step={PHASER_OCTAVES_STEP}
+              unit={PHASER_OCTAVES_UNIT}
+            />
+            <SliderControlView
+              name="phaser"
+              property="stages"
+              label="Etapas"
+              value={effects.phaser?.stages}
+              handleChange={handleChange}
+              min={PHASER_STAGES_MIN}
+              max={PHASER_STAGES_MAX}
+              step={PHASER_STAGES_STEP}
+              unit={PHASER_STAGES_UNIT}
+            />
+            <SliderControlView
+              name="phaser"
+              property="Q"
+              label="Resonancia (Q)"
+              value={effects.phaser?.Q}
+              handleChange={handleChange}
+              min={PHASER_Q_MIN}
+              max={PHASER_Q_MAX}
+              step={PHASER_Q_STEP}
+              unit={PHASER_Q_UNIT}
+            />
+            <SliderControlView
+              name="phaser"
+              property="baseFrequency"
+              label="Frecuencia Base"
+              value={effects.phaser?.baseFrequency}
+              handleChange={handleChange}
+              min={PHASER_BASE_FREQUENCY_MIN}
+              max={PHASER_BASE_FREQUENCY_MAX}
+              step={PHASER_BASE_FREQUENCY_STEP}
+              unit={PHASER_BASE_FREQUENCY_UNIT}
+            />
+            <SliderControlView
+              name="phaser"
+              property="wet"
+              label="Mezcla"
+              value={effects.phaser?.wet}
+              handleChange={handleChange}
+              min={PHASER_WET_MIN}
+              max={PHASER_WET_MAX}
+              step={PHASER_WET_STEP}
+              unit={PHASER_WET_UNIT}
+            />
+          </>
         }
       />
-      <br />
-      <label>Spread</label>
-      <input
-        type="range"
-        min={0}
-        max={360}
-        step={1}
-        value={tremolo.spread}
-        onChange={(e) =>
-          setTremolo({
-            ...tremolo,
-            spread: parseFloat(e.target.value),
-          })
+      {/* https://tonejs.github.io/docs/r13/EQ3 */}
+      <EffectControlView
+        name="eq3"
+        label="Ecualizador"
+        checked={effects.eq3?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="eq3"
+              property="low"
+              label="Bajos"
+              value={effects.eq3?.low}
+              handleChange={handleChange}
+              min={EQ3_LOW_MIN}
+              max={EQ3_LOW_MAX}
+              step={EQ3_LOW_STEP}
+              unit={EQ3_LOW_UNIT}
+            />
+            <SliderControlView
+              name="eq3"
+              property="mid"
+              label="Medios"
+              value={effects.eq3?.mid}
+              handleChange={handleChange}
+              min={EQ3_MID_MIN}
+              max={EQ3_MID_MAX}
+              step={EQ3_MID_STEP}
+              unit={EQ3_MID_UNIT}
+            />
+            <SliderControlView
+              name="eq3"
+              property="high"
+              label="Agudos"
+              value={effects.eq3?.high}
+              handleChange={handleChange}
+              min={EQ3_HIGH_MIN}
+              max={EQ3_HIGH_MAX}
+              step={EQ3_HIGH_STEP}
+              unit={EQ3_HIGH_UNIT}
+            />
+            <SliderControlView
+              name="eq3"
+              property="lowFrequency"
+              label="Frecuencia Baja (Hz)"
+              value={effects.eq3?.lowFrequency}
+              handleChange={handleChange}
+              min={EQ3_LOW_FREQUENCY_MIN}
+              max={EQ3_LOW_FREQUENCY_MAX}
+              step={EQ3_LOW_FREQUENCY_STEP}
+              unit={EQ3_LOW_FREQUENCY_UNIT}
+            />
+            <SliderControlView
+              name="eq3"
+              property="highFrequency"
+              label="Frecuencia Alta (Hz)"
+              value={effects.eq3?.highFrequency}
+              handleChange={handleChange}
+              min={EQ3_HIGH_FREQUENCY_MIN}
+              max={EQ3_HIGH_FREQUENCY_MAX}
+              step={EQ3_HIGH_FREQUENCY_STEP}
+              unit={EQ3_HIGH_FREQUENCY_UNIT}
+            />
+          </>
         }
       />
-      <br />
-      <label>Tipo</label>
-      <select
-        value={tremolo.type}
-        onChange={(e) =>
-          setTremolo({
-            ...tremolo,
-            type: e.target.value as "sine" | "square" | "triangle" | "sawtooth",
-          })
-        }
-      >
-        <option value="sine">sine</option>
-        <option value="square">square</option>
-        <option value="triangle">triangle</option>
-        <option value="sawtooth">sawtooth</option>
-      </select>
-      <br />
-      <label>Wet</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.1}
-        value={tremolo.wet}
-        onChange={(e) =>
-          setTremolo({
-            ...tremolo,
-            wet: parseFloat(e.target.value),
-          })
-        }
-      />
-      {/* */}
-      <h3>Delay</h3>
-      <input
-        type="checkbox"
-        checked={delay.enabled}
-        onChange={(e) => setDelay({ ...delay, enabled: e.target.checked })}
-      />
-      Habilitar
-      <br />
-      <label>Delay Time (s)</label>
-      <input
-        type="range"
-        min={0}
-        max={2}
-        step={0.01}
-        value={delay.delayTime}
-        onChange={(e) =>
-          setDelay({ ...delay, delayTime: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Feedback</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.01}
-        value={delay.feedback}
-        onChange={(e) =>
-          setDelay({ ...delay, feedback: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>MaxDelay</label>
-      <input
-        type="range"
-        min={0.1}
-        max={15}
-        step={0.1}
-        value={delay.maxDelay}
-        onChange={(e) =>
-          setDelay({
-            ...delay,
-            maxDelay: parseFloat(e.target.value),
-          })
+      {/* https://tonejs.github.io/docs/r13/Compressor */}
+      <EffectControlView
+        name="compressor"
+        label="Compresor"
+        checked={effects.compressor?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="compressor"
+              property="threshold"
+              label="Umbral (dB)"
+              value={effects.compressor?.threshold}
+              handleChange={handleChange}
+              min={COMPRESSOR_THRESHOLD_MIN}
+              max={COMPRESSOR_THRESHOLD_MAX}
+              step={COMPRESSOR_THRESHOLD_STEP}
+              unit={COMPRESSOR_THRESHOLD_UNIT}
+            />
+            <SliderControlView
+              name="compressor"
+              property="ratio"
+              label="Relación"
+              value={effects.compressor?.ratio}
+              handleChange={handleChange}
+              min={COMPRESSOR_RATIO_MIN}
+              max={COMPRESSOR_RATIO_MAX}
+              step={COMPRESSOR_RATIO_STEP}
+              unit={COMPRESSOR_RATIO_UNIT}
+            />
+            <SliderControlView
+              name="compressor"
+              property="attack"
+              label="Ataque (s)"
+              value={effects.compressor?.attack}
+              handleChange={handleChange}
+              min={COMPRESSOR_ATTACK_MIN}
+              max={COMPRESSOR_ATTACK_MAX}
+              step={COMPRESSOR_ATTACK_STEP}
+              unit={COMPRESSOR_ATTACK_UNIT}
+            />
+            <SliderControlView
+              name="compressor"
+              property="release"
+              label="Liberación (s)"
+              value={effects.compressor?.release}
+              handleChange={handleChange}
+              min={COMPRESSOR_RELEASE_MIN}
+              max={COMPRESSOR_RELEASE_MAX}
+              step={COMPRESSOR_RELEASE_STEP}
+              unit={COMPRESSOR_RELEASE_UNIT}
+            />
+            <SliderControlView
+              name="compressor"
+              property="knee"
+              label="Rodilla (dB)"
+              value={effects.compressor?.knee}
+              handleChange={handleChange}
+              min={COMPRESSOR_KNEE_MIN}
+              max={COMPRESSOR_KNEE_MAX}
+              step={COMPRESSOR_KNEE_STEP}
+              unit={COMPRESSOR_KNEE_UNIT}
+            />
+          </>
         }
       />
-      <br />
-      <label>Wet</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.01}
-        value={delay.wet}
-        onChange={(e) =>
-          setDelay({ ...delay, wet: parseFloat(e.target.value) })
+      {/* https://tonejs.github.io/docs/r13/AutoWah */}
+      <EffectControlView
+        name="autoWah"
+        label="Auto Wah"
+        checked={effects.autoWah?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="autoWah"
+              property="baseFrequency"
+              label="Frecuencia Base (Hz)"
+              value={effects.autoWah?.baseFrequency}
+              handleChange={handleChange}
+              min={AUTOWAH_BASE_FREQUENCY_MIN}
+              max={AUTOWAH_BASE_FREQUENCY_MAX}
+              step={AUTOWAH_BASE_FREQUENCY_STEP}
+              unit={AUTOWAH_BASE_FREQUENCY_UNIT}
+            />
+            <SliderControlView
+              name="autoWah"
+              property="octaves"
+              label="Octavas"
+              value={effects.autoWah?.octaves}
+              handleChange={handleChange}
+              min={AUTOWAH_OCTAVES_MIN}
+              max={AUTOWAH_OCTAVES_MAX}
+              step={AUTOWAH_OCTAVES_STEP}
+              unit={AUTOWAH_OCTAVES_UNIT}
+            />
+            <SliderControlView
+              name="autoWah"
+              property="sensitivity"
+              label="Sensibilidad (dB)"
+              value={effects.autoWah?.sensitivity}
+              handleChange={handleChange}
+              min={AUTOWAH_SENSITIVITY_MIN}
+              max={AUTOWAH_SENSITIVITY_MAX}
+              step={AUTOWAH_SENSITIVITY_STEP}
+              unit={AUTOWAH_SENSITIVITY_UNIT}
+            />
+            <SliderControlView
+              name="autoWah"
+              property="Q"
+              label="Resonancia (Q)"
+              value={effects.autoWah?.Q}
+              handleChange={handleChange}
+              min={AUTOWAH_Q_MIN}
+              max={AUTOWAH_Q_MAX}
+              step={AUTOWAH_Q_STEP}
+              unit={AUTOWAH_Q_UNIT}
+            />
+            <SliderControlView
+              name="autoWah"
+              property="gain"
+              label="Ganancia (dB)"
+              value={effects.autoWah?.gain}
+              handleChange={handleChange}
+              min={AUTOWAH_GAIN_MIN}
+              max={AUTOWAH_GAIN_MAX}
+              step={AUTOWAH_GAIN_STEP}
+              unit={AUTOWAH_GAIN_UNIT}
+            />
+            <SliderControlView
+              name="autoWah"
+              property="follower"
+              label="Seguidor"
+              value={effects.autoWah?.follower}
+              handleChange={handleChange}
+              min={AUTOWAH_FOLLOWER_MIN}
+              max={AUTOWAH_FOLLOWER_MAX}
+              step={AUTOWAH_FOLLOWER_STEP}
+              unit={AUTOWAH_FOLLOWER_UNIT}
+            />
+            <SliderControlView
+              name="autoWah"
+              property="wet"
+              label="Mezcla"
+              value={effects.autoWah?.wet}
+              handleChange={handleChange}
+              min={AUTOWAH_WET_MIN}
+              max={AUTOWAH_WET_MAX}
+              step={AUTOWAH_WET_STEP}
+              unit={AUTOWAH_WET_UNIT}
+            />
+          </>
         }
-      />
-      {/* */}
-      <h3>Phaser</h3>
-      <input
-        type="checkbox"
-        checked={phaser.enabled}
-        onChange={(e) => setPhaser({ ...phaser, enabled: e.target.checked })}
-      />
-      Habilitar
-      <br />
-      <label>Frequency (Hz)</label>
-      <input
-        type="range"
-        min={0.1}
-        max={10}
-        step={0.1}
-        value={phaser.frequency}
-        onChange={(e) =>
-          setPhaser({ ...phaser, frequency: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Octaves</label>
-      <input
-        type="range"
-        min={1}
-        max={6}
-        step={1}
-        value={phaser.octaves}
-        onChange={(e) =>
-          setPhaser({ ...phaser, octaves: parseInt(e.target.value) })
-        }
-      />
-      <br />
-      <label>Stages</label>
-      <input
-        type="range"
-        min={2}
-        max={20}
-        step={2}
-        value={phaser.stages}
-        onChange={(e) =>
-          setPhaser({ ...phaser, stages: parseInt(e.target.value) })
-        }
-      />
-      <br />
-      <label>Q (Resonancia)</label>
-      <input
-        type="range"
-        min={1}
-        max={20}
-        step={1}
-        value={phaser.Q}
-        onChange={(e) =>
-          setPhaser({ ...phaser, Q: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Base Frequency (Hz)</label>
-      <input
-        type="range"
-        min={100}
-        max={1000}
-        step={10}
-        value={phaser.baseFrequency}
-        onChange={(e) =>
-          setPhaser({ ...phaser, baseFrequency: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Wet</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.01}
-        value={phaser.wet}
-        onChange={(e) =>
-          setPhaser({ ...phaser, wet: parseFloat(e.target.value) })
-        }
-      />
-      <h3>Ecualizador</h3>
-      <input
-        type="checkbox"
-        checked={eq3.enabled}
-        onChange={(e) => setEq3({ ...eq3, enabled: e.target.checked })}
       />{" "}
-      Habilitar
-      <br />
-      <label>Bajos</label>
-      <input
-        type="range"
-        min={-30}
-        max={30}
-        step={1}
-        value={eq3.low}
-        onChange={(e) => setEq3({ ...eq3, low: parseFloat(e.target.value) })}
-      />
-      <br />
-      <label>Medios</label>
-      <input
-        type="range"
-        min={-30}
-        max={30}
-        step={1}
-        value={eq3.mid}
-        onChange={(e) => setEq3({ ...eq3, mid: parseFloat(e.target.value) })}
-      />
-      <br />
-      <label>Agudos</label>
-      <input
-        type="range"
-        min={-30}
-        max={30}
-        step={1}
-        value={eq3.high}
-        onChange={(e) => setEq3({ ...eq3, high: parseFloat(e.target.value) })}
-      />
-      <br />
-      <label>Frecuencia Baja (Hz)</label>
-      <input
-        type="range"
-        min={100}
-        max={1000}
-        step={10}
-        value={eq3.lowFrequency}
-        onChange={(e) =>
-          setEq3({ ...eq3, lowFrequency: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Frecuencia Alta (Hz)</label>
-      <input
-        type="range"
-        min={1000}
-        max={8000}
-        step={100}
-        value={eq3.highFrequency}
-        onChange={(e) =>
-          setEq3({ ...eq3, highFrequency: parseFloat(e.target.value) })
-        }
-      />
-      <h3>Compresor</h3>
-      <input
-        type="checkbox"
-        checked={compressor.enabled}
-        onChange={(e) =>
-          setCompressor({ ...compressor, enabled: e.target.checked })
-        }
-      />{" "}
-      Habilitar
-      <br />
-      <label>Threshold (dB)</label>
-      <input
-        type="range"
-        min={-60}
-        max={0}
-        step={1}
-        value={compressor.threshold}
-        onChange={(e) =>
-          setCompressor({
-            ...compressor,
-            threshold: parseFloat(e.target.value),
-          })
-        }
-      />
-      <br />
-      <label>Ratio</label>
-      <input
-        type="range"
-        min={1}
-        max={20}
-        step={0.1}
-        value={compressor.ratio}
-        onChange={(e) =>
-          setCompressor({ ...compressor, ratio: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Attack (s)</label>
-      <input
-        type="range"
-        min={0.001}
-        max={1}
-        step={0.001}
-        value={compressor.attack}
-        onChange={(e) =>
-          setCompressor({ ...compressor, attack: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Release (s)</label>
-      <input
-        type="range"
-        min={0.01}
-        max={1}
-        step={0.01}
-        value={compressor.release}
-        onChange={(e) =>
-          setCompressor({ ...compressor, release: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Knee (dB)</label>
-      <input
-        type="range"
-        min={0}
-        max={40}
-        step={1}
-        value={compressor.knee}
-        onChange={(e) =>
-          setCompressor({ ...compressor, knee: parseFloat(e.target.value) })
-        }
-      />
-      <h3>Auto Wah</h3>
-      <input
-        type="checkbox"
-        checked={autoWah.enabled}
-        onChange={(e) => setAutoWah({ ...autoWah, enabled: e.target.checked })}
-      />{" "}
-      Habilitar
-      <br />
-      <label>Base Frequency (Hz)</label>
-      <input
-        type="range"
-        min={20}
-        max={2000}
-        step={1}
-        value={autoWah.baseFrequency}
-        onChange={(e) =>
-          setAutoWah({ ...autoWah, baseFrequency: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Octaves</label>
-      <input
-        type="range"
-        min={1}
-        max={6}
-        step={0.1}
-        value={autoWah.octaves}
-        onChange={(e) =>
-          setAutoWah({ ...autoWah, octaves: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Sensitivity</label>
-      <input
-        type="range"
-        min={-40}
-        max={0}
-        step={0.1}
-        value={autoWah.sensitivity}
-        onChange={(e) =>
-          setAutoWah({ ...autoWah, sensitivity: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Q (Resonancia)</label>
-      <input
-        type="range"
-        min={0.1}
-        max={10}
-        step={0.1}
-        value={autoWah.Q}
-        onChange={(e) =>
-          setAutoWah({ ...autoWah, Q: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Gain (dB)</label>
-      <input
-        type="range"
-        min={0}
-        max={10}
-        step={0.1}
-        value={autoWah.gain}
-        onChange={(e) =>
-          setAutoWah({ ...autoWah, gain: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Follower</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.1}
-        value={autoWah.follower}
-        onChange={(e) =>
-          setAutoWah({ ...autoWah, follower: parseFloat(e.target.value) })
-        }
-      />
-      <br />
-      <label>Wet</label>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.1}
-        value={autoWah.wet}
-        onChange={(e) =>
-          setAutoWah({ ...autoWah, wet: parseFloat(e.target.value) })
-        }
-      />
     </>
   );
 }

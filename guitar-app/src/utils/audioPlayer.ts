@@ -319,7 +319,7 @@ function createEQ3Node(params: NonNullable<Effects['eq3']>) {
     mid: params.mid,
     high: params.high,
     lowFrequency: params.lowFrequency,
-    highFrequency: params.highFrequency
+    highFrequency: params.highFrequency,
   });
 }
 
