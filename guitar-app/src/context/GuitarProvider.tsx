@@ -66,10 +66,18 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   const [pulseMode, setPulseMode] = useState<boolean>(false);
 
   // Modo retención (no silencia la nota anterior de la misma cuerda)
-  const [holdMode, setHoldMode] = useState<{ enabled: boolean; time: number }>({
+  const [holdMode, setHoldMode] = useState<{
+    enabled: boolean;
+    anyTime: boolean;
+    time: number;
+  }>({
     enabled: true,
+    anyTime: false, // Sin tiempo en milisegundos
     time: 10, // Ajusta el tiempo en milisegundos
   });
+
+  // Modo amontonar (evita silenciar la misma nota)
+  const [amountMode, setAmountMode] = useState<boolean>(false);
 
   // ESTADO DE EFECTOS
   const [effects, setEffects] = useState<Effects>({
@@ -230,6 +238,8 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
         holdMode,
         setHoldMode,
 
+        amountMode,
+        setAmountMode,
         gain,
         setGain,
 

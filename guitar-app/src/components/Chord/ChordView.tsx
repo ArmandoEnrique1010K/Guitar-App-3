@@ -31,7 +31,7 @@ export default function ChordView({
     setNotePlayed,
     pulseMode,
     holdMode,
-
+    amountMode,
     effects,
   } = useGuitar();
 
@@ -48,8 +48,9 @@ export default function ChordView({
       keyFromKeyboard,
       clickMode,
       holdMode.enabled,
+      holdMode.anyTime,
       holdMode.time,
-
+      amountMode,
       gain,
       {
         distortion,
@@ -106,7 +107,9 @@ export default function ChordView({
     autoWah,
     pulseMode,
     holdMode.enabled,
+    holdMode.anyTime,
     holdMode.time,
+    amountMode,
   ]);
 
   const handleMouseDown = () => {
