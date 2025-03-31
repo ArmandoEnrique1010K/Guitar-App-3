@@ -13,21 +13,7 @@ import {
   INITIAL_AUTOWAH,
 } from "../constants";
 import { guitarNotes } from "../data/guitarNotes";
-import {
-  Neck,
-  DistortionEffect,
-  ReverbEffect,
-  VibratoEffect,
-  ChorusEffect,
-  TremoloEffect,
-  DelayEffect,
-  PhaserEffect,
-  EQ3Effect,
-  Note,
-  CompressorEffect,
-  AutoWahEffect,
-  Effects,
-} from "../types";
+import { Neck, Note, Effects } from "../types";
 import { assignKeysToFrets } from "../utils/assignKeysToFrets";
 import { preloadSounds } from "../utils/audioPlayer";
 import { GuitarContext } from "./GuitarContext";
@@ -121,37 +107,37 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
       },
     }));
   };
-  // EFECTO DE SONIDO DE DISTORSIÓN
-  const [distortion, setDistortion] =
-    useState<DistortionEffect>(INITIAL_DISTORTION);
+  // // EFECTO DE SONIDO DE DISTORSIÓN
+  // const [distortion, setDistortion] =
+  //   useState<DistortionEffect>(INITIAL_DISTORTION);
 
-  // REBERBERACIÓN
-  const [reverb, setReverb] = useState<ReverbEffect>(INITIAL_REVERB);
+  // // REBERBERACIÓN
+  // const [reverb, setReverb] = useState<ReverbEffect>(INITIAL_REVERB);
 
-  // VIBRATO
-  const [vibrato, setVibrato] = useState<VibratoEffect>(INITIAL_VIBRATO);
+  // // VIBRATO
+  // const [vibrato, setVibrato] = useState<VibratoEffect>(INITIAL_VIBRATO);
 
-  // CORO
-  const [chorus, setChorus] = useState<ChorusEffect>(INITIAL_CHORUS);
+  // // CORO
+  // const [chorus, setChorus] = useState<ChorusEffect>(INITIAL_CHORUS);
 
-  // TREMOLO
-  const [tremolo, setTremolo] = useState<TremoloEffect>(INITIAL_TREMOLO);
+  // // TREMOLO
+  // const [tremolo, setTremolo] = useState<TremoloEffect>(INITIAL_TREMOLO);
 
-  // RETRAZO
-  const [delay, setDelay] = useState<DelayEffect>(INITIAL_DELAY);
+  // // RETRAZO
+  // const [delay, setDelay] = useState<DelayEffect>(INITIAL_DELAY);
 
-  // PHASER
-  const [phaser, setPhaser] = useState<PhaserEffect>(INITIAL_PHASER);
+  // // PHASER
+  // const [phaser, setPhaser] = useState<PhaserEffect>(INITIAL_PHASER);
 
-  // ECUALIZADOR
-  const [eq3, setEq3] = useState<EQ3Effect>(INITIAL_EQ3);
+  // // ECUALIZADOR
+  // const [eq3, setEq3] = useState<EQ3Effect>(INITIAL_EQ3);
 
-  // COMPRESOR
-  const [compressor, setCompressor] =
-    useState<CompressorEffect>(INITIAL_COMPRESSOR);
+  // // COMPRESOR
+  // const [compressor, setCompressor] =
+  //   useState<CompressorEffect>(INITIAL_COMPRESSOR);
 
-  // AUTOWAH
-  const [autoWah, setAutoWah] = useState<AutoWahEffect>(INITIAL_AUTOWAH);
+  // // AUTOWAH
+  // const [autoWah, setAutoWah] = useState<AutoWahEffect>(INITIAL_AUTOWAH);
 
   // Nota actual reproducida
   const [notePlayed, setNotePlayed] = useState<Note>({
@@ -248,27 +234,6 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
 
         effects,
         handleChange,
-
-        distortion,
-        setDistortion,
-        reverb,
-        setReverb,
-        vibrato,
-        setVibrato,
-        chorus,
-        setChorus,
-        tremolo,
-        setTremolo,
-        delay,
-        setDelay,
-        phaser,
-        setPhaser,
-        eq3,
-        setEq3,
-        compressor,
-        setCompressor,
-        autoWah,
-        setAutoWah,
       }}
     >
       {children}

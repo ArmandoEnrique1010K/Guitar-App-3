@@ -4,6 +4,7 @@ import { ALTERNATE, FIRST, MIDDLE } from "../../constants";
 import { LAST } from "../../constants/index";
 import { useGuitar } from "../../hooks/useGuitar";
 import { muteAll } from "../../utils/audioPlayer";
+import { useEffect } from "react";
 
 export default function ControlsView() {
   const {
@@ -26,6 +27,27 @@ export default function ControlsView() {
     amountMode,
     setAmountMode,
   } = useGuitar();
+
+  // Vuelve a establecer el acorde inicial si lockZeroChord cambia
+  const handleInitialChord = () => {
+    if (lockZeroChord) {
+      if (initialChord < 1) {
+        setInitialChord(1);
+      } else if (initialChord > 13) {
+        setInitialChord(13);
+      }
+    } else {
+      if (initialChord < 0) {
+        setInitialChord(0);
+      } else if (initialChord > 12) {
+        setInitialChord(12);
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleInitialChord();
+  }, [lockZeroChord]);
 
   return (
     <div>
@@ -67,8 +89,8 @@ export default function ControlsView() {
         type="range"
         name=""
         id=""
-        min={1}
-        max={12}
+        min={lockZeroChord ? 1 : 0}
+        max={lockZeroChord ? 13 : 12}
         step={1}
         value={initialChord}
         onChange={(e) => {

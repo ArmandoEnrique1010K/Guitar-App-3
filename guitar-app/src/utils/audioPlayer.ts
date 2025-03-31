@@ -372,6 +372,7 @@ function setupKeyboardListener(key: string, clickMode: boolean) {
 }
 
 
+// TODO: ESTO PODRIA MEJORAR
 function handlePreviousNotes(
   rope: number,
   chord: number,
