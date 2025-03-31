@@ -2,14 +2,19 @@ import {
   DISTORTION_DISTORTION_MAX,
   DISTORTION_DISTORTION_MIN,
   DISTORTION_DISTORTION_STEP,
+  DISTORTION_DISTORTION_UNIT,
   DISTORTION_OVERSAMPLE_2X,
   DISTORTION_OVERSAMPLE_4X,
   DISTORTION_OVERSAMPLE_NONE,
   DISTORTION_WET_MAX,
   DISTORTION_WET_MIN,
   DISTORTION_WET_STEP,
+  DISTORTION_WET_UNIT,
 } from "../../constants/effectsProperties";
 import { useGuitar } from "../../hooks/useGuitar";
+import DropdownControlView from "./DropdownControlView";
+import EffectControlView from "./EffectControlView";
+import SliderControlView from "./SliderControlView";
 
 export default function EffectsView() {
   const {
@@ -42,7 +47,52 @@ export default function EffectsView() {
     <>
       <h1>Efectos de sonido (activa como maximo 3)</h1>
       {/* https://tonejs.github.io/docs/r13/Distortion */}
-      <h3>Distorsión</h3>
+      <EffectControlView
+        name="distortion"
+        label="Distorsión"
+        checked={effects.distortion?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="distortion"
+              property="distortion"
+              label="Distorsión"
+              value={effects.distortion?.distortion}
+              handleChange={handleChange}
+              min={DISTORTION_DISTORTION_MIN}
+              max={DISTORTION_DISTORTION_MAX}
+              step={DISTORTION_DISTORTION_STEP}
+              unit={DISTORTION_DISTORTION_UNIT}
+            />
+
+            <DropdownControlView
+              name="distortion"
+              property="oversample"
+              label="Muestreo"
+              value={effects.distortion?.oversample}
+              handleChange={handleChange}
+              options={[
+                DISTORTION_OVERSAMPLE_NONE,
+                DISTORTION_OVERSAMPLE_2X,
+                DISTORTION_OVERSAMPLE_4X,
+              ]}
+            />
+            <SliderControlView
+              name="distortion"
+              property="wet"
+              label="Mezcla"
+              value={effects.distortion?.wet}
+              handleChange={handleChange}
+              min={DISTORTION_WET_MIN}
+              max={DISTORTION_WET_MAX}
+              step={DISTORTION_WET_STEP}
+              unit={DISTORTION_WET_UNIT}
+            />
+          </>
+        }
+      />
+      {/* <h3>Distorsión</h3>
       <input
         type="checkbox"
         name="distortion"
@@ -54,7 +104,7 @@ export default function EffectsView() {
       <label>Distortion</label>
       <input
         name="distortion"
-        data-property="distortion" // Especifica la propiedad a actualizar
+        data-property="distortion"
         type="range"
         min={DISTORTION_DISTORTION_MIN}
         max={DISTORTION_DISTORTION_MAX}
@@ -66,7 +116,7 @@ export default function EffectsView() {
       <label>Oversample</label>
       <select
         name="distortion"
-        data-property="oversample" // Especifica la propiedad a actualizar
+        data-property="oversample"
         onChange={handleChange}
       >
         <option value={DISTORTION_OVERSAMPLE_NONE}>
@@ -79,7 +129,7 @@ export default function EffectsView() {
           {DISTORTION_OVERSAMPLE_4X}
         </option>
       </select>
-      <br />
+      <br /> */}
       <label>Wet</label>
       <input
         type="range"
