@@ -10,6 +10,14 @@ import {
   DISTORTION_WET_MIN,
   DISTORTION_WET_STEP,
   DISTORTION_WET_UNIT,
+  REVERB_DECAY_MAX,
+  REVERB_DECAY_MIN,
+  REVERB_DECAY_STEP,
+  REVERB_DECAY_UNIT,
+  REVERB_PREDELAY_MAX,
+  REVERB_PREDELAY_MIN,
+  REVERB_PREDELAY_STEP,
+  REVERB_PREDELAY_UNIT,
 } from "../../constants/effectsProperties";
 import { useGuitar } from "../../hooks/useGuitar";
 import DropdownControlView from "./DropdownControlView";
@@ -92,6 +100,40 @@ export default function EffectsView() {
           </>
         }
       />
+      {/* https://tonejs.github.io/docs/r13/Reverb */}
+      <EffectControlView
+        name="reverb"
+        label="Reverberación"
+        checked={effects.reverb?.enabled}
+        handleChange={handleChange}
+        controls={
+          <>
+            <SliderControlView
+              name="reverb"
+              property="decay"
+              label="Decaimiento"
+              value={effects.reverb?.decay}
+              handleChange={handleChange}
+              min={REVERB_DECAY_MIN}
+              max={REVERB_DECAY_MAX}
+              step={REVERB_DECAY_STEP}
+              unit={REVERB_DECAY_UNIT}
+            />
+
+            <SliderControlView
+              name="reverb"
+              property="preDelay"
+              label="Pre-retardo"
+              value={effects.reverb?.preDelay}
+              handleChange={handleChange}
+              min={REVERB_PREDELAY_MIN}
+              max={REVERB_PREDELAY_MAX}
+              step={REVERB_PREDELAY_STEP}
+              unit={REVERB_PREDELAY_UNIT}
+            />
+          </>
+        }
+      />
       {/* <h3>Distorsión</h3>
       <input
         type="checkbox"
@@ -130,7 +172,7 @@ export default function EffectsView() {
         </option>
       </select>
       <br /> */}
-      <label>Wet</label>
+      {/* <label>Wet</label>
       <input
         type="range"
         data-property="wet" // Especifica la propiedad a actualizar
@@ -140,7 +182,7 @@ export default function EffectsView() {
         step={DISTORTION_WET_STEP}
         value={effects.distortion?.wet}
         onChange={handleChange}
-      />
+      /> */}
       {/* https://tonejs.github.io/docs/r13/Reverb */}
       <h3>Reverberación</h3>
       <input

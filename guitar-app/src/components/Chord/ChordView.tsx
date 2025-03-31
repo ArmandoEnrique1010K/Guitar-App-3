@@ -18,7 +18,7 @@ export default function ChordView({
     neck,
     gain,
     // distortion,
-    reverb,
+    // reverb,
     vibrato,
     chorus,
     tremolo,
@@ -35,7 +35,7 @@ export default function ChordView({
     effects,
   } = useGuitar();
 
-  const { distortion } = effects;
+  const { distortion, reverb } = effects;
 
   const handlePlaySound = (clickMode: boolean) => {
     setNotePlayed({ rope, chord });
