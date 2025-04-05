@@ -42,9 +42,6 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   // Bloquear el acorde 0
   const [lockZeroChord, setLockZeroChord] = useState<boolean>(false);
 
-  // Invertir el instrumento
-  const [invertKeyboard, setInvertKeyboard] = useState<boolean>(false);
-
   // Silenciar la nota anterior (cuerda diferente)
   const [mutePreviousNote, setMutePreviousNote] = useState<boolean>(false);
 
@@ -175,13 +172,12 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
       keysRowType[4],
       keysRowType[5],
       initialChord,
-      lockZeroChord,
-      invertKeyboard
+      lockZeroChord
     );
     setNeck(updatedNeck);
 
     console.log("Se cambio de instrumento a " + instrument);
-  }, [instrument, keysRowType, initialChord, lockZeroChord, invertKeyboard]);
+  }, [instrument, keysRowType, initialChord, lockZeroChord]);
 
   // ESTA FUNCIÓN DEBERIA EVITAR QUE SE SIGA REPRODUCIENDO LA NOTA MUSICAL
   useEffect(() => {
@@ -215,8 +211,6 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
         setInitialChord,
         lockZeroChord,
         setLockZeroChord,
-        invertKeyboard,
-        setInvertKeyboard,
         mutePreviousNote,
         setMutePreviousNote,
         pulseMode,

@@ -1,7 +1,7 @@
-import { getAssignedKeys } from "./getAssignedKeys";
 import { filterFrets } from "./filterFrets";
 import { Neck } from '../types/index';
 import { kEYSBYROW } from "../constants";
+import { keyboardKeys } from "../data/keyboardKeys";
 
 export const assignKeysToFrets = (
   file: Neck,
@@ -13,7 +13,6 @@ export const assignKeysToFrets = (
   sixthRowKeys: number,
   startFromTheChord: number,
   lockTheZeroChord: boolean,
-  invertKeyboard: boolean
 ): Neck => {
   let result: Neck = [];
 
@@ -35,7 +34,10 @@ export const assignKeysToFrets = (
     const rowKeys = arrayRowKeys[i];
 
     // Obtener las teclas asignadas a la fila de trastes
-    const assignRowKeys = getAssignedKeys(rowKeys, invertKeyboard) || [];
+
+    const assignRowKeys = keyboardKeys[keyboardKeys.length - 1 - rowKeys]?.keys
+
+    // getAssignedKeys(rowKeys) || [];
 
     // Iterar sobre los trastes de la cuerda
     for (let index = 0; index < findRope.frets.length; index++) {

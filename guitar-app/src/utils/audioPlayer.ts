@@ -458,14 +458,18 @@ function handlePreviousNotes(
 function cleanupNoteResources(note: ActiveNote) {
   if (note.timeoutId) clearTimeout(note.timeoutId);
   if (note.source) {
-    note.source.stop();
-    note.source.dispose();
+    try {
+      note.source.stop();
+      note.source.dispose();
+    } catch (error) {
+      console.warn("Error al detener o eliminar el BufferSource:", error);
+    }
   }
-  note.effectNodes.forEach(node => {
+  note.effectNodes.forEach((node) => {
     try {
       node.dispose();
-    } catch (e) {
-      console.warn("Error al limpiar nodo:", e);
+    } catch (error) {
+      console.warn("Error al limpiar nodo de efecto:", error);
     }
   });
 }
