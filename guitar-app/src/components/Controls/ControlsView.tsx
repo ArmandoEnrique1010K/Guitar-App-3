@@ -28,6 +28,8 @@ export default function ControlsView() {
     // setAmountMode,
     noteConfig,
     setNoteConfig,
+
+    message,
   } = useGuitar();
 
   // Vuelve a establecer el acorde inicial si lockZeroChord cambia
@@ -97,6 +99,7 @@ export default function ControlsView() {
 
   return (
     <div>
+      <div>{message}</div>
       <h3>Tipo de instrumento</h3>
       <select name="" id="" onChange={(e) => setInstrument(e.target.value)}>
         {instrumentsNames.map((name) => (

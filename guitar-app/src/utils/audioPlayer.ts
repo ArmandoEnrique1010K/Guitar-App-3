@@ -276,13 +276,15 @@ function handlePreviousNotes(
       // TODO: ¿ES EL UNICO SETTIMEOUT?
       note.timeoutId = setTimeout(() => {
         console.log('SHEDULECLEANUP, la nota anterior: ' + note.chord + ' fue silenciada en ' + holdModeTime + ' milisegundos porque ha tocado otra nota')
+        // cleanupNoteResources(note);
 
         if (activeNotes[ropeNumber]?.noteId === note.noteId) {
           cleanupNoteResources(note);
-          // console.log('SHEDULECLEANUP, silenciando nota ' + note.chord + ' en ' + holdModeTime + ' milisegundos')
-
+          console.log('CODIGO MUERTO, DEBE SER ELIMINADO')
           delete activeNotes[ropeNumber];
         }
+
+
 
       }, holdModeTime);
     } else {
@@ -367,9 +369,11 @@ function cleanupNoteResources(note: ActiveNote) {
   if (note.timeoutId) clearTimeout(note.timeoutId);
   if (note.source) {
     try {
+      console.log("Limpieza segura de nota")
       note.source.stop();
       effectsManager.disposeChain(note.effectNodes);
       note.source.dispose();
+
     } catch (error) {
       console.warn("Error al detener o eliminar el BufferSource:", error);
     }
@@ -380,7 +384,7 @@ function cleanupNoteResources(note: ActiveNote) {
   note.effectNodes.forEach((node) => {
     try {
       effectsManager.disposeChain(note.effectNodes);
-
+      console.log('Limpieza segura de efecto')
       node.dispose();
     } catch (error) {
       console.warn("Error al limpiar nodo de efecto:", error);
@@ -390,6 +394,6 @@ function cleanupNoteResources(note: ActiveNote) {
   // TODO: IMPLEMENTE ESTO
   // effectsManager.disposeChain(note.effectNodes);
 
-  // TODO: ¿PARA QUE SIRVE ESTO? --> ELIMINA TODOS LOS EFECTOS DE SONIDO (AL CERRAR LA APP)
+  // TODO: ¿PARA QUE SIRVE ESTO? --> ELIMINA TODOS LOS EFECTOS DE SONIDO (AL CERRAR LA APP O AL HACER CLIC EN EL BÓTON DE SILENCIAR TODO)
   // effectsManager.disposeAll();
 }

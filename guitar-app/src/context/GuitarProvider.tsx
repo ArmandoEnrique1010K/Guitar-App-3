@@ -11,6 +11,7 @@ import {
   INITIAL_EQ3,
   LOADING_TIME,
   INITIAL_AUTOWAH,
+  INITIAL_MESSAGE,
 } from "../constants";
 import { guitarNotes } from "../data/guitarNotes";
 import { Neck, Note, Effects } from "../types";
@@ -90,6 +91,8 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
     compressor: INITIAL_COMPRESSOR,
     autoWah: INITIAL_AUTOWAH,
   });
+
+  const [message, setMessage] = useState<string>(INITIAL_MESSAGE);
 
   // Función para manejar los cambios en los campos del formulario
   const handleChange = (
@@ -246,6 +249,8 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
 
         effects,
         handleChange,
+        message,
+        setMessage,
       }}
     >
       {children}

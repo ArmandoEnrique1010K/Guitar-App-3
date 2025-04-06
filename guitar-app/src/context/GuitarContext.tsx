@@ -48,6 +48,9 @@ type GuitarContextProps = {
   handleChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
+
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
 };
 
 // Crear el contexto con valores por defecto

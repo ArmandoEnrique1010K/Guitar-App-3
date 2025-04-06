@@ -8,7 +8,7 @@ export default function GuitarApp() {
   const { loading, neck } = useGuitar();
 
   return loading ? (
-    <h2>Cargando</h2>
+    <h2>Cargando, observa el poder de React y ToneJS</h2>
   ) : (
     <div>
       <TitleView />
