@@ -7,6 +7,7 @@ type ActiveNote = {
   effectNodes: Tone.ToneAudioNode[]; // Almacena los nodos de efectos
   noteId: string; // Identificador único para cada nota
   timeoutId?: NodeJS.Timeout; // Optional timeout ID for managing note silencing
+  startTime: number; // Timestamp en milisegundos
 }
 
 // 2. Función para generar IDs únicos
@@ -92,13 +93,15 @@ export function playSound(
   data: { rope: number; frets: { chord: number; file: string }[] }[] = [],
   rope: number,
   chord: number,
-  muteOnDifferentRope: boolean,
   keyFromKeyboard: string,
   clickMode: boolean,
-  holdModeEnabled: boolean,
-  holdModeAnyTime: boolean,
+  // holdModeEnabled: boolean,
+
+  muteOnDifferentRope: boolean,
+  muteOnSameRope: boolean,
+  muteOnSameNote: boolean,
+  holdMode: boolean,
   holdModeTime: number,
-  amountMode: boolean,
   gain: number,
   effects: Effects
 ) {
@@ -121,14 +124,17 @@ export function playSound(
   const currentNoteId = generateNoteId();
 
   // Manejo de notas anteriores
-  handlePreviousNotes(rope, chord, muteOnDifferentRope, holdModeEnabled, holdModeAnyTime, holdModeTime, amountMode
-    //  currentNoteId
-  );
+  // handlePreviousNotes(rope, chord, muteOnDifferentRope, holdModeEnabled, holdModeAnyTime, holdModeTime, amountMode  );
+
+  handlePreviousNotes(rope, chord, muteOnDifferentRope, muteOnSameRope, muteOnSameNote, holdMode, holdModeTime, true, 100, 30)
+
+  //  currentNoteId
+
 
   // Limpiar nota anterior en la misma cuerda
-  if (!holdModeEnabled) {
-    cleanupPreviousNote(rope); // Solo limpia si no estamos en holdModeEnabled
-  }
+  // if (!holdModeEnabled) {
+  //   cleanupPreviousNote(rope); // Solo limpia si no estamos en holdModeEnabled
+  // }
 
   try {
     // Crear y configurar nueva nota
@@ -141,7 +147,9 @@ export function playSound(
     bufferSource.start(startTime);
     bufferSource.stop(startTime + bufferSource.buffer.duration + 0.1); // Margen adicional
     // Actualizar estado
-    updateActiveNote(rope, chord, bufferSource, effectNodes, currentNoteId);
+
+
+    updateActiveNote(rope, chord, bufferSource, effectNodes, currentNoteId, startTime);
 
     previousNotePlayed = { rope, chord };
     // console.log(`Nota ${currentNoteId} reproducida en cuerda ${rope}`);
@@ -350,9 +358,10 @@ function updateActiveNote(
   chord: number,
   source: Tone.ToneBufferSource,
   effectNodes: Tone.ToneAudioNode[],
-  noteId: string
+  noteId: string,
+  startTime: number,
 ) {
-  activeNotes[rope] = { chord, source, effectNodes, noteId };
+  activeNotes[rope] = { chord, source, effectNodes, noteId, startTime };
 }
 
 function setupKeyboardListener(key: string, clickMode: boolean) {
@@ -372,87 +381,276 @@ function setupKeyboardListener(key: string, clickMode: boolean) {
 }
 
 
+
+// TODO: ¿PORQUE CUANDO ACTIVO MÁS DE 3 EFECTOS SE ENTRECORTA EL SONIDO?
+
 // TODO: ESTO PODRIA MEJORAR
+
+// LEE EL SIGUIENTE TEXTO:
+
+// Se necesitan el acorde y la cuerda tanto de la nota actual como la anterior nota tocada
+// Normalmente en una guitarra cuando se toca la misma nota varias veces, se debe silenciar la nota anterior
+// Si se ha tocado una nota y la nota que se tocara acontinuación, se encuentra en la misma cuerda que la anterior, se debe silenciar la nota anterior
+// Si la nota actual y la anterior se encuentran en diferentes cuerdas, entonces no se debe silenciar la nota anterior
+
+// Opciones y parametros:
+// muteOnDifferentRope  <-- silencia la nota que se toca en una cuerda diferente
+// holdMode <-- Mantiene reproduciendo la nota anterior por un tiempo
+// holdModeAnyTime <-- No establece el tiempo en milisegundos
+// holdModeTime <-- Establece un tiempo en milisegundos para mantener reproduciendo la nota anterior
+// amountMode <-- Evita que la nota anterior se silencie si se toca la misma nota varias veces
+
+// Metas cumplidas:
+// Cuando agarro una moneda y la deslizo desde la tecla "P" hasta la "Q", si funciona, se escucha cuando alguien toca una nota y desliza el dedo por la cuerda, esto se logra si holdMode esta activado y holdModeAnyTime esta en 10 milisegundos
+
+// Nuevos objetivos:
+// Debe tener los siguientes parametros:
+// muteOnDifferentRope
+// muteOnSameRope
+// muteOnSameNote
+
+// Mantiene reproduciendo la nota anterior por un corto tiempo, debe englobar todas las condiciones
+// holdMode
+// holdModeTime
+// *Se elimina el parametro holdModeAnyTime
+
+
+// TODO: ENCONTRE UNOS PROBLEMAS EN LA LOGICA DE LA GUITARRA
+// 1. ¿Explicar porque si los parametros muteOnSameRope y muteOnSameNote estan en true, al pasar una moneda desde la tecla Q hasta la P no se escucha como si fuera que un guitarrista toca una nota y desliza el dedo por la cuerda, pues solamente funciona si holdMode esta en true?
+
+// 2. ¿Explicar porque si los parametros  muteOnDifferentRope, muteOnSameRope, muteOnSameNote, y holdMode estan en true y holdModeTime en 100 (por ejemplo)
+
+// 2.1. al tocar la misma cuerda, lo silencia la nota anterior luego de los milisegundos, si toco la nota por segunda vez, silencia la nota que sono por primera vez, pero cuando toco por tercera vez, no silencia la que toco por segunda vez hasta que toque por cuarta vez, silencia la que sono por tercera vez.
+
+// 2.2. solamente silencia las notas que se encuentran en una cuerda diferente luego del tiempo en milisegundos, silencia la nota
+
+// NUEVAS METAS:
+
+// 1. Implementar una nueva mecanica para deslizar el dedo por una cuerda
+
+// 2.1 Evitar que al tocar la misma cuerda con los parametros muteOnDifferentRope, muteOnSameRope, muteOnSameNote, y holdMode estan en true y holdModeTime en 100 (por ejemplo), que no trate de eliminar el dato de la nota anterior. ¿Me parece que ahi esta el problema...?
+
+// 2.2 Me parece una buena funcionalidad, 
+// pero porque silencia solamente la nota anterior tocada en una cuerda diferente y no cuenta con las notas de la misma cuerda
+// pero como lo implementaria para que silencie la nota anterior cuando deslizo una moneda sobre la cuerda
+
+
+
+// type NoteHandlingOptions = {
+//   muteOnDifferentRope: boolean,
+//   muteOnSameRope: boolean,
+//   muteOnSameNote: boolean,
+//   holdMode: boolean,
+//   holdModeTime: number
+// }
+
 function handlePreviousNotes(
   rope: number,
   chord: number,
   muteOnDifferentRope: boolean,
+  muteOnSameRope: boolean,
+  muteOnSameNote: boolean,
   holdMode: boolean,
-  holdModeAnyTime: boolean,
   holdModeTime: number,
-  amountMode: boolean
+  slideMode: boolean,
+  fadeTime: number,
+  minSlideInterval: number,
 ) {
-  const previousNote = activeNotes[rope]; // Nota activa en la misma cuerda
-  const prevRope = previousNotePlayed?.rope; // Última cuerda tocada
+  const previousNote = activeNotes[rope];
+  const prevRope = previousNotePlayed?.rope;
+  const now = Tone.now();
 
-  // 1. Si la nota anterior es la misma que la actual
-  if (previousNote && previousNote.chord === chord) {
-    if (!amountMode) {
-      // Si amountMode es falso, detener la nota anterior y tocar la nueva
-      cleanupNoteResources(previousNote);
-      console.log(`Nota repetida detenida: cuerda ${rope}, acorde ${chord}`);
-    } else if (holdMode) {
-      // Si amountMode y holdMode son verdaderos, mantener la nota
-      console.log(`Manteniendo la misma nota activa: cuerda ${rope}, acorde ${chord}`);
-      return;
+  // Función para programar la limpieza de una nota
+  // const scheduleCleanup = (note: ActiveNote, ropeNumber: number) => {
+  //   if (holdMode) {
+  //     // Limpiar cualquier temporizador existente
+  //     if (note.timeoutId) {
+  //       clearTimeout(note.timeoutId);
+  //     }
+
+  //     // Programar nueva limpieza
+  //     note.timeoutId = setTimeout(() => {
+  //       if (activeNotes[ropeNumber]?.chord === note.chord) {
+  //         cleanupNoteResources(note);
+  //         delete activeNotes[ropeNumber];
+  //         console.log(`Nota silenciada después de ${holdModeTime} milisegundos: cuerda ${ropeNumber}, acorde ${note.chord}`);
+  //       }
+  //     }, holdModeTime);
+  //   } else {
+  //     // Limpieza inmediata si no hay holdMode
+  //     cleanupNoteResources(note);
+  //     delete activeNotes[ropeNumber];
+  //   }
+  // };
+
+  // Nueva función para manejo de slide
+  const handleSlide = (note: ActiveNote, ropeNum: number) => {
+
+    const elapsedTime = Date.now() - note.startTime;
+
+    if (slideMode &&
+      elapsedTime < minSlideInterval) {
+      console.log('HABILITADO EL MODO SLICE')
+      note.source.stop(Tone.now() + fadeTime / 1000);
+      return true;
     }
-  }
+    return false;
+  };
 
-  // 2. Si la nota anterior está en la misma cuerda pero es diferente
-  if (previousNote && previousNote.chord !== chord) {
-    previousNote.source.stop(Tone.now() + holdModeTime / 100); // Pequeño fadeout
 
-    if (!holdModeAnyTime) {
-      // Limpiar temporizador si existe antes de crear uno nuevo
-      if (previousNote.timeoutId) {
-        clearTimeout(previousNote.timeoutId);
-        console.log(`LIMPIANDO TEMPORIZADOR para cuerda ${rope}`);
-      }
+  // 1. Misma cuerda y misma nota
+  // if (previousNote && previousNote.chord === chord) {
+  //   if (muteOnSameNote) {
+  //     scheduleCleanup(previousNote, rope);
+  //   }
+  //   return; // Siempre salimos si es la misma nota
+  // }
 
-      // Asignar temporizador para limpiar la nota después de `holdModeTime`
-      previousNote.timeoutId = setTimeout(() => {
-        if (activeNotes[rope]?.chord === previousNote.chord) {
+
+  // 1. Misma cuerda
+  if (previousNote) {
+    const isSlide = handleSlide(previousNote, rope);
+
+    if (!isSlide) {
+      if (previousNote.chord === chord && muteOnSameNote) {
+        cleanupNoteResources(previousNote);
+        delete activeNotes[rope];
+      } else if (previousNote.chord !== chord && muteOnSameRope) {
+        if (holdMode) {
+          scheduleDelayedCleanup(previousNote, rope, holdModeTime);
+        } else {
           cleanupNoteResources(previousNote);
           delete activeNotes[rope];
-          console.log(`Nota silenciada después de holdModeTime: cuerda ${rope}, acorde ${previousNote.chord}`);
         }
-      }, holdModeTime);
-    } else {
-      console.log(`Mantenimiento de la nota: cuerda ${rope}, acorde ${previousNote.chord} (holdModeAnyTime activo)`);
+      }
     }
   }
 
-  // 3. Si la nota anterior está en una cuerda diferente
+  // // 2. Misma cuerda pero nota diferente
+  // if (previousNote && previousNote.chord !== chord) {
+  //   if (muteOnSameRope) {
+  //     // Pequeño fadeout para transición suave
+  //     previousNote.source.stop(Tone.now() + 0.02);
+  //     scheduleCleanup(previousNote, rope);
+  //   }
+  // }
+
+  // // 3. Nota anterior en cuerda diferente
+  // if (prevRope !== null && prevRope !== rope && activeNotes[prevRope]) {
+  //   if (muteOnDifferentRope) {
+  //     // Pequeño fadeout para transición suave
+  //     activeNotes[prevRope].source.stop(Tone.now() + 0.02);
+  //     scheduleCleanup(activeNotes[prevRope], prevRope);
+  //   }
+  // }
+  // 2. Cuerda diferente
   if (prevRope !== null && prevRope !== rope && activeNotes[prevRope]) {
     if (muteOnDifferentRope) {
       if (holdMode) {
-        if (!holdModeAnyTime) {
-          // Limpiar temporizador si existe antes de asignar uno nuevo
-          if (activeNotes[prevRope]!.timeoutId) {
-            clearTimeout(activeNotes[prevRope]!.timeoutId);
-            console.log(`LIMPIANDO TEMPORIZADOR para cuerda ${prevRope}`);
-          }
-
-          // Asignar temporizador para limpiar la nota después de `holdModeTime`
-          activeNotes[prevRope]!.timeoutId = setTimeout(() => {
-            if (activeNotes[prevRope]) {
-              cleanupNoteResources(activeNotes[prevRope]);
-              delete activeNotes[prevRope];
-              console.log(`Nota de cuerda diferente silenciada después de holdModeTime: cuerda ${prevRope}`);
-            }
-          }, holdModeTime);
-        } else {
-          // Si holdModeAnyTime está activo, simplemente NO eliminamos la nota
-          console.log(`Mantenimiento indefinido de la nota en cuerda ${prevRope} (holdModeAnyTime activo)`);
-        }
+        scheduleDelayedCleanup(activeNotes[prevRope], prevRope, holdModeTime);
       } else {
         cleanupNoteResources(activeNotes[prevRope]);
         delete activeNotes[prevRope];
-        console.log(`Nota de cuerda diferente silenciada inmediatamente: cuerda ${prevRope}`);
       }
     }
   }
+
 }
+
+// Función auxiliar mejorada para limpieza
+function scheduleDelayedCleanup(note: ActiveNote, ropeNum: number, delay: number) {
+  if (note.timeoutId) clearTimeout(note.timeoutId);
+
+  note.timeoutId = setTimeout(() => {
+    if (activeNotes[ropeNum]?.noteId === note.noteId) { // Verificar que sea la misma nota
+      cleanupNoteResources(note);
+      delete activeNotes[ropeNum];
+    }
+  }, delay);
+}
+
+// function handlePreviousNotes(
+//   rope: number,
+//   chord: number,
+//   muteOnDifferentRope: boolean,
+//   holdMode: boolean,
+//   holdModeAnyTime: boolean,
+//   holdModeTime: number,
+//   amountMode: boolean
+// ) {
+//   const previousNote = activeNotes[rope]; // Nota activa en la misma cuerda
+//   const prevRope = previousNotePlayed?.rope; // Última cuerda tocada
+
+//   // 1. Si la nota anterior es la misma que la actual
+//   if (previousNote && previousNote.chord === chord) {
+//     if (!amountMode) {
+//       // Si amountMode es falso, detener la nota anterior y tocar la nueva
+//       cleanupNoteResources(previousNote);
+//       console.log(`Nota repetida detenida: cuerda ${rope}, acorde ${chord}`);
+//     } else if (holdMode) {
+//       // Si amountMode y holdMode son verdaderos, mantener la nota
+//       console.log(`Manteniendo la misma nota activa: cuerda ${rope}, acorde ${chord}`);
+//       return;
+//     }
+//   }
+
+//   // 2. Si la nota anterior está en la misma cuerda pero es diferente
+//   if (previousNote && previousNote.chord !== chord) {
+//     previousNote.source.stop(Tone.now() + holdModeTime / 100); // Pequeño fadeout
+
+//     if (!holdModeAnyTime) {
+//       // Limpiar temporizador si existe antes de crear uno nuevo
+//       if (previousNote.timeoutId) {
+//         clearTimeout(previousNote.timeoutId);
+//         console.log(`LIMPIANDO TEMPORIZADOR para cuerda ${rope}`);
+//       }
+
+//       // Asignar temporizador para limpiar la nota después de `holdModeTime`
+//       previousNote.timeoutId = setTimeout(() => {
+//         if (activeNotes[rope]?.chord === previousNote.chord) {
+//           cleanupNoteResources(previousNote);
+//           delete activeNotes[rope];
+//           console.log(`Nota silenciada después de holdModeTime: cuerda ${rope}, acorde ${previousNote.chord}`);
+//         }
+//       }, holdModeTime);
+//     } else {
+//       console.log(`Mantenimiento de la nota: cuerda ${rope}, acorde ${previousNote.chord} (holdModeAnyTime activo)`);
+//     }
+//   }
+
+//   // 3. Si la nota anterior está en una cuerda diferente
+//   if (prevRope !== null && prevRope !== rope && activeNotes[prevRope]) {
+//     if (muteOnDifferentRope) {
+//       if (holdMode) {
+//         if (!holdModeAnyTime) {
+//           // Limpiar temporizador si existe antes de asignar uno nuevo
+//           if (activeNotes[prevRope]!.timeoutId) {
+//             clearTimeout(activeNotes[prevRope]!.timeoutId);
+//             console.log(`LIMPIANDO TEMPORIZADOR para cuerda ${prevRope}`);
+//           }
+
+//           // Asignar temporizador para limpiar la nota después de `holdModeTime`
+//           activeNotes[prevRope]!.timeoutId = setTimeout(() => {
+//             if (activeNotes[prevRope]) {
+//               cleanupNoteResources(activeNotes[prevRope]);
+//               delete activeNotes[prevRope];
+//               console.log(`Nota de cuerda diferente silenciada después de holdModeTime: cuerda ${prevRope}`);
+//             }
+//           }, holdModeTime);
+//         } else {
+//           // Si holdModeAnyTime está activo, simplemente NO eliminamos la nota
+//           console.log(`Mantenimiento indefinido de la nota en cuerda ${prevRope} (holdModeAnyTime activo)`);
+//         }
+//       } else {
+//         cleanupNoteResources(activeNotes[prevRope]);
+//         delete activeNotes[prevRope];
+//         console.log(`Nota de cuerda diferente silenciada inmediatamente: cuerda ${prevRope}`);
+//       }
+//     }
+//   }
+// }
+
+
 
 // Nueva función para limpieza segura
 function cleanupNoteResources(note: ActiveNote) {

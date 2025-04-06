@@ -11,23 +11,39 @@ type GuitarContextProps = {
   setInitialChord: React.Dispatch<React.SetStateAction<number>>;
   lockZeroChord: boolean;
   setLockZeroChord: React.Dispatch<React.SetStateAction<boolean>>;
-  mutePreviousNote: boolean;
-  setMutePreviousNote: React.Dispatch<React.SetStateAction<boolean>>;
   pulseMode: boolean;
   setPulseMode: React.Dispatch<React.SetStateAction<boolean>>;
-  holdMode: { enabled: boolean; anyTime: boolean; time: number };
-  setHoldMode: React.Dispatch<
-    React.SetStateAction<{ enabled: boolean; anyTime: boolean; time: number }>
-  >;
-  notePlayed: Note;
-  setNotePlayed: React.Dispatch<React.SetStateAction<Note>>;
 
-  amountMode: boolean;
-  setAmountMode: React.Dispatch<React.SetStateAction<boolean>>;
+  // mutePreviousNote: boolean;
+  // setMutePreviousNote: React.Dispatch<React.SetStateAction<boolean>>;
+  // holdMode: { enabled: boolean; anyTime: boolean; time: number };
+  // setHoldMode: React.Dispatch<
+  //   React.SetStateAction<{ enabled: boolean; anyTime: boolean; time: number }>
+  // >;
+  // amountMode: boolean;
+  // setAmountMode: React.Dispatch<React.SetStateAction<boolean>>;
+
+  noteConfig: {
+    muteOnDifferentRope: boolean;
+    muteOnSameRope: boolean;
+    muteOnSameNote: boolean;
+    holdMode: boolean;
+    holdModeTime: number;
+  };
+  setNoteConfig: React.Dispatch<
+    React.SetStateAction<{
+      muteOnDifferentRope: boolean;
+      muteOnSameRope: boolean;
+      muteOnSameNote: boolean;
+      holdMode: boolean;
+      holdModeTime: number;
+    }>
+  >;
 
   gain: number;
   setGain: React.Dispatch<React.SetStateAction<number>>;
-
+  notePlayed: Note;
+  setNotePlayed: React.Dispatch<React.SetStateAction<Note>>;
   effects: Effects;
   handleChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

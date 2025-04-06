@@ -42,25 +42,40 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   // Bloquear el acorde 0
   const [lockZeroChord, setLockZeroChord] = useState<boolean>(false);
 
-  // Silenciar la nota anterior (cuerda diferente)
-  const [mutePreviousNote, setMutePreviousNote] = useState<boolean>(false);
+  // Configuración de reproducción de notas
+  const [noteConfig, setNoteConfig] = useState<{
+    muteOnDifferentRope: boolean;
+    muteOnSameRope: boolean;
+    muteOnSameNote: boolean;
+    holdMode: boolean;
+    holdModeTime: number;
+  }>({
+    muteOnDifferentRope: false,
+    muteOnSameRope: true,
+    muteOnSameNote: true,
+    holdMode: true,
+    holdModeTime: 100,
+  });
+
+  // // Silenciar la nota anterior (cuerda diferente)
+  // const [mutePreviousNote, setMutePreviousNote] = useState<boolean>(false);
 
   // Modo pulso (manten pulsada una tecla para mantener reproduciendo la nota)
   const [pulseMode, setPulseMode] = useState<boolean>(false);
 
-  // Modo retención (no silencia la nota anterior de la misma cuerda)
-  const [holdMode, setHoldMode] = useState<{
-    enabled: boolean;
-    anyTime: boolean;
-    time: number;
-  }>({
-    enabled: true,
-    anyTime: false, // Sin tiempo en milisegundos
-    time: 10, // Ajusta el tiempo en milisegundos
-  });
+  // // Modo retención (no silencia la nota anterior de la misma cuerda)
+  // const [holdMode, setHoldMode] = useState<{
+  //   enabled: boolean;
+  //   anyTime: boolean;
+  //   time: number;
+  // }>({
+  //   enabled: true,
+  //   anyTime: false, // Sin tiempo en milisegundos
+  //   time: 10, // Ajusta el tiempo en milisegundos
+  // });
 
-  // Modo amontonar (evita silenciar la misma nota)
-  const [amountMode, setAmountMode] = useState<boolean>(false);
+  // // Modo amontonar (evita silenciar la misma nota)
+  // const [amountMode, setAmountMode] = useState<boolean>(false);
 
   // ESTADO DE EFECTOS
   const [effects, setEffects] = useState<Effects>({
@@ -211,15 +226,18 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
         setInitialChord,
         lockZeroChord,
         setLockZeroChord,
-        mutePreviousNote,
-        setMutePreviousNote,
+
+        noteConfig,
+        setNoteConfig,
+        // mutePreviousNote,
+        // setMutePreviousNote,
         pulseMode,
         setPulseMode,
-        holdMode,
-        setHoldMode,
+        // holdMode,
+        // setHoldMode,
 
-        amountMode,
-        setAmountMode,
+        // amountMode,
+        // setAmountMode,
         gain,
         setGain,
 

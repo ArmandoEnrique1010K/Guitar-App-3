@@ -17,14 +17,17 @@ export default function ControlsView() {
     setInitialChord,
     lockZeroChord,
     setLockZeroChord,
-    mutePreviousNote,
-    setMutePreviousNote,
     pulseMode,
     setPulseMode,
-    holdMode,
-    setHoldMode,
-    amountMode,
-    setAmountMode,
+
+    // mutePreviousNote,
+    // setMutePreviousNote,
+    // holdMode,
+    // setHoldMode,
+    // amountMode,
+    // setAmountMode,
+    noteConfig,
+    setNoteConfig,
   } = useGuitar();
 
   // Vuelve a establecer el acorde inicial si lockZeroChord cambia
@@ -145,7 +148,80 @@ export default function ControlsView() {
         onChange={(e) => setLockZeroChord(e.target.checked)}
       />{" "}
       Bloquear
-      <h3>Silenciar nota anterior</h3>
+      <br />
+      <h3>Modo pulso (manten pulsada una tecla)</h3>
+      <input
+        type="checkbox"
+        checked={pulseMode}
+        onChange={(e) => setPulseMode(e.target.checked)}
+      />{" "}
+      Activar
+      <br />
+      <h3>Silenciar nota en diferente cuerda</h3>
+      <input
+        type="checkbox"
+        checked={noteConfig.muteOnDifferentRope}
+        onChange={() =>
+          setNoteConfig((prev) => ({
+            ...prev,
+            muteOnDifferentRope: !prev.muteOnDifferentRope,
+          }))
+        }
+      />{" "}
+      Silenciar nota anterior en la cuerda diferente
+      <br />
+      <h3>Silenciar nota en la misma cuerda</h3>
+      <input
+        type="checkbox"
+        checked={noteConfig.muteOnSameRope}
+        onChange={() =>
+          setNoteConfig((prev) => ({
+            ...prev,
+            muteOnSameRope: !prev.muteOnSameRope,
+          }))
+        }
+      />{" "}
+      Silenciar nota anterior en la misma cuerda
+      <br />
+      <h3>Silenciar la misma nota reproducida</h3>
+      <input
+        type="checkbox"
+        checked={noteConfig.muteOnSameNote}
+        onChange={() =>
+          setNoteConfig((prev) => ({
+            ...prev,
+            muteOnSameNote: !prev.muteOnSameNote,
+          }))
+        }
+      />{" "}
+      Silenciar la misma nota reproducida
+      <br />
+      <h3>Mantener reproduciendo la nota anterior</h3>
+      <input
+        type="checkbox"
+        checked={noteConfig.holdMode}
+        onChange={() =>
+          setNoteConfig((prev) => ({
+            ...prev,
+            holdMode: !prev.holdMode,
+          }))
+        }
+      />{" "}
+      Modo mantener reproduciendo nota anterior
+      <br />
+      <h3>Tiempo de reproducción de la nota anterior (en milisegundos)</h3>
+      <input
+        type="range"
+        min={0}
+        max={3000}
+        step={1}
+        value={noteConfig.holdModeTime}
+        onChange={(e) => {
+          setNoteConfig((prev) => ({ ...prev, holdModeTime: +e.target.value }));
+        }}
+      />{" "}
+      Silenciar despues de {noteConfig.holdModeTime} milisegundos
+      {/* <h3>Silenciar nota anterior</h3>
       <input
         type="checkbox"
         checked={mutePreviousNote}
@@ -202,7 +278,7 @@ export default function ControlsView() {
         onChange={(e) => setAmountMode(e.target.checked)}
       />{" "}
       Activar
-      <br />
+      <br /> */}
       <h3>Silencio</h3>
       <button onClick={muteAll}>Silenciar todo</button>
     </div>
