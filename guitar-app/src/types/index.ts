@@ -122,6 +122,19 @@ export type Effects = {
   autoWah?: AutoWahEffect
 }
 
+export type PartialEffects = {
+  distortion?: Partial<DistortionEffect>;
+  eq3?: Partial<EQ3Effect>;
+  autoWah?: Partial<AutoWahEffect>;
+  phaser?: Partial<PhaserEffect>;
+  chorus?: Partial<ChorusEffect>;
+  vibrato?: Partial<VibratoEffect>;
+  tremolo?: Partial<TremoloEffect>;
+  delay?: Partial<DelayEffect>;
+  reverb?: Partial<ReverbEffect>;
+  compressor?: Partial<CompressorEffect>;
+}
+
 export type Note = {
   rope: number | null;
   chord: number | null;
