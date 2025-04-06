@@ -196,7 +196,9 @@ export default function ControlsView() {
       />{" "}
       Silenciar la misma nota reproducida
       <br />
-      <h3>Mantener reproduciendo la nota anterior</h3>
+      <h3>
+        Mantener reproduciendo la nota anterior (evita silencios inesperados)
+      </h3>
       <input
         type="checkbox"
         checked={noteConfig.holdMode}

@@ -54,7 +54,7 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
     muteOnSameRope: true,
     muteOnSameNote: true,
     holdMode: true,
-    holdModeTime: 100,
+    holdModeTime: 0,
   });
 
   // // Silenciar la nota anterior (cuerda diferente)
