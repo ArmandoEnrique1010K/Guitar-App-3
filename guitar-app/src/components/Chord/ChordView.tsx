@@ -50,8 +50,6 @@ export default function ChordView({
     autoWah,
   } = effects;
 
-  const effectsActive = Object.values(effects).some((e) => e?.enabled);
-
   const handlePlaySound = (clickMode: boolean) => {
     setNotePlayed({ rope, chord });
     playSound(
@@ -85,8 +83,7 @@ export default function ChordView({
         eq3,
         compressor,
         autoWah,
-      },
-      effectsActive
+      }
     );
   };
 

@@ -120,7 +120,6 @@ export function playSound(
   holdModeTime: number,
   gain: number,
   effects: Effects,
-  effectsActive: boolean,
 ): void {
 
   // Validación de teclado
@@ -137,10 +136,10 @@ export function playSound(
   }
 
   // Generar ID único para esta nota
-  const currentNoteId = generateNoteId();
+  // const currentNoteId = generateNoteId();
 
   // Manejo de notas anteriores
-  handlePreviousNotes(rope, chord, currentNoteId, muteOnDifferentRope, muteOnSameRope, muteOnSameNote, holdMode, holdModeTime, effectsActive)
+  handlePreviousNotes(rope, chord, muteOnDifferentRope, muteOnSameRope, muteOnSameNote, holdMode, holdModeTime)
 
   try {
     // Crear y configurar nueva nota
@@ -254,13 +253,11 @@ function setupKeyboardListener(key: string, clickMode: boolean) {
 function handlePreviousNotes(
   rope: number,
   chord: number,
-  currentNoteId: string,
   muteOnDifferentRope: boolean,
   muteOnSameRope: boolean,
   muteOnSameNote: boolean,
   holdMode: boolean,
   holdModeTime: number,
-  effectsActive: boolean
 ) {
   const previousNote = activeNotes[rope];
   const prevRope = previousNotePlayed?.rope;
@@ -373,38 +370,52 @@ function handlePreviousNotes(
 
 // Nueva función para limpieza segura
 function cleanupNoteResources(note: ActiveNote) {
-  if (note.timeoutId) clearTimeout(note.timeoutId);
-
-  if (note.source) {
-    try {
-      console.log("Limpieza segura de nota")
-
-      note.source.stop();
-
-      // ELIMINA LOS EFECTOS DE SONIDO CORRESPONDIENTES A ESA NOTA
-      effectsManager.disposeChain(note.effectNodes);
-
-      note.source.dispose();
-
-    } catch (error) {
-      console.warn("Error al detener o eliminar el BufferSource:", error);
-    }
+  if (note.timeoutId) {
+    clearTimeout(note.timeoutId);
   }
 
-  effectsManager.disposeChain(note.effectNodes);
+  if (!note.source) return;
 
-  note.effectNodes.forEach((node) => {
-    try {
-      effectsManager.disposeChain(note.effectNodes);
-      console.log('Limpieza segura de efecto')
-      node.dispose();
-    } catch (error) {
-      console.warn("Error al limpiar nodo de efecto:", error);
-    }
-  });
+  try {
+    console.log("Iniciando limpieza suave de nota");
 
+    note.source.stop();
+
+    // 1. Aplicar fadeout suave al volumen principal
+    const fadeDuration = 0.2; // 200ms para fadeout
+    // note.source.volume.rampTo(-Infinity, fadeDuration);
+
+    // 2. Aplicar fadeout a los efectos (si tienen parámetro wet)
+    note.effectNodes.forEach(node => {
+      if ('wet' in node) {
+        (node.wet as Tone.Param).rampTo(0, fadeDuration);
+      }
+    });
+
+    // 3. Programar la limpieza después del fadeout
+    setTimeout(() => {
+      try {
+        // 4. Detener y liberar recursos después del fade
+        note.source.stop();
+        note.source.dispose();
+
+        // 5. Limpiar solo los efectos únicos de esta nota
+        effectsManager.disposeChain(note.effectNodes);
+        // effectsManager.disposeAll();
+        console.log("Limpieza completada después de fadeout");
+      } catch (error) {
+        console.warn("Error en limpieza post-fade:", error);
+      }
+    }, fadeDuration * 1000); // Convertir a milisegundos
+
+  } catch (error) {
+    console.warn("Error durante el proceso de fadeout:", error);
+    // Fallback: limpieza inmediata si hay error
+    note.source.stop();
+    note.source.dispose();
+    effectsManager.disposeChain(note.effectNodes);
+  }
 }
-
 // TODO: IMPLEMENTE ESTO
 // effectsManager.disposeChain(note.effectNodes);
 
