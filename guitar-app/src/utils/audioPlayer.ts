@@ -278,6 +278,7 @@ function handlePreviousNotes(
         console.log('SHEDULECLEANUP, la nota anterior: ' + note.chord + ' fue silenciada en ' + holdModeTime + ' milisegundos porque ha tocado otra nota')
         // cleanupNoteResources(note);
 
+        // Si es la misma nota...
         if (activeNotes[ropeNumber]?.noteId === note.noteId) {
           cleanupNoteResources(note);
           console.log('CODIGO MUERTO, DEBE SER ELIMINADO')
@@ -308,6 +309,7 @@ function handlePreviousNotes(
 
             // TODO: NO IMPLEMENTAR ESTO, EVITA QUE SUENE LA MISMA NOTA CON ALGUN EFECTO DE SONIDO
             // effectsManager.disposeAll();
+            cleanupNoteResources(note);
             console.log(`pausePreviousNote, Nota pausada: ${note.chord} en ${holdModeTime / 1000} segundos`);
           }, holdModeTime);
 
@@ -329,6 +331,7 @@ function handlePreviousNotes(
     if (previousNote.chord === chord) {
       // Misma nota
       if (muteOnSameNote) {
+        console.log('ACTIVADO muteOnSameNote')
 
         previousNote.source.stop(now + holdModeTime / 1000); // Pequeño fadeout
         console.log('Ha tocado la misma nota')
@@ -341,6 +344,8 @@ function handlePreviousNotes(
     } else {
       // Nota diferente en misma cuerda
       if (muteOnSameRope) {
+
+        console.log('ACTIVADO muteOnSameRope')
         // previousNote.source.stop(Tone.now() + 0.02);
         previousNote.source.stop(now + holdModeTime / 1000); // Pequeño fadeout
         scheduleCleanup(previousNote, rope);
@@ -354,6 +359,8 @@ function handlePreviousNotes(
   // 2. Manejo de notas en cuerdas diferentes
   if (prevRope !== null && prevRope !== rope && activeNotes[prevRope]) {
     if (muteOnDifferentRope) {
+      console.log('ACTIVADO muteOnDifferentRope')
+
       activeNotes[prevRope].source.stop(now + holdModeTime / 1000); // Pequeño fadeout
       scheduleCleanup(activeNotes[prevRope], prevRope);
     }
@@ -367,11 +374,16 @@ function handlePreviousNotes(
 // Nueva función para limpieza segura
 function cleanupNoteResources(note: ActiveNote) {
   if (note.timeoutId) clearTimeout(note.timeoutId);
+
   if (note.source) {
     try {
       console.log("Limpieza segura de nota")
+
       note.source.stop();
+
+      // ELIMINA LOS EFECTOS DE SONIDO CORRESPONDIENTES A ESA NOTA
       effectsManager.disposeChain(note.effectNodes);
+
       note.source.dispose();
 
     } catch (error) {
@@ -391,9 +403,10 @@ function cleanupNoteResources(note: ActiveNote) {
     }
   });
 
-  // TODO: IMPLEMENTE ESTO
-  // effectsManager.disposeChain(note.effectNodes);
-
-  // TODO: ¿PARA QUE SIRVE ESTO? --> ELIMINA TODOS LOS EFECTOS DE SONIDO (AL CERRAR LA APP O AL HACER CLIC EN EL BÓTON DE SILENCIAR TODO)
-  // effectsManager.disposeAll();
 }
+
+// TODO: IMPLEMENTE ESTO
+// effectsManager.disposeChain(note.effectNodes);
+
+// TODO: ¿PARA QUE SIRVE ESTO? --> ELIMINA TODOS LOS EFECTOS DE SONIDO (HACER CLIC EN EL BÓTON DE SILENCIAR TODO, FUNCIONA, HACE COMO UN 'REINICIO' Y LAS NOTAS VUELVEN A SONAR)
+// effectsManager.disposeAll();
