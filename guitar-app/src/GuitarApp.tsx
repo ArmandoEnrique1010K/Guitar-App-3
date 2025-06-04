@@ -3,12 +3,13 @@ import ControlsView from "./components/Controls/ControlsView";
 import NeckView from "./components/Neck/NeckView";
 import EffectsView from "./components/Effects/EffectsView";
 import { useGuitar } from "./hooks/useGuitar";
+import Loading from "./components/Loader/Loading";
 
 export default function GuitarApp() {
   const { loading, neck } = useGuitar();
 
   return loading ? (
-    <h2>Cargando, observa el poder de React y ToneJS</h2>
+    <Loading />
   ) : (
     <div>
       <TitleView />

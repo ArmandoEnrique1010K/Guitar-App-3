@@ -1,0 +1,30 @@
+.container {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+/* .image {
+  width: 100px;
+  height: auto;
+} */
+
+.text {
+  color: #28dd2b;
+  font-size: 24px;
+  font-weight: bold;
+  animation: blink 1s infinite alternate;
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
