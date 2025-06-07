@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState, useEffect, useMemo } from "react";
 import {
   INITIAL_DISTORTION,
   INITIAL_REVERB,
@@ -13,7 +13,7 @@ import {
   INITIAL_MESSAGE,
 } from "../constants";
 import { guitarNotes } from "../data/guitarNotes";
-import { Neck, Note, Effects } from "../types";
+import { Note, Effects } from "../types";
 import { assignKeysToFrets } from "../utils/assignKeysToFrets";
 import { preloadSounds } from "../utils/audioPlayer";
 import { GuitarContext } from "./GuitarContext";
@@ -25,7 +25,7 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   const [instrument, setInstrument] = useState<string>("cleanSolo");
 
   // Mastil de notas
-  const [neck, setNeck] = useState<Neck>([]);
+  // const [neck, setNeck] = useState<Neck>([]);
 
   // Carga inicial
   const [loading, setLoading] = useState(true);
@@ -180,24 +180,96 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    const updatedNeck = assignKeysToFrets(
-      guitarNotes,
-      keysRowType[5],
-      keysRowType[4],
-      keysRowType[3],
-      keysRowType[2],
-      keysRowType[1],
-      keysRowType[0],
-      initialChord,
-      lockZeroChord
-    );
-    setNeck(updatedNeck);
-
+    // const updatedNeck = assignKeysToFrets(
+    //   guitarNotes,
+    //   keysRowType[5],
+    //   keysRowType[4],
+    //   keysRowType[3],
+    //   keysRowType[2],
+    //   keysRowType[1],
+    //   keysRowType[0],
+    //   initialChord,
+    //   lockZeroChord
+    // );
+    // setNeck(updatedNeck);
+    // if (keysRowType.length === 6) {
+    //   const reversed = keysRowType.slice().reverse();
+    //   setNeck(
+    //     assignKeysToFrets(
+    //       guitarNotes,
+    //       reversed[0],
+    //       reversed[1],
+    //       reversed[2],
+    //       reversed[3],
+    //       reversed[4],
+    //       reversed[5],
+    //       initialChord,
+    //       lockZeroChord
+    //     )
+    //   );
+    // }
     console.log("Se cambio de instrumento a " + instrument);
     // console.log(updatedNeck);
 
     // console.log(keysRowType);
+    // DEPENDENCIAS: instrument, keysRowType, initialChord, lockZeroChord
   }, [instrument, keysRowType, initialChord, lockZeroChord]);
+
+  // Mastil de notas (optimizado con useMemo)
+  const neck = useMemo(() => {
+    if (keysRowType.length === 6) {
+      const reversed = keysRowType.slice().reverse();
+      return assignKeysToFrets(
+        guitarNotes,
+        reversed[0],
+        reversed[1],
+        reversed[2],
+        reversed[3],
+        reversed[4],
+        reversed[5],
+        initialChord,
+        lockZeroChord
+      );
+    }
+    return [];
+  }, [guitarNotes, keysRowType, initialChord, lockZeroChord]);
+
+  // Mejorar el rendimiento recalculando el mástil solo cuando cambian dependencias relevantes
+  // useEffect(() => {
+  //   console.log("Cambiando acorde inicial a " + initialChord);
+
+  //   setNeck(
+  //     assignKeysToFrets(
+  //       guitarNotes,
+  //       keysRowType[5],
+  //       keysRowType[4],
+  //       keysRowType[3],
+  //       keysRowType[2],
+  //       keysRowType[1],
+  //       keysRowType[0],
+  //       initialChord,
+  //       lockZeroChord
+  //     )
+  //   );
+  // }, [initialChord]);
+
+  // useEffect(() => {
+  //   console.log("Cambiaron las filas del teclado", keysRowType);
+
+  //   setNeck(
+  //     assignKeysToFrets(
+  //       guitarNotes,
+  //       keysRowType[5],
+  //       keysRowType[4],
+  //       keysRowType[3],
+  //       keysRowType[2],
+  //       keysRowType[1],
+  //       keysRowType[0],
+  //       initialChord,
+  //       lockZeroChord
+  //     )
+  //   );
+  // }, [keysRowType]);
 
   // ESTA FUNCIÓN DEBERIA EVITAR QUE SE SIGA REPRODUCIENDO LA NOTA MUSICAL
   useEffect(() => {

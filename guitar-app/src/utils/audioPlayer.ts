@@ -196,15 +196,15 @@ export function playSound(
     // TODO: IMPRIMIR EN LA CONSOLA UN MENSAJE CUANDO LA NOTA TERMINA DE REPRODUCIRSE O CORTARSE EN ALGUN MOMENTO REPENTINO
 
     // Mensaje cuando termina la nota
-    setTimeout(() => {
-      // Verifica que la nota sigue activa y es la misma
-      if (activeNotes[rope]?.noteId === activeNotes[rope]?.noteId) {
-        console.log(`Nota finalizada: cuerda ${rope}, acorde ${chord}`);
-        // Limpieza si es necesario
-        // cleanupPreviousNote(rope);
+    // setTimeout(() => {
+    //   // Verifica que la nota sigue activa y es la misma
+    //   if (activeNotes[rope]?.noteId === activeNotes[rope]?.noteId) {
+    //     console.log(`Nota finalizada: cuerda ${rope}, acorde ${chord}`);
+    //     // Limpieza si es necesario
+    //     // cleanupPreviousNote(rope);
 
-      }
-    }, (bufferSource.buffer.duration + 0.1) * 1000);
+    //   }
+    // }, (bufferSource.buffer.duration + 0.1) * 1000);
     // ...existing code...
 
 
