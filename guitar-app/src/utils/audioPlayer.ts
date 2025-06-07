@@ -1,5 +1,6 @@
 import * as Tone from "tone";
 import { Effects, PreviousNote } from "../types";
+import { EffectsManager } from "./effectsManager";
 
 type ActiveNote = {
   chord: number;
@@ -7,17 +8,18 @@ type ActiveNote = {
   effectNodes: Tone.ToneAudioNode[]; // Almacena los nodos de efectos
   noteId: string; // Identificador único para cada nota
   timeoutId?: NodeJS.Timeout; // Optional timeout ID for managing note silencing
+  startTime: number; // Timestamp en milisegundos
+  // shouldMute: boolean
 }
 
-// 2. Función para generar IDs únicos
-function generateNoteId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).substring(2);
-}
-
+// Numero de archivos de sonido
 const MAX_NOTES = 47; // 00 a 46
 const NOTE_FILES = Array.from({ length: MAX_NOTES }, (_, i) =>
   i.toString().padStart(2, "0")
 );
+
+// Inicialización del EffectsManager
+const effectsManager = new EffectsManager();
 
 // ==================== ESTADO GLOBAL ====================
 
@@ -25,6 +27,9 @@ const activeKeys: Record<string, boolean> = {};
 const players: Record<string, Tone.Player> = {};
 const activeNotes: Record<number, ActiveNote | undefined> = {};
 let previousNotePlayed: PreviousNote = { rope: null, chord: null };
+
+
+// ==================== FUNCIONES PRINCIPALES ====================
 
 // Precarga todos los sonidos de una carpeta específica
 // name es el nombre de la carpeta que contiene los samples
@@ -46,6 +51,12 @@ export function preloadSounds(name: string) {
   });
 }
 
+
+// 2. Función para generar IDs únicos
+function generateNoteId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
+
 // Limpia los recursos de una nota anterior en una cuerda específica
 // rope es el número de cuerda a limpiar
 export function cleanupPreviousNote(rope: number) {
@@ -55,6 +66,7 @@ export function cleanupPreviousNote(rope: number) {
   note.source.stop();
   note.source.dispose();
   note.effectNodes.forEach(node => node.dispose());
+  // effectsManager.disposeAll();
   delete activeNotes[rope];
 }
 
@@ -62,10 +74,14 @@ export function cleanupPreviousNote(rope: number) {
 export function muteAll(): void {
   Object.keys(activeNotes).forEach(ropeStr => {
     const rope = Number(ropeStr);
+    const note = activeNotes[rope];
+    if (note) effectsManager.disposeAll()
     cleanupPreviousNote(rope);
   });
+
   previousNotePlayed = { rope: null, chord: null };
 }
+
 
 // Detiene solo la nota actualmente activa
 export function muteCurrentNote(): void {
@@ -79,6 +95,7 @@ export function muteCurrentNote(): void {
   const note = activeNotes[rope];
   if (note?.source) {
     note.source.stop();
+    // effectsManager.disposeAll();
     delete activeNotes[rope];
     console.log(`Nota silenciada: cuerda ${rope}, acorde ${chord}`);
   }
@@ -86,23 +103,24 @@ export function muteCurrentNote(): void {
   previousNotePlayed = { rope: null, chord: null };
 }
 
+// ==================== FUNCIÓN PRINCIPAL DE REPRODUCCIÓN ====================
+
 // Reproduce un sonido con los efectos especificados
 export function playSound(
   name: string,
   data: { rope: number; frets: { chord: number; file: string }[] }[] = [],
   rope: number,
   chord: number,
-  muteOnDifferentRope: boolean,
   keyFromKeyboard: string,
   clickMode: boolean,
-  holdModeEnabled: boolean,
-  holdModeAnyTime: boolean,
+  muteOnDifferentRope: boolean,
+  muteOnSameRope: boolean,
+  muteOnSameNote: boolean,
+  holdMode: boolean,
   holdModeTime: number,
-  amountMode: boolean,
   gain: number,
-  effects: Effects
-) {
-
+  effects: Effects,
+): void {
 
   // Validación de teclado
   if (shouldSkipPlayback(keyFromKeyboard, clickMode)) return;
@@ -118,30 +136,51 @@ export function playSound(
   }
 
   // Generar ID único para esta nota
-  const currentNoteId = generateNoteId();
+  // const currentNoteId = generateNoteId();
 
   // Manejo de notas anteriores
-  handlePreviousNotes(rope, chord, muteOnDifferentRope, holdModeEnabled, holdModeAnyTime, holdModeTime, amountMode
-    //  currentNoteId
-  );
-
-  // Limpiar nota anterior en la misma cuerda
-  if (!holdModeEnabled) {
-    cleanupPreviousNote(rope); // Solo limpia si no estamos en holdModeEnabled
-  }
+  handlePreviousNotes(rope, chord, muteOnDifferentRope, muteOnSameRope, muteOnSameNote, holdMode, holdModeTime)
 
   try {
     // Crear y configurar nueva nota
-    const { bufferSource, effectNodes } = createStableAudioChain(player.buffer, effects, gain);
+    // const { bufferSource, effectNodes } = createStableAudioChain(player.buffer, effects, gain);
 
+    // Crear cadena de audio optimizada
+    const bufferSource = new Tone.ToneBufferSource({
+      fadeIn: 0.03,
+      fadeOut: 0.1,
+      curve: "exponential",
+    });
+
+    bufferSource.buffer = player.buffer
+
+    // Crear cadena de efectos usando el EffectsManager
+    const effectChain = effectsManager.createEffectsChain(effects);
+    const gainNode = new Tone.Gain(gain);
+
+    // Conexión de la cadena completa
+    bufferSource.chain(...effectChain, gainNode, Tone.Destination);
 
     // Programar reproducción
     const now = Tone.now();
-    const startTime = now + 0.01; // Pequeño offset para evitar cortes
-    bufferSource.start(startTime);
-    bufferSource.stop(startTime + bufferSource.buffer.duration + 0.1); // Margen adicional
+    // const startTime = now + 0.01; // Pequeño offset para evitar cortes
+    // bufferSource.start(startTime);
+    // bufferSource.stop(startTime + bufferSource.buffer.duration + 0.1); // Margen adicional
+    bufferSource.start(now);
+    bufferSource.stop(now + bufferSource.buffer.duration + 0.1);
+
     // Actualizar estado
-    updateActiveNote(rope, chord, bufferSource, effectNodes, currentNoteId);
+    // updateActiveNote(rope, chord, bufferSource, effectNodes, currentNoteId, startTime);
+    // Registrar la nota activa
+
+    activeNotes[rope] = {
+      chord,
+      source: bufferSource,
+      effectNodes: [...effectChain, gainNode],
+      noteId: generateNoteId(),
+      startTime: Date.now()
+    };
+
 
     previousNotePlayed = { rope, chord };
     // console.log(`Nota ${currentNoteId} reproducida en cuerda ${rope}`);
@@ -154,11 +193,9 @@ export function playSound(
   } catch (error) {
     console.error("Error al crear la cadena de audio: ", error)
   }
-
-
 }
 
-// FUNCIONES AUXILIARES
+// ==================== FUNCIONES AUXILIARES ====================
 function shouldSkipPlayback(key: string, clickMode: boolean): boolean {
   if (key && !clickMode) {
     if (activeKeys[key]) return true;
@@ -193,168 +230,6 @@ function loadAudioFile(name: string, file: string) {
   return { player: players[audioFile], audioFile };
 }
 
-function createStableAudioChain(buffer: Tone.ToneAudioBuffer, effects: Effects, gain: number) {
-  // Crear buffer source con configuración estable
-  const bufferSource = new Tone.ToneBufferSource({
-    fadeIn: 0.01,
-    fadeOut: 0.01,
-    curve: "linear"
-  });
-  bufferSource.buffer = buffer;
-
-  const gainNode = new Tone.Gain(gain);
-  const effectNodes: Tone.ToneAudioNode[] = [gainNode];
-
-  // Configurar cadena de efectos con protección
-  let lastNode: Tone.ToneAudioNode = bufferSource;
-
-  // Mapeo de efectos a funciones de creación
-  const effectCreators = [
-    { enabled: effects.distortion?.enabled, creator: () => createDistortionNode(effects.distortion!) },
-    { enabled: effects.reverb?.enabled, creator: () => createReverbNode(effects.reverb!) },
-    { enabled: effects.vibrato?.enabled, creator: () => createVibratoNode(effects.vibrato!) },
-    { enabled: effects.chorus?.enabled, creator: () => createChorusNode(effects.chorus!) },
-    { enabled: effects.tremolo?.enabled, creator: () => createTremoloNode(effects.tremolo!) },
-    { enabled: effects.delay?.enabled, creator: () => createFeedbackDelayNode(effects.delay!) },
-    { enabled: effects.phaser?.enabled, creator: () => createPhaserNode(effects.phaser!) },
-    { enabled: effects.eq3?.enabled, creator: () => createEQ3Node(effects.eq3!) },
-    { enabled: effects.compressor?.enabled, creator: () => createCompressorNode(effects.compressor!) },
-    { enabled: effects.autoWah?.enabled, creator: () => createAutoWahNode(effects.autoWah!) }
-  ];
-  // Aplicar efectos con manejo de errores
-  effectCreators.forEach(({ enabled, creator }) => {
-    if (enabled) {
-      try {
-        const node = creator();
-        lastNode.disconnect(); // Desconectar seguro
-        lastNode.connect(node);
-        lastNode = node;
-        effectNodes.push(node);
-      } catch (error) {
-        console.warn(`Error al aplicar efecto: ${error}`);
-      }
-    }
-  });
-
-  // Conexión final con protección
-  lastNode.disconnect();
-  lastNode.connect(gainNode);
-  gainNode.toDestination();
-
-  return { bufferSource, effectNodes };
-}
-
-
-function createDistortionNode(params: NonNullable<Effects['distortion']>) {
-  return new Tone.Distortion({
-    distortion: params.distortion,
-    oversample: params.oversample,
-    wet: params.wet
-  });
-}
-
-function createReverbNode(params: NonNullable<Effects['reverb']>) {
-  return new Tone.Reverb({
-    decay: params.decay,
-    preDelay: params.preDelay,
-    wet: params.wet
-  });
-}
-
-function createVibratoNode(params: NonNullable<Effects['vibrato']>) {
-  return new Tone.Vibrato({
-    frequency: params.frequency,
-    depth: params.depth,
-    type: params.type,
-    maxDelay: params.maxDelay,
-    wet: params.wet
-  })
-}
-
-function createChorusNode(params: NonNullable<Effects['chorus']>) {
-  return new Tone.Chorus({
-    frequency: params.frequency,
-    delayTime: params.delayTime,
-    depth: params.depth,
-    feedback: params.feedback,
-    spread: params.spread,
-    type: params.type,
-    wet: params.wet
-  });
-}
-
-function createTremoloNode(params: NonNullable<Effects['tremolo']>) {
-  return new Tone.Tremolo({
-    frequency: params.frequency,
-    depth: params.depth,
-    spread: params.spread,
-    type: params.type,
-    wet: params.wet
-  }).start(); // Tremolo needs to be started
-}
-
-function createFeedbackDelayNode(params: NonNullable<Effects['delay']>) {
-  return new Tone.FeedbackDelay({
-    delayTime: params.delayTime,
-    feedback: params.feedback,
-    maxDelay: params.maxDelay,
-    wet: params.wet
-  });
-}
-
-function createPhaserNode(params: NonNullable<Effects['phaser']>) {
-  return new Tone.Phaser({
-    frequency: params.frequency,
-    octaves: params.octaves,
-    stages: params.stages,
-    Q: params.Q,
-    baseFrequency: params.baseFrequency,
-    wet: params.wet
-  });
-}
-
-function createEQ3Node(params: NonNullable<Effects['eq3']>) {
-  return new Tone.EQ3({
-    low: params.low,
-    mid: params.mid,
-    high: params.high,
-    lowFrequency: params.lowFrequency,
-    highFrequency: params.highFrequency,
-  });
-}
-
-function createCompressorNode(params: NonNullable<Effects['compressor']>) {
-  return new Tone.Compressor({
-    threshold: params.threshold,
-    ratio: params.ratio,
-    attack: params.attack,
-    release: params.release,
-    knee: params.knee,
-  })
-}
-
-function createAutoWahNode(params: NonNullable<Effects['autoWah']>) {
-  return new Tone.AutoWah({
-    baseFrequency: params.baseFrequency,
-    octaves: params.octaves,
-    sensitivity: params.sensitivity,
-    follower: params.follower,
-    Q: params.Q,
-    gain: params.gain,
-    wet: params.wet
-  })
-}
-
-function updateActiveNote(
-  rope: number,
-  chord: number,
-  source: Tone.ToneBufferSource,
-  effectNodes: Tone.ToneAudioNode[],
-  noteId: string
-) {
-  activeNotes[rope] = { chord, source, effectNodes, noteId };
-}
-
 function setupKeyboardListener(key: string, clickMode: boolean) {
   if (!key || clickMode) {
     if (clickMode) activeKeys[key] = false;
@@ -372,100 +247,177 @@ function setupKeyboardListener(key: string, clickMode: boolean) {
 }
 
 
-// TODO: ESTO PODRIA MEJORAR
+
+// TODO: ¿PORQUE CUANDO ACTIVO MÁS DE 3 EFECTOS SE ENTRECORTA EL SONIDO?
+
 function handlePreviousNotes(
   rope: number,
   chord: number,
   muteOnDifferentRope: boolean,
+  muteOnSameRope: boolean,
+  muteOnSameNote: boolean,
   holdMode: boolean,
-  holdModeAnyTime: boolean,
   holdModeTime: number,
-  amountMode: boolean
 ) {
-  const previousNote = activeNotes[rope]; // Nota activa en la misma cuerda
-  const prevRope = previousNotePlayed?.rope; // Última cuerda tocada
+  const previousNote = activeNotes[rope];
+  const prevRope = previousNotePlayed?.rope;
+  const now = Tone.now();
 
-  // 1. Si la nota anterior es la misma que la actual
-  if (previousNote && previousNote.chord === chord) {
-    if (!amountMode) {
-      // Si amountMode es falso, detener la nota anterior y tocar la nueva
-      cleanupNoteResources(previousNote);
-      console.log(`Nota repetida detenida: cuerda ${rope}, acorde ${chord}`);
-    } else if (holdMode) {
-      // Si amountMode y holdMode son verdaderos, mantener la nota
-      console.log(`Manteniendo la misma nota activa: cuerda ${rope}, acorde ${chord}`);
-      return;
-    }
-  }
+  // Función para programar la limpieza de una nota
+  const scheduleCleanup = (note: ActiveNote, ropeNumber: number) => {
 
-  // 2. Si la nota anterior está en la misma cuerda pero es diferente
-  if (previousNote && previousNote.chord !== chord) {
-    previousNote.source.stop(Tone.now() + holdModeTime / 100); // Pequeño fadeout
+    if (note.timeoutId) clearTimeout(note.timeoutId);
 
-    if (!holdModeAnyTime) {
-      // Limpiar temporizador si existe antes de crear uno nuevo
-      if (previousNote.timeoutId) {
-        clearTimeout(previousNote.timeoutId);
-        console.log(`LIMPIANDO TEMPORIZADOR para cuerda ${rope}`);
-      }
+    if (holdMode) {
 
-      // Asignar temporizador para limpiar la nota después de `holdModeTime`
-      previousNote.timeoutId = setTimeout(() => {
-        if (activeNotes[rope]?.chord === previousNote.chord) {
-          cleanupNoteResources(previousNote);
-          delete activeNotes[rope];
-          console.log(`Nota silenciada después de holdModeTime: cuerda ${rope}, acorde ${previousNote.chord}`);
+      // TODO: ¿ES EL UNICO SETTIMEOUT?
+      note.timeoutId = setTimeout(() => {
+        console.log('SHEDULECLEANUP, la nota anterior: ' + note.chord + ' fue silenciada en ' + holdModeTime + ' milisegundos porque ha tocado otra nota')
+        // cleanupNoteResources(note);
+
+        // Si es la misma nota...
+        if (activeNotes[ropeNumber]?.noteId === note.noteId) {
+          cleanupNoteResources(note);
+          console.log('CODIGO MUERTO, DEBE SER ELIMINADO')
+          delete activeNotes[ropeNumber];
         }
+
+
+
       }, holdModeTime);
     } else {
-      console.log(`Mantenimiento de la nota: cuerda ${rope}, acorde ${previousNote.chord} (holdModeAnyTime activo)`);
+      cleanupNoteResources(note);
+      delete activeNotes[ropeNumber];
     }
   }
 
-  // 3. Si la nota anterior está en una cuerda diferente
-  if (prevRope !== null && prevRope !== rope && activeNotes[prevRope]) {
-    if (muteOnDifferentRope) {
-      if (holdMode) {
-        if (!holdModeAnyTime) {
-          // Limpiar temporizador si existe antes de asignar uno nuevo
-          if (activeNotes[prevRope]!.timeoutId) {
-            clearTimeout(activeNotes[prevRope]!.timeoutId);
-            console.log(`LIMPIANDO TEMPORIZADOR para cuerda ${prevRope}`);
-          }
+  const pausePreviousNote = (note: ActiveNote, ropeNumber: number) => {
+    if (note.source) {
 
-          // Asignar temporizador para limpiar la nota después de `holdModeTime`
-          activeNotes[prevRope]!.timeoutId = setTimeout(() => {
-            if (activeNotes[prevRope]) {
-              cleanupNoteResources(activeNotes[prevRope]);
-              delete activeNotes[prevRope];
-              console.log(`Nota de cuerda diferente silenciada después de holdModeTime: cuerda ${prevRope}`);
-            }
+      if (note.timeoutId) clearTimeout(note.timeoutId);
+
+      if (holdMode) {
+        try {
+          // note.source.stop(now + holdModeTime / 1000); // Pequeño fadeout
+          // console.log(`Nota pausada: ${note.chord}`);
+
+          note.timeoutId = setTimeout(() => {
+            note.source.stop(now + holdModeTime / 1000); // Pequeño fadeout
+
+            // TODO: NO IMPLEMENTAR ESTO, EVITA QUE SUENE LA MISMA NOTA CON ALGUN EFECTO DE SONIDO
+            // effectsManager.disposeAll();
+            cleanupNoteResources(note);
+            console.log(`pausePreviousNote, Nota pausada: ${note.chord} en ${holdModeTime / 1000} segundos`);
           }, holdModeTime);
-        } else {
-          // Si holdModeAnyTime está activo, simplemente NO eliminamos la nota
-          console.log(`Mantenimiento indefinido de la nota en cuerda ${prevRope} (holdModeAnyTime activo)`);
+
+
+        } catch (error) {
+          console.warn("Error al pausar la nota anterior:", error);
         }
+
       } else {
-        cleanupNoteResources(activeNotes[prevRope]);
-        delete activeNotes[prevRope];
-        console.log(`Nota de cuerda diferente silenciada inmediatamente: cuerda ${prevRope}`);
+        cleanupNoteResources(note);
+        delete activeNotes[ropeNumber];
+
       }
     }
+  };
+
+  // 1. Manejo de notas en la misma cuerda
+  if (previousNote) {
+    if (previousNote.chord === chord) {
+      // Misma nota
+      if (muteOnSameNote) {
+        console.log('ACTIVADO muteOnSameNote')
+
+        previousNote.source.stop(now + holdModeTime / 1000); // Pequeño fadeout
+        console.log('Ha tocado la misma nota')
+
+        pausePreviousNote(previousNote, rope)
+
+      } else {
+        console.log('No se va a silenciar la misma nota')
+      }
+    } else {
+      // Nota diferente en misma cuerda
+      if (muteOnSameRope) {
+
+        console.log('ACTIVADO muteOnSameRope')
+        // previousNote.source.stop(Tone.now() + 0.02);
+        previousNote.source.stop(now + holdModeTime / 1000); // Pequeño fadeout
+        scheduleCleanup(previousNote, rope);
+      }
+
+    }
   }
+
+
+
+  // 2. Manejo de notas en cuerdas diferentes
+  if (prevRope !== null && prevRope !== rope && activeNotes[prevRope]) {
+    if (muteOnDifferentRope) {
+      console.log('ACTIVADO muteOnDifferentRope')
+
+      activeNotes[prevRope].source.stop(now + holdModeTime / 1000); // Pequeño fadeout
+      scheduleCleanup(activeNotes[prevRope], prevRope);
+    }
+  }
+
+
 }
+
+
 
 // Nueva función para limpieza segura
 function cleanupNoteResources(note: ActiveNote) {
-  if (note.timeoutId) clearTimeout(note.timeoutId);
-  if (note.source) {
+  if (note.timeoutId) {
+    clearTimeout(note.timeoutId);
+  }
+
+  if (!note.source) return;
+
+  try {
+    console.log("Iniciando limpieza suave de nota");
+
+    note.source.stop();
+
+    // 1. Aplicar fadeout suave al volumen principal
+    const fadeDuration = 0.2; // 200ms para fadeout
+    // note.source.volume.rampTo(-Infinity, fadeDuration);
+
+    // 2. Aplicar fadeout a los efectos (si tienen parámetro wet)
+    note.effectNodes.forEach(node => {
+      if ('wet' in node) {
+        (node.wet as Tone.Param).rampTo(0, fadeDuration);
+      }
+    });
+
+    // 3. Programar la limpieza después del fadeout
+    setTimeout(() => {
+      try {
+        // 4. Detener y liberar recursos después del fade
+        note.source.stop();
+        note.source.dispose();
+
+        // 5. Limpiar solo los efectos únicos de esta nota
+        effectsManager.disposeChain(note.effectNodes);
+        // effectsManager.disposeAll();
+        console.log("Limpieza completada después de fadeout");
+      } catch (error) {
+        console.warn("Error en limpieza post-fade:", error);
+      }
+    }, fadeDuration * 1000); // Convertir a milisegundos
+
+  } catch (error) {
+    console.warn("Error durante el proceso de fadeout:", error);
+    // Fallback: limpieza inmediata si hay error
     note.source.stop();
     note.source.dispose();
+    effectsManager.disposeChain(note.effectNodes);
   }
-  note.effectNodes.forEach(node => {
-    try {
-      node.dispose();
-    } catch (e) {
-      console.warn("Error al limpiar nodo:", e);
-    }
-  });
 }
+// TODO: IMPLEMENTE ESTO
+// effectsManager.disposeChain(note.effectNodes);
+
+// TODO: ¿PARA QUE SIRVE ESTO? --> ELIMINA TODOS LOS EFECTOS DE SONIDO (HACER CLIC EN EL BÓTON DE SILENCIAR TODO, FUNCIONA, HACE COMO UN 'REINICIO' Y LAS NOTAS VUELVEN A SONAR)
+// effectsManager.disposeAll();

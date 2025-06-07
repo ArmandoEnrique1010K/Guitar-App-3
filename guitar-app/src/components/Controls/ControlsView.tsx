@@ -1,10 +1,11 @@
 import { instrumentsNames } from "../../data/instrumentsNames";
 import { formatCamelCase } from "../../utils/formatCamelCase";
-import { ALTERNATE, FIRST, MIDDLE } from "../../constants";
-import { LAST } from "../../constants/index";
+// import { ALTERNATE, FIRST, MIDDLE } from "../../constants";
+// import { LAST } from "../../constants/index";
 import { useGuitar } from "../../hooks/useGuitar";
 import { muteAll } from "../../utils/audioPlayer";
 import { useEffect } from "react";
+import { useDragAndDrop } from "@formkit/drag-and-drop/react";
 
 export default function ControlsView() {
   const {
@@ -16,16 +17,19 @@ export default function ControlsView() {
     setInitialChord,
     lockZeroChord,
     setLockZeroChord,
-    invertKeyboard,
-    setInvertKeyboard,
-    mutePreviousNote,
-    setMutePreviousNote,
     pulseMode,
     setPulseMode,
-    holdMode,
-    setHoldMode,
-    amountMode,
-    setAmountMode,
+
+    // mutePreviousNote,
+    // setMutePreviousNote,
+    // holdMode,
+    // setHoldMode,
+    // amountMode,
+    // setAmountMode,
+    noteConfig,
+    setNoteConfig,
+
+    message,
   } = useGuitar();
 
   // Vuelve a establecer el acorde inicial si lockZeroChord cambia
@@ -49,8 +53,53 @@ export default function ControlsView() {
     handleInitialChord();
   }, [lockZeroChord]);
 
+  //////////////////////////////////
+
+  const initialKeysRowType = [
+    {
+      row: 3,
+      value: "primera [1]",
+    },
+    {
+      row: 2,
+      value: "segunda [Q]",
+    },
+    {
+      row: 1,
+      value: "tercera [A]",
+    },
+    {
+      row: 0,
+      value: "cuarta [Z]",
+    },
+    {
+      row: 4,
+      value: "X",
+    },
+    {
+      row: 5,
+      value: "X",
+    },
+  ];
+
+  const [parent, keysRowType] = useDragAndDrop<
+    HTMLUListElement,
+    { row: number; value: string }
+  >(initialKeysRowType, {
+    sortable: true,
+  });
+
+  // Actualizar el estado de las filas de teclas cuando cambie el orden
+  useEffect(() => {
+    setKeysRowType(keysRowType.map(({ row }) => row));
+  }, [keysRowType]);
+
+  // FUNCIONO NUEVA LIBRERIA: https://drag-and-drop.formkit.com/
+  //////////////////////
+
   return (
     <div>
+      <div>{message}</div>
       <h3>Tipo de instrumento</h3>
       <select name="" id="" onChange={(e) => setInstrument(e.target.value)}>
         {instrumentsNames.map((name) => (
@@ -73,17 +122,14 @@ export default function ControlsView() {
         }}
       />{" "}
       {(gain * 100).toFixed(0)}
-      <h3>Tipo de filas de teclas</h3>
-      <select
-        name=""
-        id=""
-        onChange={(e) => setKeysRowType(JSON.parse(e.target.value))}
-      >
-        <option value={JSON.stringify(FIRST)}>primeros</option>
-        <option value={JSON.stringify(LAST)}>Ultimos</option>
-        <option value={JSON.stringify(MIDDLE)}>Medios</option>
-        <option value={JSON.stringify(ALTERNATE)}>Alternados</option>
-      </select>
+      <h3>Tipo de filas de teclas (arrastra el elemento)</h3>
+      <ul ref={parent}>
+        {keysRowType.map(({ row, value }) => (
+          <li key={row} data-label={row}>
+            {value}
+          </li>
+        ))}
+      </ul>
       <h3>Empezar desde el acorde</h3>
       <input
         type="range"
@@ -105,14 +151,82 @@ export default function ControlsView() {
         onChange={(e) => setLockZeroChord(e.target.checked)}
       />{" "}
       Bloquear
-      <h3>Invertir el teclado</h3>
+      <br />
+      <h3>Modo pulso (manten pulsada una tecla)</h3>
       <input
         type="checkbox"
-        checked={invertKeyboard}
-        onChange={(e) => setInvertKeyboard(e.target.checked)}
+        checked={pulseMode}
+        onChange={(e) => setPulseMode(e.target.checked)}
       />{" "}
-      Invertir
-      <h3>Silenciar nota anterior</h3>
+      Activar
+      <br />
+      <h3>Silenciar nota en diferente cuerda</h3>
+      <input
+        type="checkbox"
+        checked={noteConfig.muteOnDifferentRope}
+        onChange={() =>
+          setNoteConfig((prev) => ({
+            ...prev,
+            muteOnDifferentRope: !prev.muteOnDifferentRope,
+          }))
+        }
+      />{" "}
+      Silenciar nota anterior en la cuerda diferente
+      <br />
+      <h3>Silenciar nota en la misma cuerda</h3>
+      <input
+        type="checkbox"
+        checked={noteConfig.muteOnSameRope}
+        onChange={() =>
+          setNoteConfig((prev) => ({
+            ...prev,
+            muteOnSameRope: !prev.muteOnSameRope,
+          }))
+        }
+      />{" "}
+      Silenciar nota anterior en la misma cuerda
+      <br />
+      <h3>Silenciar la misma nota reproducida</h3>
+      <input
+        type="checkbox"
+        checked={noteConfig.muteOnSameNote}
+        onChange={() =>
+          setNoteConfig((prev) => ({
+            ...prev,
+            muteOnSameNote: !prev.muteOnSameNote,
+          }))
+        }
+      />{" "}
+      Silenciar la misma nota reproducida
+      <br />
+      <h3>
+        Mantener reproduciendo la nota anterior (evita silencios inesperados)
+      </h3>
+      <input
+        type="checkbox"
+        checked={noteConfig.holdMode}
+        onChange={() =>
+          setNoteConfig((prev) => ({
+            ...prev,
+            holdMode: !prev.holdMode,
+          }))
+        }
+      />{" "}
+      Modo mantener reproduciendo nota anterior
+      <br />
+      <h3>Tiempo de reproducción de la nota anterior (en milisegundos)</h3>
+      <input
+        type="range"
+        min={0}
+        max={3000}
+        step={1}
+        value={noteConfig.holdModeTime}
+        onChange={(e) => {
+          setNoteConfig((prev) => ({ ...prev, holdModeTime: +e.target.value }));
+        }}
+      />{" "}
+      Silenciar despues de {noteConfig.holdModeTime} milisegundos
+      {/* <h3>Silenciar nota anterior</h3>
       <input
         type="checkbox"
         checked={mutePreviousNote}
@@ -169,7 +283,7 @@ export default function ControlsView() {
         onChange={(e) => setAmountMode(e.target.checked)}
       />{" "}
       Activar
-      <br />
+      <br /> */}
       <h3>Silencio</h3>
       <button onClick={muteAll}>Silenciar todo</button>
     </div>

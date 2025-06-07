@@ -11,6 +11,7 @@ import {
   INITIAL_EQ3,
   LOADING_TIME,
   INITIAL_AUTOWAH,
+  INITIAL_MESSAGE,
 } from "../constants";
 import { guitarNotes } from "../data/guitarNotes";
 import { Neck, Note, Effects } from "../types";
@@ -42,28 +43,40 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   // Bloquear el acorde 0
   const [lockZeroChord, setLockZeroChord] = useState<boolean>(false);
 
-  // Invertir el instrumento
-  const [invertKeyboard, setInvertKeyboard] = useState<boolean>(false);
+  // Configuración de reproducción de notas
+  const [noteConfig, setNoteConfig] = useState<{
+    muteOnDifferentRope: boolean;
+    muteOnSameRope: boolean;
+    muteOnSameNote: boolean;
+    holdMode: boolean;
+    holdModeTime: number;
+  }>({
+    muteOnDifferentRope: false,
+    muteOnSameRope: true,
+    muteOnSameNote: true,
+    holdMode: true,
+    holdModeTime: 0,
+  });
 
-  // Silenciar la nota anterior (cuerda diferente)
-  const [mutePreviousNote, setMutePreviousNote] = useState<boolean>(false);
+  // // Silenciar la nota anterior (cuerda diferente)
+  // const [mutePreviousNote, setMutePreviousNote] = useState<boolean>(false);
 
   // Modo pulso (manten pulsada una tecla para mantener reproduciendo la nota)
   const [pulseMode, setPulseMode] = useState<boolean>(false);
 
-  // Modo retención (no silencia la nota anterior de la misma cuerda)
-  const [holdMode, setHoldMode] = useState<{
-    enabled: boolean;
-    anyTime: boolean;
-    time: number;
-  }>({
-    enabled: true,
-    anyTime: false, // Sin tiempo en milisegundos
-    time: 10, // Ajusta el tiempo en milisegundos
-  });
+  // // Modo retención (no silencia la nota anterior de la misma cuerda)
+  // const [holdMode, setHoldMode] = useState<{
+  //   enabled: boolean;
+  //   anyTime: boolean;
+  //   time: number;
+  // }>({
+  //   enabled: true,
+  //   anyTime: false, // Sin tiempo en milisegundos
+  //   time: 10, // Ajusta el tiempo en milisegundos
+  // });
 
-  // Modo amontonar (evita silenciar la misma nota)
-  const [amountMode, setAmountMode] = useState<boolean>(false);
+  // // Modo amontonar (evita silenciar la misma nota)
+  // const [amountMode, setAmountMode] = useState<boolean>(false);
 
   // ESTADO DE EFECTOS
   const [effects, setEffects] = useState<Effects>({
@@ -78,6 +91,8 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
     compressor: INITIAL_COMPRESSOR,
     autoWah: INITIAL_AUTOWAH,
   });
+
+  const [message, setMessage] = useState<string>(INITIAL_MESSAGE);
 
   // Función para manejar los cambios en los campos del formulario
   const handleChange = (
@@ -175,13 +190,12 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
       keysRowType[4],
       keysRowType[5],
       initialChord,
-      lockZeroChord,
-      invertKeyboard
+      lockZeroChord
     );
     setNeck(updatedNeck);
 
     console.log("Se cambio de instrumento a " + instrument);
-  }, [instrument, keysRowType, initialChord, lockZeroChord, invertKeyboard]);
+  }, [instrument, keysRowType, initialChord, lockZeroChord]);
 
   // ESTA FUNCIÓN DEBERIA EVITAR QUE SE SIGA REPRODUCIENDO LA NOTA MUSICAL
   useEffect(() => {
@@ -215,17 +229,18 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
         setInitialChord,
         lockZeroChord,
         setLockZeroChord,
-        invertKeyboard,
-        setInvertKeyboard,
-        mutePreviousNote,
-        setMutePreviousNote,
+
+        noteConfig,
+        setNoteConfig,
+        // mutePreviousNote,
+        // setMutePreviousNote,
         pulseMode,
         setPulseMode,
-        holdMode,
-        setHoldMode,
+        // holdMode,
+        // setHoldMode,
 
-        amountMode,
-        setAmountMode,
+        // amountMode,
+        // setAmountMode,
         gain,
         setGain,
 
@@ -234,6 +249,8 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
 
         effects,
         handleChange,
+        message,
+        setMessage,
       }}
     >
       {children}

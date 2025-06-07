@@ -27,11 +27,13 @@ export default function ChordView({
     // eq3,
     // compressor,
     // autoWah,
-    mutePreviousNote,
+    // mutePreviousNote,
+    // holdMode,
+    // amountMode,
+
+    noteConfig,
     setNotePlayed,
     pulseMode,
-    holdMode,
-    amountMode,
     effects,
   } = useGuitar();
 
@@ -55,13 +57,20 @@ export default function ChordView({
       neck,
       rope,
       chord,
-      mutePreviousNote,
       keyFromKeyboard,
       clickMode,
-      holdMode.enabled,
-      holdMode.anyTime,
-      holdMode.time,
-      amountMode,
+      noteConfig.muteOnDifferentRope,
+      noteConfig.muteOnSameRope,
+      noteConfig.muteOnSameNote,
+      noteConfig.holdMode,
+      noteConfig.holdModeTime,
+
+      // holdMode.enabled,
+
+      // mutePreviousNote,
+      // holdMode.anyTime,
+      // holdMode.time,
+      // amountMode,
       gain,
       {
         distortion,
@@ -104,7 +113,7 @@ export default function ChordView({
     };
   }, [
     keyFromKeyboard,
-    mutePreviousNote,
+    // mutePreviousNote,
     gain,
     distortion,
     reverb,
@@ -117,10 +126,11 @@ export default function ChordView({
     compressor,
     autoWah,
     pulseMode,
-    holdMode.enabled,
-    holdMode.anyTime,
-    holdMode.time,
-    amountMode,
+    noteConfig,
+    // holdMode.enabled,
+    // holdMode.anyTime,
+    // holdMode.time,
+    // amountMode,
   ]);
 
   const handleMouseDown = () => {

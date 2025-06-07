@@ -2,7 +2,7 @@ import { AutoWahEffect, ChorusEffect, CompressorEffect, DelayEffect, DistortionE
 import { DISTORTION_DISTORTION_DEFAULT, DISTORTION_OVERSAMPLE_DEFAULT, DISTORTION_WET_DEFAULT } from "./effectsProperties"
 
 // TIEMPO DE CARGA INICIAL
-export const LOADING_TIME = 1000
+export const LOADING_TIME = 2000
 
 // TECLAS POR UNA FILA
 export const kEYSBYROW = 11
@@ -12,6 +12,8 @@ export const FIRST: number[] = [0, 1, 2, 3, 4, 5]
 export const LAST = [4, 5, 0, 1, 2, 3]
 export const MIDDLE = [4, 0, 1, 2, 3, 5]
 export const ALTERNATE = [0, 1, 4, 5, 2, 3]
+
+export const INITIAL_MESSAGE = "Bienvenido, recuerde desactivar la tecla BLOQ MAYUS para tocar las notas. En el caso de que si se entrecorta el audio, pulsa el botón 'Silenciar Todo'"
 
 // VALORES INICIALES
 export const INITIAL_DISTORTION: DistortionEffect = {
