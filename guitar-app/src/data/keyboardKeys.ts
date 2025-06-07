@@ -17,4 +17,12 @@ export const keyboardKeys = [
     row: 4,
     keys: ["z", "x", "c", "v", "b", "n", "m", ",", ".", "-", "Shift"],
   },
+  {
+    row: 5,
+    keys: ["fifth_row"]
+  },
+  {
+    row: 6,
+    keys: ["sixth_row"]
+  }
 ];

@@ -1,6 +1,6 @@
-import styles from "../Loader/Loading.module.css";
+import styles from "./Spinner.module.css";
 
-export default function Loading() {
+export default function Spinner() {
   return (
     <div className={styles.container}>
       <img
