@@ -8,3 +8,12 @@
 /* #28dd2b */
 
 // COLOR DE FONDO
+
+
+
+@font-face {
+  font-family: 'MusicalTone';
+  src: url('/fonts/MusicalTone.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}

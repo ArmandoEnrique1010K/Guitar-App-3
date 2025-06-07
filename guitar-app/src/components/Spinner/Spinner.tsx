@@ -6,9 +6,8 @@ export default function Spinner() {
       <img
         src="/spinners/green-spinner.svg"
         className={styles.image}
-        alt="Guitar Logo"
+        alt="Spinner verde"
       />
-      {/* <img src="/logo/guitar.svg" className={styles.image} alt="Guitar Logo" /> */}
       <h2 className={styles.text}>
         Cargando, observa el poder de React y ToneJS
       </h2>

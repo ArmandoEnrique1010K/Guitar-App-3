@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'MusicalTone';
+  src: url('/fonts/MusicalTone.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .container {
   background-color: black;
   display: flex;
@@ -13,12 +20,19 @@
   height: auto;
 } */
 
+
 .text {
   color: #28dd2b;
-  font-size: 24px;
+  font-size: 36px;
   font-weight: bold;
-  animation: blink 1s infinite alternate;
+  font-family: 'MusicalTone', sans-serif;
+  animation: blink 0.5s infinite alternate;
 }
+
+.image {
+  margin-bottom: 20px
+}
+
 
 @keyframes blink {
   from {
