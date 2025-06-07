@@ -1,6 +1,5 @@
 import { ReactNode, useState, useEffect } from "react";
 import {
-  FIRST,
   INITIAL_DISTORTION,
   INITIAL_REVERB,
   INITIAL_VIBRATO,
@@ -32,7 +31,7 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   // Tipo de filas de teclado
-  const [keysRowType, setKeysRowType] = useState<number[]>(FIRST);
+  const [keysRowType, setKeysRowType] = useState<number[]>([]);
 
   // Ganancia de volumen
   const [gain, setGain] = useState<number>(1);
@@ -183,18 +182,21 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const updatedNeck = assignKeysToFrets(
       guitarNotes,
-      keysRowType[0],
-      keysRowType[1],
-      keysRowType[2],
-      keysRowType[3],
-      keysRowType[4],
       keysRowType[5],
+      keysRowType[4],
+      keysRowType[3],
+      keysRowType[2],
+      keysRowType[1],
+      keysRowType[0],
       initialChord,
       lockZeroChord
     );
     setNeck(updatedNeck);
 
     console.log("Se cambio de instrumento a " + instrument);
+    // console.log(updatedNeck);
+
+    // console.log(keysRowType);
   }, [instrument, keysRowType, initialChord, lockZeroChord]);
 
   // ESTA FUNCIÓN DEBERIA EVITAR QUE SE SIGA REPRODUCIENDO LA NOTA MUSICAL

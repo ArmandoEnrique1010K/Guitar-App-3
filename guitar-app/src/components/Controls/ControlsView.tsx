@@ -57,28 +57,28 @@ export default function ControlsView() {
 
   const initialKeysRowType = [
     {
-      row: 3,
-      value: "primera [1]",
-    },
-    {
-      row: 2,
-      value: "segunda [Q]",
+      row: 0,
+      value: "Fila [null]",
     },
     {
       row: 1,
-      value: "tercera [A]",
+      value: "Fila [undefined]",
     },
     {
-      row: 0,
-      value: "cuarta [Z]",
+      row: 2,
+      value: "Fila [Z]",
+    },
+    {
+      row: 3,
+      value: "Fila [A]",
     },
     {
       row: 4,
-      value: "X",
+      value: "Fila [Q]",
     },
     {
       row: 5,
-      value: "X",
+      value: "Fila [1]",
     },
   ];
 
@@ -123,7 +123,11 @@ export default function ControlsView() {
       />{" "}
       {(gain * 100).toFixed(0)}
       <h3>Tipo de filas de teclas (arrastra el elemento)</h3>
-      <ul ref={parent}>
+      <ul
+        ref={parent}
+        // TIP: SE AÑADE UN ESTILO INVERSO PARA QUE AL MOMENTO DE ARRASTRAR EL ELEMENTO SE SINCRONICE CON EL MASTIL DE LA GUITARRA
+        style={{ display: "flex", flexDirection: "column-reverse" }}
+      >
         {keysRowType.map(({ row, value }) => (
           <li key={row} data-label={row}>
             {value}
