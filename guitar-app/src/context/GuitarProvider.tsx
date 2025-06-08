@@ -24,9 +24,6 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   // Nombre del instrumento
   const [instrument, setInstrument] = useState<string>("cleanSolo");
 
-  // Mastil de notas
-  // const [neck, setNeck] = useState<Neck>([]);
-
   // Carga inicial
   const [loading, setLoading] = useState(true);
 

@@ -4,7 +4,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
 .container {
   background-color: black;
   display: flex;
@@ -22,10 +21,11 @@
 
 
 .text {
-  color: #28dd2b;
+  
+  color: var(--primary-color);
   font-size: 36px;
   font-weight: bold;
-  font-family: 'MusicalTone', sans-serif;
+  font-family: var(--musical-tone-font);
   animation: blink 0.5s infinite alternate;
 }
 

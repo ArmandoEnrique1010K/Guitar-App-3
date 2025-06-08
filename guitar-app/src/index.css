@@ -6,7 +6,20 @@
 
 // COLOR PRIMARIO
 /* #28dd2b */
+//  #ff5500
+/* --background-color: #000000;
+--title-color: #101018;
+--button-title-color: #FFEE93;
+--text-title-color: #ffffff;
+--primary-color: #3E3E58;
+--neck-guitar-color: #272739;
+--secondary-color: #28dd2b;
+--orange-color: #FFB944;
+--title-font: "Roboto-Bold";
+--message-font: "Roboto-Light" */
 
+//
+// 
 // COLOR DE FONDO
 
 
@@ -14,6 +27,18 @@
 @font-face {
   font-family: 'MusicalTone';
   src: url('/fonts/MusicalTone.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
+}
+
+
+:root {
+  --musical-tone-font: 'MusicalTone';
+  --primary-color: rgb(1,236,2);
+  --range-color: rgb(217, 252, 46);
+  --background-color:rgb(56, 56, 78);
+  --background-dark-color:rgb(26, 26, 38);
+  --menu-bar-background-color: rgb(14,14,19);
+  --menu-bar-button-color: rgb(255, 238, 147);
+  --primary-color-dark: rgb(27,57,40);
+  --button-color: rgb(214,221,221);
+  --icon-color:rgb(252,158,0);
 }

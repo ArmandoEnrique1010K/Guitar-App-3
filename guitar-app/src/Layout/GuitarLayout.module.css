@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: space-around; /* Asegura que los elementos se separen */
+  align-items: center; /* Alinea los elementos verticalmente */
+  background-color: var(--menu-bar-background-color);
+  padding: 10px 20px;
+}
+
+img {
+  width: 8em; 
+  height: auto;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espaciado entre los elementos */
+}
+
+li {
+  color: var(--menu-bar-button-color);
+  font-family: var(--musical-tone-font);
+  font-size: 1.5em;
+  cursor: pointer;
+  border-bottom: 0.15em solid black;
+  transition: border-bottom 0.3s ease-in-out;
+}
+
+
+li:hover{
+  border-bottom: 0.15em solid var(--menu-bar-button-color)
+}
