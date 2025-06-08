@@ -2,8 +2,9 @@ import ControlsView from "../components/Controls/ControlsView";
 import EffectsView from "../components/Effects/EffectsView";
 import Spinner from "../components/Spinner/Spinner";
 import NeckView from "../components/Neck/NeckView";
-import TitleView from "../components/Title/TitleView";
+import Title from "../components/Title/Title";
 import { useGuitar } from "../hooks/useGuitar";
+import styles from "./GuitarPage.module.css";
 
 export default function GuitarPage() {
   const { loading, neck } = useGuitar();
@@ -11,8 +12,8 @@ export default function GuitarPage() {
   return loading ? (
     <Spinner />
   ) : (
-    <div>
-      <TitleView />
+    <div className={styles.container}>
+      <Title />
       <NeckView neck={neck} />
       <ControlsView />
       <EffectsView />

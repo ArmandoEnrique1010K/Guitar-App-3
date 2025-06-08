@@ -9,10 +9,10 @@ export default function GuitarLayout() {
     <div>
       {!loading && (
         <div className={styles.container}>
-          <img src="logo/guitar.svg" />
-          <ul>
-            <li>Creditos</li>
-            <li>Iniciar sesión</li>
+          <img className={styles.logo} src="logo/guitar.svg" />
+          <ul className={styles.menu}>
+            <li className={styles.option}>Creditos</li>
+            <li className={styles.option}>Iniciar sesión</li>
           </ul>
         </div>
       )}

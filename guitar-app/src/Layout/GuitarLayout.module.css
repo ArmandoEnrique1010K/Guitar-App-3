@@ -6,28 +6,27 @@
   padding: 10px 20px;
 }
 
-img {
+.logo {
   width: 8em; 
   height: auto;
 }
 
-ul {
+.menu {
   list-style: none;
   display: flex;
   align-items: center;
   gap: 20px; /* Espaciado entre los elementos */
 }
 
-li {
+.option {
   color: var(--menu-bar-button-color);
   font-family: var(--musical-tone-font);
   font-size: 1.5em;
   cursor: pointer;
-  border-bottom: 0.15em solid black;
-  transition: border-bottom 0.3s ease-in-out;
+  border-bottom: 0.15em solid var(--menu-bar-background-color);
 }
 
 
-li:hover{
+.option:hover{
   border-bottom: 0.15em solid var(--menu-bar-button-color)
 }

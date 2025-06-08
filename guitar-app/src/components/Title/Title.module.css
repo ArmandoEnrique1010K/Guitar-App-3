@@ -1,0 +1,29 @@
+/* .container{
+  background-color: var(--background-dark-color);
+  text-align: center;
+    padding: 0.5em 0em
+} */
+.container {
+  background-color: var(--background-dark-color);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5em 0em;
+  gap: 0em; /* Espaciado entre el título y las líneas */
+}
+
+
+.title{
+  color: var(--button-color);
+  font-family: var(--musical-tone-font);
+}
+
+.container::before,
+.container::after {
+    content: "";
+    flex-grow: 1;
+    height: 0.2em;
+    background-color: var(--menu-bar-button-color);
+    margin: 0 1em;
+}
