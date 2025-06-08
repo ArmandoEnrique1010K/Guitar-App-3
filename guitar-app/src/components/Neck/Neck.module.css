@@ -1,3 +1,19 @@
-.container{
-  background-color: var(--primary-color-dark)
+.container {
+  background-color: var(--primary-color-dark);
+}
+
+.numbers {
+  position: absolute;
+  /* top: -7.5rem; */
+  top: 18.7rem;
+  display: flex;
+  justify-content: space-around;
+  /* Distribuye los elementos */
+  width: 100%;
+  /* Ocupa todo el ancho de la pantalla */
+}
+
+.number {
+  flex: 1;
+  text-align: center;
 }

@@ -2,6 +2,7 @@
   flex: 1; /* Hace que todos los hijos tengan el mismo ancho */
   text-align: center;
   padding: 10px;
-  background-color: lightblue;
+  background: none;
+  color: var(--primary-color);
   border: 1px solid #000;
 }
