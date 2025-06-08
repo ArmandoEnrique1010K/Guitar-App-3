@@ -1,0 +1,5 @@
+.container{
+  display: flex;
+  justify-content: space-between; /* Distribuye los elementos */
+  width: 100%; /* Ocupa todo el ancho de la pantalla */
+}

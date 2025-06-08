@@ -1,10 +1,11 @@
 /* .container{
-  background-color: var(--background-dark-color);
+  background-color: var(--menu-dark-color);
   text-align: center;
     padding: 0.5em 0em
 } */
 .container {
-  background-color: var(--background-dark-color);
+  /* margin-top: 10em; */
+  background-color: var(--title-container-color);
   text-align: center;
   display: flex;
   align-items: center;

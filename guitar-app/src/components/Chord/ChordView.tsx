@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useGuitar } from "../../hooks/useGuitar";
 import { muteCurrentNote, playSound } from "../../utils/audioPlayer";
-
+import styles from "./Chord.module.css";
 type ChordViewProps = {
   chord: number;
   rope: number;
@@ -160,6 +160,7 @@ export default function ChordView({
 
   return (
     <button
+      className={styles.container}
       // onClick={handlePlaySound}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}

@@ -19,10 +19,10 @@ export const keyboardKeys = [
   },
   {
     row: 5,
-    keys: ["fifth_row"]
+    keys: ["5"]
   },
   {
     row: 6,
-    keys: ["sixth_row"]
+    keys: ["6"]
   }
 ];

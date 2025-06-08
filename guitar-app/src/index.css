@@ -2,6 +2,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 // COLOR PRIMARIO
@@ -35,8 +36,12 @@
   --primary-color: rgb(1,236,2);
   --range-color: rgb(217, 252, 46);
   --background-color:rgb(56, 56, 78);
-  --background-dark-color:rgb(26, 26, 38);
-  --menu-bar-background-color: rgb(14,14,19);
+  /* --menu-dark-color:rgb(26, 26, 38);*/
+  --menu-dark-color:rgb(101, 109, 116);
+
+
+  --title-container-color: rgb(14,14,19);
+
   --menu-bar-button-color: rgb(255, 238, 147);
   --primary-color-dark: rgb(27,57,40);
   --button-color: rgb(214,221,221);
