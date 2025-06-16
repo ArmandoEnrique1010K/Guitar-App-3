@@ -1,25 +1,22 @@
-import { useGuitar } from "../../hooks/useGuitar";
+import { useGuitar } from "../../../hooks/useGuitar";
+import { translate } from "../../../utils/translate";
 
 type DropDownControlViewProps = {
   name: string;
   property: string;
-  label: string;
-  value: string | undefined;
   options: string[];
 };
 
 export default function DropdownControlView({
   name,
   property,
-  label,
-  value,
   options,
 }: DropDownControlViewProps) {
   const { handleChange } = useGuitar();
 
   return (
     <div>
-      <label htmlFor={`id_${name}_${property}`}>{label}</label>
+      <label htmlFor={`id_${name}_${property}`}>{translate(property)}</label>
       <select
         id={`id_${name}_${property}`}
         name={name}
@@ -32,7 +29,6 @@ export default function DropdownControlView({
           </option>
         ))}
       </select>{" "}
-      {value}
     </div>
   );
 }

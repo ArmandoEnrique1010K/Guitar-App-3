@@ -52,7 +52,16 @@ export const DISTORTION = {
   wet: createNumberProperty(0, 1, 0.1, 1, 100, "%")
 };
 
-
+export const VIBRATO = {
+  frequency: createNumberProperty(0.1, 10, 0.1, 5, 1, "Hz"),
+  depth: createNumberProperty(0, 1, 0.01, 0.1, 1, ""),
+  maxDelay: createNumberProperty(0.005, 0.1, 0.001, 0.005, 1, "s"),
+  type: createOptionProperty(
+    'sine',
+    ['sine', 'square', 'triangle', 'sawtooth']
+  ),
+  wet: createNumberProperty(0, 1, 0.1, 1, 1, '%')
+}
 
 // Distortion 
 export const DISTORTION_DISTORTION_MIN = 0

@@ -1,7 +1,12 @@
 const words: Record<string, string> = {
   'map': 'Mapa',
   'distortion': 'Distorsión',
-  'wet': 'Balance'
+  'wet': 'Balance',
+  'oversample': 'Muestreo',
+  'frequency': 'Frecuencia',
+  'depth': 'Profundidad',
+  'type': 'Tipo',
+  'maxDelay': 'Latencia máxima',
 };
 
 export const translate = (word: string): string => {

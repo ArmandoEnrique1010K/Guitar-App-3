@@ -1,5 +1,5 @@
-import { NumberProperty } from "../../constants/effectsProperties";
-import { translate } from "../../utils/translate";
+import { NumberProperty } from "../../../constants/effectsProperties";
+import { translate } from "../../../utils/translate";
 
 type SliderControlViewProps = {
   name: string;
@@ -27,7 +27,7 @@ SliderControlViewProps) {
 
   return (
     <div>
-      <label htmlFor={`id_${name}_${property}`}>{translate(name)}</label>
+      <label htmlFor={`id_${name}_${property}`}>{translate(property)}</label>
       <input
         // id={`id_${name}_${property}`}
         name={name}
@@ -39,7 +39,8 @@ SliderControlViewProps) {
         value={value}
         onChange={change}
       />
-      {(value * factor).toFixed(0)} {unit}
+      {/* {(value * factor).toFixed(0)} {unit} */}
+      {value * factor} {unit}
     </div>
   );
 }

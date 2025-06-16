@@ -1,10 +1,11 @@
 import { DISTORTION } from "../../../constants/effectsProperties";
 import { useGuitar } from "../../../hooks/useGuitar";
-import SliderControlView from "../SliderControlView";
+import DropdownControlView from "../Controls/DropdownControlView";
+import SliderControlView from "../Controls/SliderControlView";
 
 export default function DistortionView() {
   const { effects, handleChange } = useGuitar();
-
+  console.log("RENDERIZADO");
   return (
     <>
       <SliderControlView
@@ -15,18 +16,6 @@ export default function DistortionView() {
         change={handleChange}
       />
 
-      {/* <DropdownControlView
-        name="distortion"
-        property="oversample"
-        label="Muestreo"
-        value={effects.distortion?.oversample}
-        options={[
-          DISTORTION_OVERSAMPLE_NONE,
-          DISTORTION_OVERSAMPLE_2X,
-          DISTORTION_OVERSAMPLE_4X,
-        ]}
-      /> */}
-
       <SliderControlView
         name="distortion"
         property="wet"
@@ -34,6 +23,15 @@ export default function DistortionView() {
         props={DISTORTION.wet}
         change={handleChange}
       />
+
+      {
+        <DropdownControlView
+          name="distortion"
+          property="oversample"
+          // value={effects.distortion?.oversample}
+          options={DISTORTION.oversample.values}
+        />
+      }
 
       {/* <DropdownControlView
         name="distortion"

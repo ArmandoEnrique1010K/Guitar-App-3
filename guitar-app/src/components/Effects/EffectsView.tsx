@@ -1,17 +1,15 @@
 import EffectControlView from "./EffectControlView";
 import DistortionView from "./Groups/DistortionView";
+import VibratoView from "./Groups/VibratoView";
 
 export default function EffectsView() {
   return (
     <>
       <h1>Efectos de sonido (activa como maximo 3)</h1>
       {/* https://tonejs.github.io/docs/r13/Distortion */}
-      <EffectControlView
-        name="distortion"
-        // label="Distorsión"
-        // checked={effects.distortion?.enabled}
-        controls={<DistortionView />}
-      />
+      <EffectControlView name="distortion" controls={<DistortionView />} />
+      <EffectControlView name="vibrato" controls={<VibratoView />} />
+
       {/* https://tonejs.github.io/docs/r13/Reverb */}
       {/* https://tonejs.github.io/docs/r13/Vibrato */}
       {/* https://tonejs.github.io/docs/r13/Chorus */}

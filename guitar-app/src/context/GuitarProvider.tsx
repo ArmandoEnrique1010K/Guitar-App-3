@@ -96,6 +96,7 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     const { name, value, type } = event.target as HTMLInputElement;
     const checked = (event.target as HTMLInputElement).checked;
+    //  const property = dataset.property; // <- de donde viene el "property" que pasas al input
 
     // Determinar el valor basado en el tipo de input
     const newValue =
