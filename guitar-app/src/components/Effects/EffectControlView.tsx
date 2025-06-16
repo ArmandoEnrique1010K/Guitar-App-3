@@ -1,36 +1,32 @@
 import { ReactNode } from "react";
+import { useGuitar } from "../../hooks/useGuitar";
+import { translate } from "../../utils/translate";
 
 type EffectControlViewProps = {
   name: string;
-  label: string;
-  checked: boolean | undefined;
-  handleChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
   controls: ReactNode;
 };
 
 export default function EffectControlView({
   name,
-  label,
-  checked,
-  handleChange,
   controls,
 }: EffectControlViewProps) {
+  const { handleChange, effects } = useGuitar();
+
   return (
-    <>
-      <h3>{label}</h3>
+    <div style={{ backgroundColor: "red" }}>
+      <h3>{translate(name)}</h3>
       <div>
         <input
           id={`id_${name}`}
           type="checkbox"
           name={name}
-          checked={checked}
+          checked={effects.distortion?.enabled}
           onChange={handleChange}
         />
-        <label htmlFor={`id_${name}`}>{label}</label>
+        <label htmlFor={`id_${name}`}> Activar</label>
         {controls}
       </div>
-    </>
+    </div>
   );
 }

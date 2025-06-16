@@ -8,11 +8,11 @@
 // Puedes usar funciones constructoras para crear objetos de propiedades.
 // Aquí tienes un ejemplo de cómo hacerlo correctamente en TypeScript:
 
-type NumberProperty = {
+export type NumberProperty = {
   min: number;
   max: number;
   step: number;
-  default: number;
+  defaultValue: number;
   factor: number,
   unit: string;
 };
@@ -25,7 +25,7 @@ function createNumberProperty(
   factor: number,
   unit: string
 ): NumberProperty {
-  return { min, max, step, default: defaultValue, factor, unit };
+  return { min, max, step, defaultValue: defaultValue, factor, unit };
 }
 
 type OptionProperty<T extends string> = {

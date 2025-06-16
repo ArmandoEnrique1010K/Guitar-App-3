@@ -108,16 +108,47 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
         : parseFloat(value);
 
     // Actualizar dinámicamente el estado correspondiente
-    setEffects((prevEffects) => ({
-      ...prevEffects,
+    // setEffects((prevEffects) => ({
+    //   ...prevEffects,
+    //   [name]: {
+    //     ...prevEffects[name as keyof Effects],
+    //     [type === "checkbox"
+    //       ? "enabled"
+    //       : event.target.dataset.property || "value"]: newValue,
+    //   },
+    // }));
+
+    setEffects((prev) => ({
+      ...prev,
       [name]: {
-        ...prevEffects[name as keyof Effects],
+        ...prev[name as keyof Effects],
         [type === "checkbox"
           ? "enabled"
           : event.target.dataset.property || "value"]: newValue,
       },
     }));
   };
+
+  // TODO: CREO QUE ES MEJOR DEFINID UNA FUNCIÓN PARA CADA CAMBIO EN CUALQUIER EFECTO
+  const handleChangeDistortionEffect = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type, checked, dataset } =
+      event.target as HTMLInputElement;
+    const newValue = type === "checkbox" ? checked : parseFloat(value);
+    const property =
+      type === "checkbox"
+        ? "enabled"
+        : event.target.dataset.property || "value";
+    setEffects((prevEffects) => ({
+      ...prevEffects,
+      [name]: {
+        ...prevEffects[name as keyof Effects],
+        [property]: newValue,
+      },
+    }));
+  };
+
   // // EFECTO DE SONIDO DE DISTORSIÓN
   // const [distortion, setDistortion] =
   //   useState<DistortionEffect>(INITIAL_DISTORTION);
@@ -320,6 +351,7 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
 
         effects,
         handleChange,
+        handleChangeDistortionEffect,
         message,
         setMessage,
       }}

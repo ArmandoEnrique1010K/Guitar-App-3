@@ -1,33 +1,35 @@
+import { NumberProperty } from "../../constants/effectsProperties";
+import { translate } from "../../utils/translate";
+
 type SliderControlViewProps = {
   name: string;
   property: string;
-  label: string;
-  value: number | undefined;
-  handleChange: (
+  value: number;
+  props: NumberProperty;
+  change: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
-  min: number;
-  max: number;
-  step: number;
-  unit: string;
 };
 
 export default function SliderControlView({
   name,
   property,
-  label,
+  // label,
   value,
-  handleChange,
-  min,
-  max,
-  step,
-  unit,
-}: SliderControlViewProps) {
+  props,
+  change,
+}: // min,
+// max,
+// step,
+// unit,
+SliderControlViewProps) {
+  const { min, max, step, factor, unit } = props;
+
   return (
     <div>
-      <label htmlFor={`id_${name}_${property}`}>{label}</label>
+      <label htmlFor={`id_${name}_${property}`}>{translate(name)}</label>
       <input
-        id={`id_${name}_${property}`}
+        // id={`id_${name}_${property}`}
         name={name}
         data-property={property}
         type="range"
@@ -35,9 +37,9 @@ export default function SliderControlView({
         max={max}
         step={step}
         value={value}
-        onChange={handleChange}
+        onChange={change}
       />
-      {value} {unit}
+      {(value * factor).toFixed(0)} {unit}
     </div>
   );
 }

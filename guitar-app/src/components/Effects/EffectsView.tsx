@@ -1,286 +1,27 @@
-import {
-  AUTOWAH_BASE_FREQUENCY_MAX,
-  AUTOWAH_BASE_FREQUENCY_MIN,
-  AUTOWAH_BASE_FREQUENCY_STEP,
-  AUTOWAH_BASE_FREQUENCY_UNIT,
-  AUTOWAH_FOLLOWER_MAX,
-  AUTOWAH_FOLLOWER_MIN,
-  AUTOWAH_FOLLOWER_STEP,
-  AUTOWAH_FOLLOWER_UNIT,
-  AUTOWAH_GAIN_MAX,
-  AUTOWAH_GAIN_MIN,
-  AUTOWAH_GAIN_STEP,
-  AUTOWAH_GAIN_UNIT,
-  AUTOWAH_OCTAVES_MAX,
-  AUTOWAH_OCTAVES_MIN,
-  AUTOWAH_OCTAVES_STEP,
-  AUTOWAH_OCTAVES_UNIT,
-  AUTOWAH_Q_MAX,
-  AUTOWAH_Q_MIN,
-  AUTOWAH_Q_STEP,
-  AUTOWAH_Q_UNIT,
-  AUTOWAH_SENSITIVITY_MAX,
-  AUTOWAH_SENSITIVITY_MIN,
-  AUTOWAH_SENSITIVITY_STEP,
-  AUTOWAH_SENSITIVITY_UNIT,
-  AUTOWAH_WET_MAX,
-  AUTOWAH_WET_MIN,
-  AUTOWAH_WET_STEP,
-  AUTOWAH_WET_UNIT,
-  CHORUS_DELAY_TIME_MAX,
-  CHORUS_DELAY_TIME_MIN,
-  CHORUS_DELAY_TIME_STEP,
-  CHORUS_DELAY_TIME_UNIT,
-  CHORUS_DEPTH_MAX,
-  CHORUS_DEPTH_MIN,
-  CHORUS_DEPTH_STEP,
-  CHORUS_DEPTH_UNIT,
-  CHORUS_FEEDBACK_MAX,
-  CHORUS_FEEDBACK_MIN,
-  CHORUS_FEEDBACK_STEP,
-  CHORUS_FEEDBACK_UNIT,
-  CHORUS_FREQUENCY_MAX,
-  CHORUS_FREQUENCY_MIN,
-  CHORUS_FREQUENCY_STEP,
-  CHORUS_FREQUENCY_UNIT,
-  CHORUS_SPREAD_MAX,
-  CHORUS_SPREAD_MIN,
-  CHORUS_SPREAD_STEP,
-  CHORUS_SPREAD_UNIT,
-  CHORUS_TYPE_SAWTOOTH,
-  CHORUS_TYPE_SINE,
-  CHORUS_TYPE_SQUARE,
-  CHORUS_TYPE_TRIANGLE,
-  CHORUS_WET_MAX,
-  CHORUS_WET_MIN,
-  CHORUS_WET_STEP,
-  CHORUS_WET_UNIT,
-  COMPRESSOR_ATTACK_MAX,
-  COMPRESSOR_ATTACK_MIN,
-  COMPRESSOR_ATTACK_STEP,
-  COMPRESSOR_ATTACK_UNIT,
-  COMPRESSOR_KNEE_MAX,
-  COMPRESSOR_KNEE_MIN,
-  COMPRESSOR_KNEE_STEP,
-  COMPRESSOR_KNEE_UNIT,
-  COMPRESSOR_RATIO_MAX,
-  COMPRESSOR_RATIO_MIN,
-  COMPRESSOR_RATIO_STEP,
-  COMPRESSOR_RATIO_UNIT,
-  COMPRESSOR_RELEASE_MAX,
-  COMPRESSOR_RELEASE_MIN,
-  COMPRESSOR_RELEASE_STEP,
-  COMPRESSOR_RELEASE_UNIT,
-  COMPRESSOR_THRESHOLD_MAX,
-  COMPRESSOR_THRESHOLD_MIN,
-  COMPRESSOR_THRESHOLD_STEP,
-  COMPRESSOR_THRESHOLD_UNIT,
-  DELAY_FEEDBACK_MAX,
-  DELAY_FEEDBACK_MIN,
-  DELAY_FEEDBACK_STEP,
-  DELAY_FEEDBACK_UNIT,
-  DELAY_MAX_DELAY_MAX,
-  DELAY_MAX_DELAY_MIN,
-  DELAY_MAX_DELAY_STEP,
-  DELAY_MAX_DELAY_UNIT,
-  DELAY_TIME_MAX,
-  DELAY_TIME_MIN,
-  DELAY_TIME_STEP,
-  DELAY_TIME_UNIT,
-  DELAY_WET_MAX,
-  DELAY_WET_MIN,
-  DELAY_WET_STEP,
-  DELAY_WET_UNIT,
-  DISTORTION_DISTORTION_MAX,
-  DISTORTION_DISTORTION_MIN,
-  DISTORTION_DISTORTION_STEP,
-  DISTORTION_DISTORTION_UNIT,
-  DISTORTION_OVERSAMPLE_2X,
-  DISTORTION_OVERSAMPLE_4X,
-  DISTORTION_OVERSAMPLE_NONE,
-  DISTORTION_WET_MAX,
-  DISTORTION_WET_MIN,
-  DISTORTION_WET_STEP,
-  DISTORTION_WET_UNIT,
-  EQ3_HIGH_FREQUENCY_MAX,
-  EQ3_HIGH_FREQUENCY_MIN,
-  EQ3_HIGH_FREQUENCY_STEP,
-  EQ3_HIGH_FREQUENCY_UNIT,
-  EQ3_HIGH_MAX,
-  EQ3_HIGH_MIN,
-  EQ3_HIGH_STEP,
-  EQ3_HIGH_UNIT,
-  EQ3_LOW_FREQUENCY_MAX,
-  EQ3_LOW_FREQUENCY_MIN,
-  EQ3_LOW_FREQUENCY_STEP,
-  EQ3_LOW_FREQUENCY_UNIT,
-  EQ3_LOW_MAX,
-  EQ3_LOW_MIN,
-  EQ3_LOW_STEP,
-  EQ3_LOW_UNIT,
-  EQ3_MID_MAX,
-  EQ3_MID_MIN,
-  EQ3_MID_STEP,
-  EQ3_MID_UNIT,
-  PHASER_BASE_FREQUENCY_MAX,
-  PHASER_BASE_FREQUENCY_MIN,
-  PHASER_BASE_FREQUENCY_STEP,
-  PHASER_BASE_FREQUENCY_UNIT,
-  PHASER_FREQUENCY_MAX,
-  PHASER_FREQUENCY_MIN,
-  PHASER_FREQUENCY_STEP,
-  PHASER_FREQUENCY_UNIT,
-  PHASER_OCTAVES_MAX,
-  PHASER_OCTAVES_MIN,
-  PHASER_OCTAVES_STEP,
-  PHASER_OCTAVES_UNIT,
-  PHASER_Q_MAX,
-  PHASER_Q_MIN,
-  PHASER_Q_STEP,
-  PHASER_Q_UNIT,
-  PHASER_STAGES_MAX,
-  PHASER_STAGES_MIN,
-  PHASER_STAGES_STEP,
-  PHASER_STAGES_UNIT,
-  PHASER_WET_MAX,
-  PHASER_WET_MIN,
-  PHASER_WET_STEP,
-  PHASER_WET_UNIT,
-  REVERB_DECAY_MAX,
-  REVERB_DECAY_MIN,
-  REVERB_DECAY_STEP,
-  REVERB_DECAY_UNIT,
-  REVERB_PREDELAY_MAX,
-  REVERB_PREDELAY_MIN,
-  REVERB_PREDELAY_STEP,
-  REVERB_PREDELAY_UNIT,
-  REVERB_WET_MAX,
-  REVERB_WET_MIN,
-  REVERB_WET_STEP,
-  REVERB_WET_UNIT,
-  TREMOLO_DEPTH_MAX,
-  TREMOLO_DEPTH_MIN,
-  TREMOLO_DEPTH_STEP,
-  TREMOLO_DEPTH_UNIT,
-  TREMOLO_FREQUENCY_MAX,
-  TREMOLO_FREQUENCY_MIN,
-  TREMOLO_FREQUENCY_STEP,
-  TREMOLO_FREQUENCY_UNIT,
-  TREMOLO_SPREAD_MAX,
-  TREMOLO_SPREAD_MIN,
-  TREMOLO_SPREAD_STEP,
-  TREMOLO_SPREAD_UNIT,
-  TREMOLO_TYPE_SAWTOOTH,
-  TREMOLO_TYPE_SINE,
-  TREMOLO_TYPE_SQUARE,
-  TREMOLO_TYPE_TRIANGLE,
-  TREMOLO_WET_MAX,
-  TREMOLO_WET_MIN,
-  TREMOLO_WET_STEP,
-  TREMOLO_WET_UNIT,
-  VIBRATO_DEPTH_MAX,
-  VIBRATO_DEPTH_MIN,
-  VIBRATO_DEPTH_STEP,
-  VIBRATO_DEPTH_UNIT,
-  VIBRATO_FREQUENCY_MAX,
-  VIBRATO_FREQUENCY_MIN,
-  VIBRATO_FREQUENCY_STEP,
-  VIBRATO_FREQUENCY_UNIT,
-  VIBRATO_MAX_DELAY_MAX,
-  VIBRATO_MAX_DELAY_MIN,
-  VIBRATO_MAX_DELAY_STEP,
-  VIBRATO_MAX_DELAY_UNIT,
-  VIBRATO_TYPE_SAWTOOTH,
-  VIBRATO_TYPE_SINE,
-  VIBRATO_TYPE_SQUARE,
-  VIBRATO_TYPE_TRIANGLE,
-  VIBRATO_WET_MAX,
-  VIBRATO_WET_MIN,
-  VIBRATO_WET_STEP,
-  VIBRATO_WET_UNIT,
-} from "../../constants/effectsProperties";
-import { useGuitar } from "../../hooks/useGuitar";
-import DropdownControlView from "./DropdownControlView";
 import EffectControlView from "./EffectControlView";
-import SliderControlView from "./SliderControlView";
+import DistortionView from "./Groups/DistortionView";
 
 export default function EffectsView() {
-  const {
-    // distortion,
-    // setDistortion,
-    // reverb,
-    // setReverb,
-    // vibrato,
-    // setVibrato,
-    // chorus,
-    // setChorus,
-    // tremolo,
-    // setTremolo,
-    // delay,
-    // setDelay,
-    // phaser,
-    // setPhaser,
-    // eq3,
-    // setEq3,
-    // compressor,
-    // setCompressor,
-    // autoWah,
-    // setAutoWah,
-
-    effects,
-    handleChange,
-  } = useGuitar();
-
   return (
     <>
       <h1>Efectos de sonido (activa como maximo 3)</h1>
       {/* https://tonejs.github.io/docs/r13/Distortion */}
       <EffectControlView
         name="distortion"
-        label="Distorsión"
-        checked={effects.distortion?.enabled}
-        handleChange={handleChange}
-        controls={
-          <>
-            <SliderControlView
-              name="distortion"
-              property="distortion"
-              label="Distorsión"
-              value={effects.distortion?.distortion}
-              handleChange={handleChange}
-              min={DISTORTION_DISTORTION_MIN}
-              max={DISTORTION_DISTORTION_MAX}
-              step={DISTORTION_DISTORTION_STEP}
-              unit={DISTORTION_DISTORTION_UNIT}
-            />
-            <DropdownControlView
-              name="distortion"
-              property="oversample"
-              label="Muestreo"
-              value={effects.distortion?.oversample}
-              handleChange={handleChange}
-              options={[
-                DISTORTION_OVERSAMPLE_NONE,
-                DISTORTION_OVERSAMPLE_2X,
-                DISTORTION_OVERSAMPLE_4X,
-              ]}
-            />
-            <SliderControlView
-              name="distortion"
-              property="wet"
-              label="Mezcla"
-              value={effects.distortion?.wet}
-              handleChange={handleChange}
-              min={DISTORTION_WET_MIN}
-              max={DISTORTION_WET_MAX}
-              step={DISTORTION_WET_STEP}
-              unit={DISTORTION_WET_UNIT}
-            />
-          </>
-        }
+        // label="Distorsión"
+        // checked={effects.distortion?.enabled}
+        controls={<DistortionView />}
       />
       {/* https://tonejs.github.io/docs/r13/Reverb */}
-      <EffectControlView
+      {/* https://tonejs.github.io/docs/r13/Vibrato */}
+      {/* https://tonejs.github.io/docs/r13/Chorus */}
+      {/* https://tonejs.github.io/docs/r13/Tremolo */}
+      {/* https://tonejs.github.io/docs/r13/FeedbackDelay */}
+      {/* https://tonejs.github.io/docs/r13/Phaser */}
+      {/* https://tonejs.github.io/docs/r13/EQ3 */}
+      {/* https://tonejs.github.io/docs/r13/Compressor */}
+      {/* https://tonejs.github.io/docs/r13/AutoWah */}
+      {/* <EffectControlView
         name="reverb"
         label="Reverberación"
         checked={effects.reverb?.enabled}
@@ -325,7 +66,6 @@ export default function EffectsView() {
           </>
         }
       />
-      {/* https://tonejs.github.io/docs/r13/Vibrato */}
       <EffectControlView
         name="vibrato"
         label="Vibración"
@@ -393,7 +133,6 @@ export default function EffectsView() {
           </>
         }
       />
-      {/* https://tonejs.github.io/docs/r13/Chorus */}
       <EffectControlView
         name="chorus"
         label="Coro"
@@ -483,7 +222,6 @@ export default function EffectsView() {
           </>
         }
       />
-      {/* https://tonejs.github.io/docs/r13/Tremolo */}
       <EffectControlView
         name="tremolo"
         label="Tremolo"
@@ -551,7 +289,6 @@ export default function EffectsView() {
           </>
         }
       />
-      {/* https://tonejs.github.io/docs/r13/FeedbackDelay */}
       <EffectControlView
         name="delay"
         label="Retardo"
@@ -606,7 +343,6 @@ export default function EffectsView() {
           </>
         }
       />
-      {/* https://tonejs.github.io/docs/r13/Phaser */}
       <EffectControlView
         name="phaser"
         label="Phaser"
@@ -683,7 +419,6 @@ export default function EffectsView() {
           </>
         }
       />
-      {/* https://tonejs.github.io/docs/r13/EQ3 */}
       <EffectControlView
         name="eq3"
         label="Ecualizador"
@@ -749,7 +484,6 @@ export default function EffectsView() {
           </>
         }
       />
-      {/* https://tonejs.github.io/docs/r13/Compressor */}
       <EffectControlView
         name="compressor"
         label="Compresor"
@@ -815,7 +549,6 @@ export default function EffectsView() {
           </>
         }
       />
-      {/* https://tonejs.github.io/docs/r13/AutoWah */}
       <EffectControlView
         name="autoWah"
         label="Auto Wah"
@@ -902,7 +635,7 @@ export default function EffectsView() {
             />
           </>
         }
-      />{" "}
+      />{" "} */}
     </>
   );
 }

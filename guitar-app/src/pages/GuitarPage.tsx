@@ -1,4 +1,4 @@
-import ControlsView from "../components/Controls/ControlsView";
+import ControlsView from "../components/Configs/ControlsView";
 import EffectsView from "../components/Effects/EffectsView";
 import Spinner from "../components/Spinner/Spinner";
 import NeckView from "../components/Neck/NeckView";

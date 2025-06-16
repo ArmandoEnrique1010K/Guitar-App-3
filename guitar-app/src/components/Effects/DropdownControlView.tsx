@@ -1,11 +1,10 @@
+import { useGuitar } from "../../hooks/useGuitar";
+
 type DropDownControlViewProps = {
   name: string;
   property: string;
   label: string;
   value: string | undefined;
-  handleChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
   options: string[];
 };
 
@@ -14,9 +13,10 @@ export default function DropdownControlView({
   property,
   label,
   value,
-  handleChange,
   options,
 }: DropDownControlViewProps) {
+  const { handleChange } = useGuitar();
+
   return (
     <div>
       <label htmlFor={`id_${name}_${property}`}>{label}</label>

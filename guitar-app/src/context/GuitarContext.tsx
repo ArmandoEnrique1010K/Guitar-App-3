@@ -48,7 +48,9 @@ type GuitarContextProps = {
   handleChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
-
+  handleChangeDistortionEffect: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   message: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
 };

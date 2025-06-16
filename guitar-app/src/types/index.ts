@@ -12,6 +12,9 @@ export type Frets = {
 }[]
 
 
+
+
+
 export type GainEffect = {
   gain: number
 }
