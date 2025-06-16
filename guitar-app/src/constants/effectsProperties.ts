@@ -3,6 +3,57 @@
 
 // DISTORTION
 
+
+// Propiedades
+// Puedes usar funciones constructoras para crear objetos de propiedades.
+// Aquí tienes un ejemplo de cómo hacerlo correctamente en TypeScript:
+
+type NumberProperty = {
+  min: number;
+  max: number;
+  step: number;
+  default: number;
+  factor: number,
+  unit: string;
+};
+
+function createNumberProperty(
+  min: number,
+  max: number,
+  step: number,
+  defaultValue: number,
+  factor: number,
+  unit: string
+): NumberProperty {
+  return { min, max, step, default: defaultValue, factor, unit };
+}
+
+type OptionProperty<T extends string> = {
+  default: T;
+  values: T[];
+  unit: string;
+};
+
+function createOptionProperty<T extends string>(
+  defaultValue: T,
+  values: T[],
+  unit: string = ""
+): OptionProperty<T> {
+  return { default: defaultValue, values, unit };
+}
+
+// Ejemplo de uso para DISTORTION:
+export const DISTORTION = {
+  distortion: createNumberProperty(0, 1, 0.01, 0.4, 100, ""),
+  oversample: createOptionProperty(
+    'none',
+    ['none', '2x', '4x']
+  ),
+  wet: createNumberProperty(0, 1, 0.1, 1, 100, "%")
+};
+
+
+
 // Distortion 
 export const DISTORTION_DISTORTION_MIN = 0
 export const DISTORTION_DISTORTION_MAX = 1

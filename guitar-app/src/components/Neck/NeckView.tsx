@@ -25,7 +25,11 @@ export default function NeckView({ neck }: NeckViewProps) {
 
         {
           neck.map(({ frets }) =>
-            frets.map((c) => <span className={styles.number}>{c.chord}</span>)
+            frets.map((c) => (
+              <span key={c.key} className={styles.number}>
+                {c.chord}
+              </span>
+            ))
           )[0]
         }
       </div>

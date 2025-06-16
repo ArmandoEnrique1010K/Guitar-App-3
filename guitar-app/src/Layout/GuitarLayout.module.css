@@ -8,7 +8,7 @@
 }
 
 .logo {
-  width: 8em; 
+  width: 6em;
   height: auto;
 }
 
@@ -27,7 +27,6 @@
   border-bottom: 0.15em solid var(--menu-dark-color);
 }
 
-
-.option:hover{
-  border-bottom: 0.15em solid var(--menu-bar-button-color)
+.option:hover {
+  border-bottom: 0.15em solid var(--menu-bar-button-color);
 }
