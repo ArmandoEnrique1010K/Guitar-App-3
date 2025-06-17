@@ -1,7 +1,10 @@
 const words: Record<string, string> = {
   'map': 'Mapa',
+  // Tipos
   'distortion': 'Distorsión',
-  'wet': 'Balance',
+  'vibrato': 'Vibración',
+  // Efectos
+  'wet': 'Mezcla',
   'oversample': 'Muestreo',
   'frequency': 'Frecuencia',
   'depth': 'Profundidad',

@@ -134,8 +134,7 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
   const handleChangeDistortionEffect = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value, type, checked, dataset } =
-      event.target as HTMLInputElement;
+    const { name, value, type, checked } = event.target as HTMLInputElement;
     const newValue = type === "checkbox" ? checked : parseFloat(value);
     const property =
       type === "checkbox"
@@ -149,10 +148,6 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
       },
     }));
   };
-
-  // // EFECTO DE SONIDO DE DISTORSIÓN
-  // const [distortion, setDistortion] =
-  //   useState<DistortionEffect>(INITIAL_DISTORTION);
 
   // // REBERBERACIÓN
   // const [reverb, setReverb] = useState<ReverbEffect>(INITIAL_REVERB);

@@ -44,9 +44,9 @@ function createOptionProperty<T extends string>(
   return { default: defaultValue, values, unit };
 }
 
-// Ejemplo de uso para DISTORTION:
+// https://tonejs.github.io/docs/15.1.22/interfaces/DistortionOptions.html
 export const DISTORTION = {
-  distortion: createNumberProperty(0, 1, 0.01, 0.4, 100, "u", 0),
+  distortion: createNumberProperty(0, 1, 0.01, 0.4, 100, "%", 0),
   oversample: createOptionProperty(
     'none',
     ['none', '2x', '4x']

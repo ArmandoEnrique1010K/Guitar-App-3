@@ -12,12 +12,15 @@ export default function NeckView({ neck }: NeckViewProps) {
       <span className={styles.number} key={c.key}>
         {c.chord === 12 ? (
           <>
-            {c.chord}&nbsp;{c.chord}
+            <span className={styles.circle2}>
+              <span className={styles.circle}>{c.chord}</span>
+              <span className={styles.circle}>{c.chord}</span>
+            </span>
           </>
         ) : c.chord === 0 ? (
-          "0"
+          ""
         ) : c.chord % 3 === 0 ? (
-          <span>{c.chord}</span>
+          <span className={styles.circle}>{c.chord}</span>
         ) : (
           ""
         )}

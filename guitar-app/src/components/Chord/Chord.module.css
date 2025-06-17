@@ -3,6 +3,25 @@
   text-align: center;
   padding: 10px;
   background: none;
-  color: var(--primary-color);
+  color: black;
   border: 1px solid #000;
+  font-size: 1em;
+  font-weight: bolder;
+  z-index: 2;
+}
+
+.firstChord {
+  flex: 1; /* Hace que todos los hijos tengan el mismo ancho */
+  text-align: center;
+  padding: 10px;
+  background: var(--icon-color);
+  color: black;
+  border: 1px solid #000;
+  font-size: 1em;
+  font-weight: bolder;
+}
+
+.container:hover,
+.firstChord:hover {
+  background: var(--primary-color);
 }

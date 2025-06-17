@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -20,30 +19,26 @@
 --message-font: "Roboto-Light" */
 
 //
-// 
+//
 // COLOR DE FONDO
 
-
-
 @font-face {
-  font-family: 'MusicalTone';
-  src: url('/fonts/MusicalTone.otf') format('opentype');
+  font-family: "MusicalTone";
+  src: url("/fonts/MusicalTone.otf") format("opentype");
 }
 
-
 :root {
-  --musical-tone-font: 'MusicalTone';
-  --primary-color: rgb(1,236,2);
+  --musical-tone-font: "MusicalTone";
+  --primary-color: rgb(1, 236, 2);
   --range-color: rgb(217, 252, 46);
-  --background-color:rgb(56, 56, 78);
+  --background-color: rgb(56, 56, 78);
   /* --menu-dark-color:rgb(26, 26, 38);*/
-  --menu-dark-color:rgb(101, 109, 116);
+  --menu-dark-color: rgb(101, 109, 116);
 
-
-  --title-container-color: rgb(14,14,19);
+  --title-container-color: rgb(14, 14, 19);
 
   --menu-bar-button-color: rgb(255, 238, 147);
-  --primary-color-dark: rgb(27,57,40);
-  --button-color: rgb(214,221,221);
-  --icon-color:rgb(252,158,0);
+  --primary-color-dark: rgb(27, 57, 40);
+  --button-color: rgb(214, 221, 221);
+  --icon-color: rgb(252, 158, 0);
 }

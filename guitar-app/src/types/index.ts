@@ -12,6 +12,13 @@ export type Frets = {
 }[]
 
 
+export type Effect = {
+  [key: string]: number | undefined;
+}
+
+export type Effects2 = {
+  [effectName: string]: Effect;
+}
 
 
 

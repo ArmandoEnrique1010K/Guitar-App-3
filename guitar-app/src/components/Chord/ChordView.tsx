@@ -160,7 +160,7 @@ export default function ChordView({
 
   return (
     <button
-      className={styles.container}
+      className={chord === 0 ? styles.firstChord : styles.container}
       // onClick={handlePlaySound}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}

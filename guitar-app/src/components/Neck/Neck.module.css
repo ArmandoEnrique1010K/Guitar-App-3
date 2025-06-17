@@ -5,19 +5,41 @@
 
 .numbers {
   position: absolute;
-  top: 47%;
+  top: 45%;
   display: flex;
   justify-content: space-around;
-  /* Distribuye los elementos */
   width: 100%;
-  /* Ocupa todo el ancho de la pantalla */
+  z-index: 3;
+  pointer-events: none;
+  /* opcional, para que no interfiera */
+}
+
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2em;
+  height: 1.2em;
+  background-color: var(--icon-color);
+  border-radius: 50%;
+  font-size: 1em;
+  color: black;
 }
 
 .number {
-  width: 1.5em;
-  height: 1.5em;
-  background-color: var(--icon-color);
-  display: block;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2em;
+  height: 1.2em;
   border-radius: 50%;
+  font-size: 1em;
+  color: black;
+}
+
+
+.circle2 {
+  display: flex;
+  flex-direction: column;
+  gap: 4em;
 }

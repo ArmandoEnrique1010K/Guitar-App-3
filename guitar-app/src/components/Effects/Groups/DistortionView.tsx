@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { DISTORTION } from "../../../constants/effectsProperties";
 import { useGuitar } from "../../../hooks/useGuitar";
 import DropdownControlView from "../Controls/DropdownControlView";
@@ -7,9 +6,9 @@ import SliderControlView from "../Controls/SliderControlView";
 export default function DistortionView() {
   const { effects } = useGuitar();
 
-  useEffect(() => {
-    console.log("CAMBIO EN DISTORCIÓN");
-  }, [effects.distortion]);
+  // useEffect(() => {
+  //   console.log("CAMBIO EN DISTORCIÓN");
+  // }, [effects.distortion]);
 
   return (
     <>
@@ -19,6 +18,11 @@ export default function DistortionView() {
         value={effects.distortion!.distortion}
         props={DISTORTION.distortion}
       />
+      <DropdownControlView
+        name="distortion"
+        property="oversample"
+        options={DISTORTION.oversample.values}
+      />
 
       <SliderControlView
         name="distortion"
@@ -26,14 +30,6 @@ export default function DistortionView() {
         value={effects.distortion!.wet}
         props={DISTORTION.wet}
       />
-
-      {
-        <DropdownControlView
-          name="distortion"
-          property="oversample"
-          options={DISTORTION.oversample.values}
-        />
-      }
 
       {/* <DropdownControlView
         name="distortion"
