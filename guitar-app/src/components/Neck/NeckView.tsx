@@ -7,31 +7,31 @@ type NeckViewProps = {
 };
 
 export default function NeckView({ neck }: NeckViewProps) {
+  const drawNumbers = neck.map(({ frets }) =>
+    frets.map((c) => (
+      <span className={styles.number} key={c.key}>
+        {c.chord === 12 ? (
+          <>
+            {c.chord}&nbsp;{c.chord}
+          </>
+        ) : c.chord === 0 ? (
+          "0"
+        ) : c.chord % 3 === 0 ? (
+          <span>{c.chord}</span>
+        ) : (
+          ""
+        )}
+      </span>
+    ))
+  )[0];
+
   return (
     <>
       <div className={styles.container}>
         {neck.map(({ rope, frets }) => (
           <RopeView key={rope} rope={rope} frets={frets} />
         ))}
-      </div>
-      <div className={styles.numbers}>
-        {/* {neck.map(({ frets }) =>
-          frets.map(({ chord }, idx) => <span key={idx}>{chord}</span>)
-        )} */}
-
-        {/* {neck.map(({ frets }, ropeIdx) =>
-          frets.length > 0 ? <span key={ropeIdx}>{frets[0].chord}</span> : null
-        )} */}
-
-        {
-          neck.map(({ frets }) =>
-            frets.map((c) => (
-              <span key={c.key} className={styles.number}>
-                {c.chord}
-              </span>
-            ))
-          )[0]
-        }
+        <div className={styles.numbers}>{drawNumbers}</div>
       </div>
     </>
   );

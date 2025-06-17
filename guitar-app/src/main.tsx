@@ -11,3 +11,5 @@ createRoot(document.getElementById("root")!).render(
     </GuitarProvider>
   </StrictMode>
 );
+
+// https://www.w3schools.com/css/css_positioning.asp

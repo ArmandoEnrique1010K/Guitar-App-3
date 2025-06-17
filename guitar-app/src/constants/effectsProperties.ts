@@ -15,6 +15,7 @@ export type NumberProperty = {
   defaultValue: number;
   factor: number,
   unit: string;
+  decimals: number;
 };
 
 function createNumberProperty(
@@ -23,9 +24,10 @@ function createNumberProperty(
   step: number,
   defaultValue: number,
   factor: number,
-  unit: string
+  unit: string,
+  decimals: number
 ): NumberProperty {
-  return { min, max, step, defaultValue: defaultValue, factor, unit };
+  return { min, max, step, defaultValue: defaultValue, factor, unit, decimals };
 }
 
 type OptionProperty<T extends string> = {
@@ -44,23 +46,24 @@ function createOptionProperty<T extends string>(
 
 // Ejemplo de uso para DISTORTION:
 export const DISTORTION = {
-  distortion: createNumberProperty(0, 1, 0.01, 0.4, 100, ""),
+  distortion: createNumberProperty(0, 1, 0.01, 0.4, 100, "u", 0),
   oversample: createOptionProperty(
     'none',
     ['none', '2x', '4x']
   ),
-  wet: createNumberProperty(0, 1, 0.1, 1, 100, "%")
+  wet: createNumberProperty(0, 1, 0.1, 1, 100, "%", 0)
 };
 
+// https://tonejs.github.io/docs/15.1.22/interfaces/VibratoOptions.html
 export const VIBRATO = {
-  frequency: createNumberProperty(0.1, 10, 0.1, 5, 1, "Hz"),
-  depth: createNumberProperty(0, 1, 0.01, 0.1, 1, ""),
-  maxDelay: createNumberProperty(0.005, 0.1, 0.001, 0.005, 1, "s"),
+  frequency: createNumberProperty(0.1, 10, 0.1, 5, 1, "Hz", 1),
+  depth: createNumberProperty(0, 1, 0.01, 0.1, 100, "%", 0),
+  maxDelay: createNumberProperty(0.005, 0.1, 0.001, 0.005, 1000, "ms", 0),
   type: createOptionProperty(
     'sine',
     ['sine', 'square', 'triangle', 'sawtooth']
   ),
-  wet: createNumberProperty(0, 1, 0.1, 1, 1, '%')
+  wet: createNumberProperty(0, 1, 0.1, 1, 100, '%', 0)
 }
 
 // Distortion 

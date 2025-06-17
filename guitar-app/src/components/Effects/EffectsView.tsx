@@ -6,9 +6,10 @@ export default function EffectsView() {
   return (
     <>
       <h1>Efectos de sonido (activa como maximo 3)</h1>
+
       {/* https://tonejs.github.io/docs/r13/Distortion */}
-      <EffectControlView name="distortion" controls={<DistortionView />} />
-      <EffectControlView name="vibrato" controls={<VibratoView />} />
+      <EffectControlView name="distortion" controls={DistortionView} />
+      <EffectControlView name="vibrato" controls={VibratoView} />
 
       {/* https://tonejs.github.io/docs/r13/Reverb */}
       {/* https://tonejs.github.io/docs/r13/Vibrato */}

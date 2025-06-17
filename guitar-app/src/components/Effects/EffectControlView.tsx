@@ -4,7 +4,7 @@ import CheckboxControlView from "./Controls/CheckboxControlView";
 
 type EffectControlViewProps = {
   name: string;
-  controls: ReactNode;
+  controls: () => ReactNode;
 };
 
 export default function EffectControlView({
@@ -12,11 +12,11 @@ export default function EffectControlView({
   controls,
 }: EffectControlViewProps) {
   return (
-    <div style={{ backgroundColor: "darkmagenta" }}>
+    <div style={{ backgroundColor: "green" }}>
       <h3>{translate(name)}</h3>
       <div>
         <CheckboxControlView name={name} />
-        {controls}
+        {controls()}
       </div>
     </div>
   );
