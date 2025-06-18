@@ -166,9 +166,11 @@ export default function ChordView({
       onMouseUp={handleMouseUp}
       onMouseLeave={pulseMode ? handleMouseUp : undefined} // Detener si el mouse sale del botón
     >
-      {/* {chord} - {rope} -  */}
-
-      {keyFromKeyboard!}
+      {keyFromKeyboard === "Dead"
+        ? "´"
+        : keyFromKeyboard === "Shift"
+        ? "⇧"
+        : keyFromKeyboard}
     </button>
   );
 }
