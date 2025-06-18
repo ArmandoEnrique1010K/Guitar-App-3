@@ -1,24 +1,25 @@
 .container {
-  flex: 1; /* Hace que todos los hijos tengan el mismo ancho */
+  flex: 1;
+  /* Hace que todos los hijos tengan el mismo ancho */
   text-align: center;
-  padding: 10px;
+  padding: 0.3em;
   background: none;
   color: black;
   border: 1px solid #000;
-  font-size: 1em;
-  font-weight: bolder;
-  z-index: 2;
+  font-weight: lighter;
+  font-size: 1.4em;
 }
 
 .firstChord {
-  flex: 1; /* Hace que todos los hijos tengan el mismo ancho */
+  flex: 1;
+  /* Hace que todos los hijos tengan el mismo ancho */
   text-align: center;
-  padding: 10px;
+  padding: 0.3em;
   background: var(--icon-color);
   color: black;
   border: 1px solid #000;
-  font-size: 1em;
-  font-weight: bolder;
+  font-weight: lighter;
+  font-size: 1.4em;
 }
 
 .container:hover,

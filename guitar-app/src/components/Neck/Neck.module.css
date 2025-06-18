@@ -43,11 +43,12 @@
   flex: 1;
   /* Hace que todos los hijos tengan el mismo ancho */
   text-align: center;
-  padding: 10px;
+  padding: 0.4em;
   background: none;
-  font-size: 1em;
-  font-weight: bolder;
-  z-index: 2;
+  font-size: 1.2em;
+  font-weight: lighter;
+  font-family: var(--shockwave-2-font);
+
 }
 
 .fretMarkerDot {
@@ -66,5 +67,5 @@
 .twelveFretMarker {
   display: flex;
   flex-direction: column;
-  gap: 3.7em;
+  gap: 4.2em;
 }

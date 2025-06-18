@@ -11,20 +11,23 @@
   align-items: center;
   justify-content: center;
   padding: 0.5em 0em;
-  gap: 0em; /* Espaciado entre el título y las líneas */
+  gap: 0em;
+  /* Espaciado entre el título y las líneas */
 }
 
 
-.title{
+.title {
   color: var(--button-color);
-  font-family: var(--musical-tone-font);
+  font-family: var(--shockwave-2-font);
+  font-size: 2em;
+  font-weight: lighter;
 }
 
 .container::before,
 .container::after {
-    content: "";
-    flex-grow: 1;
-    height: 0.2em;
-    background-color: var(--menu-bar-button-color);
-    margin: 0 1em;
+  content: "";
+  flex-grow: 1;
+  height: 0.2em;
+  background-color: var(--menu-bar-button-color);
+  margin: 0 1em;
 }

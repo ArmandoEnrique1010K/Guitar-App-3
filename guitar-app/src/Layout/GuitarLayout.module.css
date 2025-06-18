@@ -21,7 +21,7 @@
 
 .option {
   color: var(--menu-bar-button-color);
-  font-family: var(--musical-tone-font);
+  font-family: var(--shockwave-2-font);
   font-size: 1.5em;
   cursor: pointer;
   border-bottom: 0.15em solid var(--menu-dark-color);

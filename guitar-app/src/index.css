@@ -4,9 +4,9 @@
   box-sizing: border-box;
 }
 
-// COLOR PRIMARIO
+/* COLOR PRIMARIO*/
 /* #28dd2b */
-//  #ff5500
+/*  #ff5500*/
 /* --background-color: #000000;
 --title-color: #101018;
 --button-title-color: #FFEE93;
@@ -18,17 +18,26 @@
 --title-font: "Roboto-Bold";
 --message-font: "Roboto-Light" */
 
-//
-//
-// COLOR DE FONDO
 
 @font-face {
   font-family: "MusicalTone";
   src: url("/fonts/MusicalTone.otf") format("opentype");
 }
 
+@font-face {
+  font-family: "Shockwave";
+  src: url("/fonts/Shockwave.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Shockwave2";
+  src: url("/fonts/shockwave-2.otf") format("opentype");
+}
+
 :root {
   --musical-tone-font: "MusicalTone";
+  --shockwave-font: "Shockwave";
+  --shockwave-2-font: "Shockwave2";
   --primary-color: rgb(1, 236, 2);
   --range-color: rgb(217, 252, 46);
   --background-color: rgb(56, 56, 78);
