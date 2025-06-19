@@ -1,4 +1,4 @@
-import ControlsView from "../components/Configs/ControlsView";
+import ConfigView from "../components/Configs/ConfigView";
 import EffectsView from "../components/Effects/EffectsView";
 import Spinner from "../components/Spinner/Spinner";
 import NeckView from "../components/Neck/NeckView";
@@ -15,7 +15,7 @@ export default function GuitarPage() {
     <div className={styles.container}>
       <Title />
       <NeckView neck={neck} />
-      <ControlsView />
+      <ConfigView />
       <EffectsView />
     </div>
   );

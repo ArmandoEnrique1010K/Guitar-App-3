@@ -1,0 +1,55 @@
+.messagePanel {
+  background-color: var(--menu-dark-color);
+  color: var(--primary-color);
+  border: 2px solid black;
+  font-family: var(--audiowide-font);
+  font-size: 1em;
+  font-weight: 100;
+}
+
+.rangeNotesContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  /* margin: 1em; */
+  text-align: center;
+  /* Esto no se utiliza, porque el elemento padre contenedor llamado principal-container tiene definido el ancho */
+  /* width: 100%; */
+}
+
+.rangeNotes {
+  appearance: none;
+  /* Elimina el estilo predeterminado de los navegadores */
+  width: 100%;
+  height: 0.5em;
+  /* Altura del slider */
+  border-radius: 5px;
+  /* Bordes redondeados */
+  background: #ddd;
+  /* Fondo gris claro */
+  outline: none;
+  /* Elimina el borde del focus predeterminado */
+  /* transition: background 0.3s ease-in-out; */
+  /* Transición para el fondo */
+}
+
+/* Estilo para el "thumb" (el control deslizante) */
+.rangeNotes::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2em;
+  height: 1.5em;
+  border: solid 2px black;
+  border-radius: 50%;
+  background: var(--menu-bar-button-color);
+  /* Color verde para el control */
+  cursor: pointer;
+  /* transition: background 0.3s ease-in-out; */
+}
+
+/* Efecto al hacer hover sobre el "thumb" */
+.rangeNotes::-webkit-slider-thumb:hover {
+  background: var(--menu-bar-button-color)
+    /* Oscurece el verde al hacer hover */
+}

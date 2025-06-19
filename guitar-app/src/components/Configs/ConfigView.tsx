@@ -6,8 +6,9 @@ import { useGuitar } from "../../hooks/useGuitar";
 import { muteAll } from "../../utils/audioPlayer";
 import { useEffect } from "react";
 import { useDragAndDrop } from "@formkit/drag-and-drop/react";
+import styles from "./Config.module.css";
 
-export default function ControlsView() {
+export default function ConfigView() {
   const {
     setInstrument,
     gain,
@@ -99,7 +100,23 @@ export default function ControlsView() {
 
   return (
     <div>
-      <div>{message}</div>
+      <div className={styles.messagePanel}>{message}</div>
+      <div className={styles.rangeNotesContainer}>
+        <label htmlFor="idRangeNotes">Acorde inicial</label>
+        <input
+          className={styles.rangeNotes}
+          type="range"
+          id="idRangeNotes"
+          min={lockZeroChord ? 1 : 0}
+          max={lockZeroChord ? 13 : 12}
+          step={1}
+          value={initialChord}
+          onChange={(e) => {
+            setInitialChord(+e.target.value);
+          }}
+        />
+        <span className={styles.valueNote}>{initialChord}</span>
+      </div>
       <h3>Tipo de instrumento</h3>
       <select name="" id="" onChange={(e) => setInstrument(e.target.value)}>
         {instrumentsNames.map((name) => (
@@ -134,20 +151,6 @@ export default function ControlsView() {
           </li>
         ))}
       </ul>
-      <h3>Empezar desde el acorde</h3>
-      <input
-        type="range"
-        name=""
-        id=""
-        min={lockZeroChord ? 1 : 0}
-        max={lockZeroChord ? 13 : 12}
-        step={1}
-        value={initialChord}
-        onChange={(e) => {
-          setInitialChord(+e.target.value);
-        }}
-      />
-      {initialChord}
       <h3>Bloquear acorde 0</h3>
       <input
         type="checkbox"

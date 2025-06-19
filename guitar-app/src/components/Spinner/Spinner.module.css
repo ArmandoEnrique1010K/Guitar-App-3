@@ -4,6 +4,7 @@
   font-weight: normal;
   font-style: normal;
 }
+
 .container {
   background-color: black;
   display: flex;
@@ -21,11 +22,11 @@
 
 
 .text {
-  
+
   color: var(--primary-color);
   font-size: 36px;
-  font-weight: bold;
-  font-family: var(--musical-tone-font);
+  font-weight: lighter;
+  font-family: var(--shockwave-2-font);
   animation: blink 0.5s infinite alternate;
 }
 
@@ -38,6 +39,7 @@
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0.5;
   }

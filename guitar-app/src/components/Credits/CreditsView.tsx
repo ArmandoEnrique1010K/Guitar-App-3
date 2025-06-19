@@ -6,6 +6,9 @@ export default function CreditsView() {
       <div>https://www.fontspace.com/musical-tone-font-f103067</div>
       <div>https://www.1001fonts.com/shockwave-font.html</div>
       <div>https://cl.maisfontes.com/shockwave-2.fuente</div>
+      <div>
+        https://fonts.google.com/specimen/Audiowide?preview.text=%20%20font-weight:%20100;
+      </div>
     </>
   );
 }

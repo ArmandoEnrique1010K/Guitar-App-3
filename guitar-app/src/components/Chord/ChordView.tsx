@@ -169,7 +169,7 @@ export default function ChordView({
       {keyFromKeyboard === "Dead"
         ? "´"
         : keyFromKeyboard === "Shift"
-        ? "⇧"
+        ? "Shift"
         : keyFromKeyboard}
     </button>
   );

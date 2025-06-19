@@ -34,10 +34,16 @@
   src: url("/fonts/shockwave-2.otf") format("opentype");
 }
 
+@font-face {
+  font-family: "Audiowide";
+  src: url("/fonts/Audiowide-Regular.ttf");
+}
+
 :root {
   --musical-tone-font: "MusicalTone";
   --shockwave-font: "Shockwave";
   --shockwave-2-font: "Shockwave2";
+  --audiowide-font: "Audiowide";
   --primary-color: rgb(1, 236, 2);
   --range-color: rgb(217, 252, 46);
   --background-color: rgb(56, 56, 78);
