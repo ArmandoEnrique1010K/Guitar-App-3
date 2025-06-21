@@ -20,13 +20,6 @@ export default function ConfigView() {
     setLockZeroChord,
     pulseMode,
     setPulseMode,
-
-    // mutePreviousNote,
-    // setMutePreviousNote,
-    // holdMode,
-    // setHoldMode,
-    // amountMode,
-    // setAmountMode,
     noteConfig,
     setNoteConfig,
 

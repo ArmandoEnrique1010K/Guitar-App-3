@@ -17,20 +17,6 @@ export default function ChordView({
     instrument,
     neck,
     gain,
-    // distortion,
-    // reverb,
-    // vibrato,
-    // chorus,
-    // tremolo,
-    // delay,
-    // phaser,
-    // eq3,
-    // compressor,
-    // autoWah,
-    // mutePreviousNote,
-    // holdMode,
-    // amountMode,
-
     noteConfig,
     setNotePlayed,
     pulseMode,
@@ -64,13 +50,6 @@ export default function ChordView({
       noteConfig.muteOnSameNote,
       noteConfig.holdMode,
       noteConfig.holdModeTime,
-
-      // holdMode.enabled,
-
-      // mutePreviousNote,
-      // holdMode.anyTime,
-      // holdMode.time,
-      // amountMode,
       gain,
       {
         distortion,
@@ -113,7 +92,6 @@ export default function ChordView({
     };
   }, [
     keyFromKeyboard,
-    // mutePreviousNote,
     gain,
     distortion,
     reverb,
@@ -127,10 +105,6 @@ export default function ChordView({
     autoWah,
     pulseMode,
     noteConfig,
-    // holdMode.enabled,
-    // holdMode.anyTime,
-    // holdMode.time,
-    // amountMode,
   ]);
 
   const handleMouseDown = () => {

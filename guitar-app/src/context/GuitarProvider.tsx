@@ -21,11 +21,11 @@ import { INITIAL_COMPRESSOR } from "../constants/index";
 
 // Proveedor del contexto
 export const GuitarProvider = ({ children }: { children: ReactNode }) => {
-  // Nombre del instrumento
-  const [instrument, setInstrument] = useState<string>("cleanSolo");
-
   // Carga inicial
   const [loading, setLoading] = useState(true);
+
+  // Nombre del instrumento
+  const [instrument, setInstrument] = useState<string>("cleanSolo");
 
   // Tipo de filas de teclado
   const [keysRowType, setKeysRowType] = useState<number[]>([]);
@@ -330,15 +330,8 @@ export const GuitarProvider = ({ children }: { children: ReactNode }) => {
 
         noteConfig,
         setNoteConfig,
-        // mutePreviousNote,
-        // setMutePreviousNote,
         pulseMode,
         setPulseMode,
-        // holdMode,
-        // setHoldMode,
-
-        // amountMode,
-        // setAmountMode,
         gain,
         setGain,
 

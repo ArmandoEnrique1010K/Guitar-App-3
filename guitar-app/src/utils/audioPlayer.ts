@@ -34,7 +34,7 @@ let previousNotePlayed: PreviousNote = { rope: null, chord: null };
 // Precarga todos los sonidos de una carpeta específica
 // name es el nombre de la carpeta que contiene los samples
 export function preloadSounds(name: string) {
-  const audioPath = `assets/audio/${name}`;
+  const audioPath = `audio/${name}`;
 
   NOTE_FILES.forEach((file) => {
     const audioFile = `${audioPath}/${file}.mp3`;
@@ -80,6 +80,7 @@ export function muteAll(): void {
   });
 
   previousNotePlayed = { rope: null, chord: null };
+  console.log('TODO HA SIDO SILENCIADO')
 }
 
 
@@ -243,8 +244,8 @@ function getNoteData(
 }
 
 function loadAudioFile(name: string, file: string) {
-  const audioPath = `/audio/${name}/`;
-  const audioFile = `assets${audioPath}${file}.mp3`;
+  const audioPath = `audio/${name}/`;
+  const audioFile = `${audioPath}${file}.mp3`;
   return { player: players[audioFile], audioFile };
 }
 
@@ -336,8 +337,10 @@ function handlePreviousNotes(
       } else {
         cleanupNoteResources(note);
         delete activeNotes[ropeNumber];
-
       }
+
+
+
     }
   };
 

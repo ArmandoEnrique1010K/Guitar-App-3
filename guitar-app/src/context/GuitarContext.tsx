@@ -14,15 +14,6 @@ type GuitarContextProps = {
   pulseMode: boolean;
   setPulseMode: React.Dispatch<React.SetStateAction<boolean>>;
 
-  // mutePreviousNote: boolean;
-  // setMutePreviousNote: React.Dispatch<React.SetStateAction<boolean>>;
-  // holdMode: { enabled: boolean; anyTime: boolean; time: number };
-  // setHoldMode: React.Dispatch<
-  //   React.SetStateAction<{ enabled: boolean; anyTime: boolean; time: number }>
-  // >;
-  // amountMode: boolean;
-  // setAmountMode: React.Dispatch<React.SetStateAction<boolean>>;
-
   noteConfig: {
     muteOnDifferentRope: boolean;
     muteOnSameRope: boolean;
